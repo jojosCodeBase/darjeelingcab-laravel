@@ -1,0 +1,188 @@
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------------- import Fonts ---------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+/*****---------------------------------------- 1) font-family: 'Rajdhani', sans-serif;
+ 2) font-family: 'Poppins', sans-serif;
+ ----------------------------------------*****/
+
+
+/*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
+
+@import url(animate.min.css);
+@import url(normalize.css);
+@import url(meanmenu.css);
+@import url(owl.carousel.min.css);
+@import url(slick.css);
+@import url(jquery-ui.css);
+@import url(nice-select.css);
+
+/*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
+
+* {
+     box-sizing: border-box !important;
+     transition: ease all 0.5s;
+}
+
+html {
+     scroll-behavior: smooth;
+}
+
+body {
+     /* color: #666666; */
+     font-size: 14px;
+     font-family: poppins;
+     line-height: 1.80857;
+     font-weight: normal;
+     overflow-x: hidden;
+}
+
+a {
+     color: #1f1f1f;
+     text-decoration: none !important;
+     outline: none !important;
+     -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+     -ms-transition: all .3s ease-in-out;
+     -o-transition: all .3s ease-in-out;
+     transition: all .3s ease-in-out;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+     letter-spacing: 0;
+     font-weight: normal;
+     position: relative;
+     padding: 0 0 10px 0;
+     font-weight: normal;
+     line-height: normal;
+     color: #111111;
+     margin: 0
+}
+
+h1 {
+     font-size: 24px
+}
+
+h2 {
+     font-size: 22px
+}
+
+h3 {
+     font-size: 18px
+}
+
+h4 {
+     font-size: 16px
+}
+
+h5 {
+     font-size: 14px
+}
+
+h6 {
+     font-size: 13px
+}
+
+*,
+*::after,
+*::before {
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+     color: #212121;
+     text-decoration: none !important;
+     opacity: 1
+}
+
+/** product **/
+
+.product {
+     padding: 40px 0px 60px 0px;
+}
+
+.product .title h2 {
+     max-width: 425px;
+     width: 100%;
+}
+
+.product .product_box {
+     margin-bottom: 30px;
+}
+
+.product .product_box figure {
+     margin: 0px;
+     position: relative;
+}
+
+.product .product_box figure h3 {
+     position: absolute;
+     bottom: 0;
+     text-align: center;
+     width: 100%;
+     background: #e6b530d4;
+     padding: 10px 13px 13px 13px;
+     font-size: 30px;
+     line-height: 40px;
+     font-weight: 500;
+     color: #fff;
+     box-sizing: border-box;
+}
+
+.product .product_box figure img {
+     width: 100%;
+     height: 248px;
+     background-color: #fff;
+}
+
+/** end product **/
+
+.black {
+     /* color: #63ce33; */
+     color: #FFC107;
+     font-weight: 208;
+}
+
+.title {
+     text-align: center;
+     padding-bottom: 40px;
+}
+
+.title h2 {
+     padding: 0px 0px 6px 0px;
+     text-transform: uppercase;
+     font-weight: 500;
+     /* color: #052501; */
+     color: #fff;
+     line-height: 46px;
+     border-bottom: #fc0 solid 2px;
+     font-size: 50px;
+     /* max-width: 374px; */
+     /* width: 100%; */
+     margin: 0 auto;
+
+     max-width: 425px;
+     width: 100%;
+}
+
+@media (max-width: 768px) {
+     .title h2{
+          font-size: 2rem;
+     }
+}

@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #fff;
+}
+
+.fit-screen {
+  height: 100vh;
+  /* Set the image height to 100% of viewport height */
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the container */
+}
+
+.car-fit {
+  width: 100%;
+  /* or any custom size */
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-shadow {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* Adjust the values for your desired shadow effect */
+}
+
+.card:hover {
+  transform: scale(1.1);
+  /* Adjust the scaling factor as desired */
+}
+
+.card img {
+  opacity: 85%;
+}
+
+.card:hover img {
+  opacity: 100%;
+}
+
+
+.product_box:hover {
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-control-prev-icon {
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M6 0L2 4l4 4V0z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M2 0l4 4-4 4V0z'/%3E%3C/svg%3E");
+}
+
+.border-dark {
+  border: 2px solid black;
+}
+
+/* image container for logo */
+.image-container {
+  max-width: 100%;
+  /* Ensures the container doesn't exceed the width of its parent */
+  max-height: 100%;
+  /* Ensures the container doesn't exceed the height of its parent */
+  display: flex;
+  /* Optional: Aligns the image within the container */
+  justify-content: center;
+  /* Optional: Horizontally centers the image */
+  align-items: center;
+  /* Optional: Vertically centers the image */
+}
+
+.image-container img {
+  max-width: 100%;
+  /* Makes sure the image doesn't exceed the width of the container */
+  max-height: 100%;
+  /* Makes sure the image doesn't exceed the height of the container */
+  height: auto;
+  /* Allows the image to maintain its aspect ratio */
+}
+
+.justify {
+  text-align: justify;
+}
+
+.brand {
+  border-bottom: 3px solid #fc0;
+  padding-bottom: 7px;
+}
+
+.bg-color {
+  background-color: #1b1f71;
+}
+
+.btn-green {
+  background-color: #128C7E;
+}
+
+.btn-green a {
+  color: #fff;
+}
+
+.btn-green:hover {
+  border: 2px solid #128C7E;
+  background-color: transparent;
+}
+
+.btn-green a:hover {
+  color: #128C7E;
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+}
+
+.dropdown-menu {
+  border: none;
+}
+
+.service-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+.card-container {
+  background: #ffffff1a;
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(3px);
+}
+
+.navbar-nav .nav-item a:hover {
+  border-bottom: 2px solid black;
+  border-color: #fc0;
+  color: #fc0;
+}

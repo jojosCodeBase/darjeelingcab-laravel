@@ -1,0 +1,141 @@
+.container {
+    padding: 10px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.darjeelingImg {
+    border-radius: 10px;
+    object-fit: cover;
+    width: 100%;
+
+}
+
+.darjeelingPic {
+    padding: 10px;
+}
+
+.aboutDarjeeling {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.darjeelingInfo {
+    width: 100%;
+    padding: 10px;
+    text-align: justify;
+}
+
+.header {
+    font-weight: 900;
+    font-size: 32px;
+}
+
+.placesToVisit {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.subHeader {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.suggestedClass {
+    padding: 5px;
+}
+
+.imageClass {
+    width: 100%;
+    padding: 10px;
+    height: 100%;
+}
+
+.first {
+    width: 100%;
+    height: 40vh;
+    border-radius: 10px;
+}
+
+.suggestedPlaces {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.textClass {
+    padding: 10px;
+    text-align: justify;
+    width: 100%;
+}
+
+.mob {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .aboutDarjeeling {
+        flex-direction: column;
+    }
+
+    .mob {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .suggestedPlaces {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .first {
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .second {
+        flex-direction: column-reverse;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .aboutDarjeeling {
+        flex-direction: column;
+    }
+
+    .mob {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .suggestedPlaces {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .first {
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .second {
+        flex-direction: column-reverse;
+    }
+}
