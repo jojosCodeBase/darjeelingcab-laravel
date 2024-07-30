@@ -25,29 +25,29 @@ body {
 }
 
 .card:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
   /* Adjust the scaling factor as desired */
 }
 
-.card img {
+/* .card img {
   opacity: 85%;
-}
+} */
 
-.card:hover img {
+/* .card:hover img {
   opacity: 100%;
-}
+} */
 
 
 .product_box:hover {
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.5);
 }
 
-.carousel-control-prev-icon {
+.homepage .carousel-control-prev-icon {
   background-color: transparent;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M6 0L2 4l4 4V0z'/%3E%3C/svg%3E");
 }
 
-.carousel-control-next-icon {
+.homepage .carousel-control-next-icon {
   background-color: transparent;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M2 0l4 4-4 4V0z'/%3E%3C/svg%3E");
 }
@@ -84,7 +84,7 @@ body {
 }
 
 .brand {
-  border-bottom: 3px solid #fc0;
+  border-bottom: 3px solid #009688;
   padding-bottom: 7px;
 }
 
@@ -92,20 +92,20 @@ body {
   background-color: #1b1f71;
 }
 
-.btn-green {
-  background-color: #128C7E;
+.btn-call {
+  background-color: #009688;
 }
 
-.btn-green a {
+.btn-call a {
   color: #fff;
 }
 
-.btn-green:hover {
+.btn-call:hover {
   border: 2px solid #128C7E;
   background-color: transparent;
 }
 
-.btn-green a:hover {
+.btn-call a:hover {
   color: #128C7E;
 }
 
@@ -135,6 +135,46 @@ body {
 
 .navbar-nav .nav-item a:hover {
   border-bottom: 2px solid black;
-  border-color: #fc0;
-  color: #fc0;
+  border-color: #009688;
+  color: #009688;
+}
+
+/* Set primary color for buttons */
+.btn-primary {
+  background-color: #009688;
+  border-color: #009688;
+}
+
+.text-brand {
+  color: #009688;
+}
+
+.btn-brand {
+  background-color: #009688;
+  border-color: #009688;
+  color: white;
+}
+
+.btn-brand:hover {
+  background-color: #00796b;
+  border-color: #00796b;
+  color: white;
+}
+
+.about .btn-brand {
+  border-radius: 0px;
+}
+
+/* Set primary color for form controls */
+.form-control:focus {
+  border-color: #009688;
+  box-shadow: 0 0 0 0.2rem rgba(255, 98, 37, 0.25);
+}
+
+footer li,
+footer .nav-item,
+footer .nav-link,
+footer .contact span,
+footer a {
+  color: #009688;
 }

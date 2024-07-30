@@ -22,9 +22,7 @@
             padding: 0px;
         }
 
-        .btn-danger {
-            border-radius: 0px;
-        }
+        
 
         .cBtn {
             border-radius: 100px;
@@ -40,12 +38,6 @@
             color: #25D366;
         }
 
-        .btn-warning:hover {
-            border: 2px solid #ffc107;
-            color: #FFC107;
-            background-color: transparent;
-        }
-
         .page-header {
             position: absolute;
             top: 0;
@@ -57,7 +49,7 @@
 
         .page-header .sticky {
             position: fixed;
-            background-color: rgba(255, 255, 255, 1);
+            background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
@@ -67,7 +59,7 @@
         }
 
         .page-header .sticky .fs-6 {
-            color: black;
+            color: #000;
         }
 
         .carousel {
@@ -75,7 +67,8 @@
             z-index: 1;
         }
 
-        .fs-6 {
+        .fs-6,
+        .btn-mob a{
             color: #fff;
         }
 
@@ -90,7 +83,7 @@
                 font-size: 1rem;
             }
 
-            .buttons .btn-warning {
+            .buttons .btn-brand {
                 width: 10rem;
             }
 
@@ -140,7 +133,7 @@
                             <a href="#" class="nav-link fs-6">Home</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="travel-distance.html" class="nav-link fs-6">Travel Distances</a>
+                            <a href="travel-distance.html" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="#" class="nav-link dropdown-toggle fs-6" id="othersDropdown" role="button"
@@ -162,7 +155,7 @@
                             <a href="#contact" class="nav-link fs-6">Contact us</a>
                         </li>
                     </ul>
-                    <div class="btn btn-warning mx-lg-5 mx-sm-3 btn-mob">
+                    <div class="btn btn-brand mx-lg-5 mx-sm-3 btn-mob">
                         <a href="tel:+917478459652">Book Now</a>
                     </div>
                 </div>
@@ -193,7 +186,7 @@
 
             <div class="col-md-3 mb-3 ms-md-5">
                 <h5>ADDRESS</h5>
-                <ul class="nav flex-column text-primary">
+                <ul class="nav flex-column">
                     <li class="nav-item mb-1">C/O Lokesh Gurung, Peshok, </li>
                     <li class="nav-item mb-1">Peshok Tea Garden,</li>
                     <li class="nav-item mb-1">Rangli Rangliot,</li>
@@ -201,22 +194,21 @@
                 </ul>
             </div>
 
-            <div class="col-md-3 ms-md-4 mb-3" id="contact">
+            <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
                 <h5>CONTACT US</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-1">
-                        <span class="p-0 text-primary"><i class="fa-solid fa-phone"></i> 7478459652</span>
+                        <span class="p-0"><i class="fa-solid fa-phone"></i> 7478459652</span>
                     </li>
                     <li class="nav-item mb-1">
-                        <span class="p-0 text-primary"><i class="fa-brands fa-whatsapp"></i> 7478459652</span>
+                        <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 7478459652</span>
                     </li>
-                    <li class="nav-item mb-2"><span class="p-0 text-primary"><i class="fa-solid fa-envelope"></i>
-                            <a href="mailto:info@darjeelingcab.in"
-                                class="text-primary">info@darjeelingcab.in</a></span>
+                    <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
+                            <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
                     </li>
                     <li class="nav-item">
                         <div class="row mt-4">
-                            <button class="col-5 mx-2 btn btn-green"><a href="tel:+917478459652"><i
+                            <button class="col-5 mx-2 btn btn-call"><a href="tel:+917478459652"><i
                                         class="fa-solid fa-phone"></i> Call Now</a></button>
 
                             <button class="col-5 mx-2 btn btn-whatsapp" onclick="book()"><i
@@ -231,7 +223,7 @@
                 <h5>REACH US</h5>
                 <form class="form-group" action="">
                     <input type="email" class="form-control mt-3" placeholder="Email">
-                    <input type="submit" class="btn btn-warning mt-3" value="Submit">
+                    <input type="submit" class="btn btn-brand mt-3" value="Submit">
                 </form>
             </div>
         </footer>
