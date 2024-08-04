@@ -44,3 +44,7 @@ Route::get('/contact', function () {
 Route::get('/booking-inquiry', function () {
     return view('booking-inquiry');
 });
+
+Route::get('/team', function () {
+    return view('team');
+});
