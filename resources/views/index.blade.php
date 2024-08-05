@@ -107,7 +107,7 @@
                         extraordinary travel adventure with Darjeeling Cab.
 
                     </p>
-                    <button class="btn btn-brand"><a href="about-us.html" class="text-light" target="_blank">Read
+                    <button class="btn btn-brand mt-3"><a href="{{ url('about') }}" class="text-light" target="_blank">Read
                             more</a></button>
                 </div>
 
@@ -129,7 +129,7 @@
             </div>
             <div class="row">
                 <div class="col-4 mb-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/bagdogra.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
                             <h3 class="fw-bold">Airport Taxi</h3>
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/local-taxi.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
                             <h3 class="fw-bold">Shared Taxi</h3>
@@ -147,16 +147,16 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/driver-hire.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
-                            <h3 class="fw-bold">Pickup/Drop</h3>
+                            <h3 class="fw-bold">Driver Hiring</h3>
                             <p>Book your stress-free airport transportation at competitive prices.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/sightseeing.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
                             <h3 class="fw-bold">Sightseeing</h3>
@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/tour-planning.png') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
                             <h3 class="fw-bold">Tour Package</h3>
@@ -174,11 +174,11 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="card">
+                    <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/hotel-booking.jpeg') }}" alt="Sightseeing"
                             class="card-img-top">
                         <div class="card-body">
-                            <h3 class="fw-bold">Tour Package</h3>
+                            <h3 class="fw-bold">Hotel Booking</h3>
                             <p>Book your stress-free airport transportation at competitive prices.</p>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
                         <div class="col-md-4">
                             <div class="box b1">
                                 <div class="img-box">
-                                    <img src="img/w1.png" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w1.png') }}" alt="" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>
@@ -216,7 +216,7 @@
                         <div class="col-md-4">
                             <div class="box b2">
                                 <div class="img-box">
-                                    <img src="img/w2.png" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w2.png') }}" alt="" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>
@@ -235,7 +235,7 @@
                         <div class="col-md-4">
                             <div class="box b3">
                                 <div class="img-box">
-                                    <img src="img/w3.png" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w3.png') }}" alt="" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>

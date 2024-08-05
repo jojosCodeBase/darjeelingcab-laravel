@@ -161,6 +161,10 @@ body {
   color: white;
 }
 
+.bg-brand{
+  background-color: #009688;
+}
+
 .about .btn-brand {
   border-radius: 0px;
 }
@@ -175,9 +179,48 @@ footer li,
 footer .nav-item,
 footer .nav-link,
 footer .contact span,
-footer a {
-  color: #009688;
+footer a, 
+.copyright, 
+footer h5 {
+  color: #fff;
 }
+
+footer h5{
+  font-weight: bold;
+}
+
+footer a {
+  position: relative;
+  text-decoration: none;
+}
+
+footer a {
+  position: relative;
+  text-decoration: none;
+  color: inherit; /* Maintain the initial color */
+}
+
+footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  margin-top: 5px; /* Adjust this value to position the underline closer or further from the text */
+  background: #fff;
+  transition: width 0.3s;
+}
+
+footer a:hover,
+footer .nav-link:hover{
+  color: #fff; /* Change the text color to white on hover */
+}
+
+footer a:hover::after {
+  width: 100%;
+}
+
+
 
 /* our team style start */
 p,

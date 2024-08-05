@@ -20,9 +20,12 @@
     <style>
         body {
             padding: 0px;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-
-        
 
         .cBtn {
             border-radius: 100px;
@@ -68,7 +71,7 @@
         }
 
         .fs-6,
-        .btn-mob a{
+        .btn-mob a {
             color: #fff;
         }
 
@@ -118,8 +121,8 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand text-light p-0" href="#">
-                    <img src="{{ asset('assets/images/test-logo2.png') }}" class="scr-fit"
-                        style="object-fit: cover;" height="80" width="80" alt="">
+                    <img src="{{ asset('assets/images/test-logo2.png') }}" class="scr-fit" style="object-fit: cover;"
+                        height="80" width="80" alt="">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -168,68 +171,78 @@
         @yield('content')
     </main>
 
-    <div class="container-fluid mb-0 mt-0">
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mt-5 mb-4">
-            <div class="col-md-1 ms-md-4 mb-3">
-                <h5>LINKS</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0">Home</a>
-                    </li>
-                    <li class="nav-item mb-2"><a href="travel-distance.html" class="nav-link p-0">Distances</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0">Places to visit</a>
-                    </li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="about-us.html" class="nav-link p-0">About</a>
-                    </li>
-                </ul>
+    <div class="mb-0 mt-0 bg-brand">
+        <div class="container">
+            <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mt-5 mb-4">
+                <div class="col-md-2 ms-md-4 mb-3">
+                    <h5>LINKS</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0">Home</a></li>
+                        <li class="nav-item mb-2"><a href="travel-distance.html" class="nav-link p-0">Distances</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0">Places to visit</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0">FAQs</a></li>
+                        <li class="nav-item mb-2"><a href="about-us.html" class="nav-link p-0">About</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-md-3 mb-3 ms-md-5">
+                    <h5>ADDRESS</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-1">Peshok, Peshok Tea Garden,</li>
+                        <li class="nav-item mb-1">Rangli Rangliot,</li>
+                        <li class="nav-item mb-1">Darjeeling - 734312</li>
+                    </ul>
+                </div>
+    
+                <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
+                    <h5>CONTACT US</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-1">
+                            <span class="p-0"><i class="fa-solid fa-phone"></i> 7478459652</span>
+                        </li>
+                        <li class="nav-item mb-1">
+                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 7478459652</span>
+                        </li>
+                        <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
+                                <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <div class="row mt-4">
+                                <button class="col-5 mx-2 btn btn-call"><a href="tel:+917478459652"><i
+                                            class="fa-solid fa-phone"></i> Call Now</a></button>
+    
+                                <button class="col-5 mx-2 btn btn-whatsapp" onclick="book()"><i
+                                        class="fa-brands fa-whatsapp"></i> Whatsapp</button>
+                            </div>
+                        </li> --}}
+                    </ul>
+                </div>
+    
+                <div class="col-md-2 ms-md-4 mb-3">
+                    <h5>FOLLOW US</h5>
+                    <ul class="nav">
+                        <li class="nav-item me-3">
+                            <a href="https://instagram.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
+                                    class="fa-brands fa-instagram"></i></a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a href="https://facebook.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
+                                    class="fa-brands fa-facebook"></i></a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a href="https://x.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
+                                    class="fa-brands fa-x-twitter"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+            <div class="p-3">
+                <p class="text-light text-center fw-bold fs-5">Visitors: 1246</p>
             </div>
-
-            <div class="col-md-3 mb-3 ms-md-5">
-                <h5>ADDRESS</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-1">C/O Lokesh Gurung, Peshok, </li>
-                    <li class="nav-item mb-1">Peshok Tea Garden,</li>
-                    <li class="nav-item mb-1">Rangli Rangliot,</li>
-                    <li class="nav-item mb-1">Darjeeling - 734312</li>
-                </ul>
+            <div class="row mb-5 copyright">
+                <span class="text-center">© Darjeeling Cab. All rights reserved | Designed and Developed by Kunsang
+                    Moktan</span>
             </div>
-
-            <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
-                <h5>CONTACT US</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-1">
-                        <span class="p-0"><i class="fa-solid fa-phone"></i> 7478459652</span>
-                    </li>
-                    <li class="nav-item mb-1">
-                        <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 7478459652</span>
-                    </li>
-                    <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
-                            <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
-                    </li>
-                    <li class="nav-item">
-                        <div class="row mt-4">
-                            <button class="col-5 mx-2 btn btn-call"><a href="tel:+917478459652"><i
-                                        class="fa-solid fa-phone"></i> Call Now</a></button>
-
-                            <button class="col-5 mx-2 btn btn-whatsapp" onclick="book()"><i
-                                    class="fa-brands fa-whatsapp"></i>
-                                Whatsapp</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-3 ms-md-4 mb-3" id="contact">
-                <h5>REACH US</h5>
-                <form class="form-group" action="">
-                    <input type="email" class="form-control mt-3" placeholder="Email">
-                    <input type="submit" class="btn btn-brand mt-3" value="Submit">
-                </form>
-            </div>
-        </footer>
-        <div class="row mb-5">
-            <span class="text-center">© Darjeeling Cab. All rights reserved | Designed and Developed by Kunsang
-                Moktan</span>
         </div>
     </div>
 
