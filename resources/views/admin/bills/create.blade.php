@@ -1,0 +1,212 @@
+@extends('layouts.admin-main')
+@section('title', 'Billing')
+@section('content')
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title text-uppercase">Generate Bill</h4>
+                        <hr>
+                        <form action="{{ route('bill.store') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Customer</label>
+                                        <select class="form-select border-bottom" name="party_id" id="validationCustom01">
+                                            <option value="">Please select</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Invoice Date</label>
+                                        <input type="date" name="invoice_date" class="form-control border-bottom"
+                                            value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Invoice Number</label>
+                                        <input type="text" name="invoice_no" class="form-control border-bottom"
+                                            placeholder="Enter Invoice number">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row align-items-center d-flex justify-content-between">
+                                <div class="col">
+                                    <h4 class="header-title text-uppercase">Item Details</h4>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" id="###addItemBtn" class="btn btn-primary"
+                                        data-bs-target="#itemModal" data-bs-toggle="modal">Add item</button>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl.no</th>
+                                            <th class="w-50">Description</th>
+                                            <th>Dates</th>
+                                            <th>Price</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="itemTableBody">
+                                        {{-- dynamic table contents --}}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <ul style="list-style: none;float: right;">
+                                        <li>
+                                            <b>Sub Total:</b> ₹ <span type="text" id="totalAmountDisplay">0</span>
+                                        </li>
+                                        <li>
+                                            <b>Discount:</b> ₹ <span type="text" id="taxDisplay">0</span>
+                                            <input type="hidden" value="0" name="tax_amount" id="taxAmount">
+                                        </li>
+                                        <li>
+                                            <b>Total Amount:</b> ₹ <span type="text" id="netAmountDisplay">0</span>
+                                            <input type="hidden" value="0" name="net_amount" id="netAmount">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary float-right mb-2">SUBMIT</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Item Modal Start -->
+    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemModalLabel">Add Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="item-form">
+                        <div class="form-group mb-2">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="dates" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="dates" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" required>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" readonly required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="add-item-btn"
+                        data-bs-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Item Modal End -->
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            const itemTableBody = $('#itemTableBody');
+
+            $('#add-item-btn').click(function() {
+                const description = $('#description').val();
+                const dates = $('#dates').val(); // No longer used for calculations
+                const price = $('#price').val();
+                const amount = $('#amount').val();
+
+                if (description && price && amount) {
+                    const newRow = `
+                <tr>
+                    <td>${itemTableBody.find('tr').length + 1}</td>
+                    <td><input type="text" class="form-control" name="description[]" value="${description}"></td>
+                    <td><input type="text" class="form-control dates" name="dates[]" value="${dates}"></td>
+                    <td><input type="text" class="form-control price" name="price[]" value="${price}"></td>
+                    <td><input type="text" class="form-control amount" name="amount[]" value="${amount}" readonly></td>
+                </tr>
+            `;
+                    itemTableBody.append(newRow);
+
+                    // Clear input fields
+                    $('#description, #dates, #price, #amount').val('');
+
+                    // Update totals
+                    updateTotals();
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+
+            // Event delegation for dynamically added elements
+            itemTableBody.on('input', '.price', function() {
+                const row = $(this).closest('tr');
+                const price = parseFloat(row.find('.price').val()) || 0;
+                const amount = price; // No longer using dates in calculation
+                row.find('.amount').val(amount.toFixed(2));
+
+                // Update totals after calculating amount
+                updateTotals();
+            });
+
+            $('#price').on('input', function() {
+                $('#amount').val($('#price').val()); // Only using price for amount
+            });
+
+            function updateTotals() {
+                let subtotal = 0;
+                itemTableBody.find('tr').each(function() {
+                    const amount = parseFloat($(this).find('.amount').val()) || 0;
+                    subtotal += amount;
+                });
+
+                const discount = parseFloat($('#taxAmount').val()) || 0;
+                const totalAmount = subtotal - discount;
+
+                $('#totalAmountDisplay').text(subtotal.toFixed(2));
+                $('#netAmountDisplay').text(totalAmount.toFixed(2));
+                $('#netAmount').val(totalAmount.toFixed(2));
+
+                // Update row numbers
+                itemTableBody.find('tr').each(function(index) {
+                    $(this).find('td:first').text(index + 1);
+                });
+            }
+        });
+    </script>
+
+@endsection
