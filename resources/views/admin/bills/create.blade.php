@@ -70,21 +70,23 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <ul style="list-style: none;float: right;">
+                                    <ul style="list-style: none; float: right;">
                                         <li>
-                                            <b>Sub Total:</b> ₹ <span type="text" id="totalAmountDisplay">0</span>
+                                            <b>Sub Total:</b> ₹ <span id="sub_total">0</span>
+                                            <input type="hidden" value="0" name="sub_total">
                                         </li>
                                         <li>
-                                            <b>Discount:</b> ₹ <span type="text" id="taxDisplay">0</span>
-                                            <input type="hidden" value="0" name="tax_amount" id="taxAmount">
+                                            <b>Discount:</b> ₹ <input type="number" class="form-control" id="discount"
+                                                name="discount" value="0" min="0">
                                         </li>
                                         <li>
-                                            <b>Total Amount:</b> ₹ <span type="text" id="netAmountDisplay">0</span>
-                                            <input type="hidden" value="0" name="net_amount" id="netAmount">
+                                            <b>Total Amount:</b> ₹ <span id="total">0</span>
+                                            <input type="hidden" value="0" name="total">
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
@@ -152,20 +154,20 @@
 
                 if (description && price && amount) {
                     const newRow = `
-                <tr>
-                    <td>${itemTableBody.find('tr').length + 1}</td>
-                    <td><input type="text" class="form-control" name="description[]" value="${description}"></td>
-                    <td><input type="text" class="form-control dates" name="dates[]" value="${dates}"></td>
-                    <td><input type="text" class="form-control price" name="price[]" value="${price}"></td>
-                    <td><input type="text" class="form-control amount" name="amount[]" value="${amount}" readonly></td>
-                </tr>
-            `;
+            <tr>
+                <td>${itemTableBody.find('tr').length + 1}</td>
+                <td><input type="text" class="form-control" name="description[]" value="${description}"></td>
+                <td><input type="date" class="form-control dates" name="dates[]" value="${dates}"></td>
+                <td><input type="number" class="form-control price" name="price[]" value="${price}"></td>
+                <td><input type="number" class="form-control amount" name="amount[]" value="${amount}" readonly></td>
+            </tr>
+        `;
                     itemTableBody.append(newRow);
 
                     // Clear input fields
                     $('#description, #dates, #price, #amount').val('');
 
-                    // Update totals
+                    // Update totals after adding new item
                     updateTotals();
                 } else {
                     alert('Please fill in all fields.');
@@ -187,6 +189,11 @@
                 $('#amount').val($('#price').val()); // Only using price for amount
             });
 
+            // Handle discount input changes
+            $('#discount').on('input', function() {
+                updateTotals(); // Update totals when discount changes
+            });
+
             function updateTotals() {
                 let subtotal = 0;
                 itemTableBody.find('tr').each(function() {
@@ -194,12 +201,13 @@
                     subtotal += amount;
                 });
 
-                const discount = parseFloat($('#taxAmount').val()) || 0;
+                const discount = parseFloat($('#discount').val()) || 0;
                 const totalAmount = subtotal - discount;
 
-                $('#totalAmountDisplay').text(subtotal.toFixed(2));
-                $('#netAmountDisplay').text(totalAmount.toFixed(2));
-                $('#netAmount').val(totalAmount.toFixed(2));
+                $('#sub_total').text(subtotal.toFixed(2));
+                $('#total').text(totalAmount.toFixed(2));
+                $('input[name="total"]').val(totalAmount.toFixed(2));
+                $('input[name="sub_total"]').val(subtotal.toFixed(2));
 
                 // Update row numbers
                 itemTableBody.find('tr').each(function(index) {
@@ -208,5 +216,4 @@
             }
         });
     </script>
-
 @endsection

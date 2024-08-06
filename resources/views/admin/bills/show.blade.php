@@ -1,5 +1,5 @@
 @extends('layouts.admin-main')
-@section('title', 'Billing')
+@section('title', 'View Bill')
 @section('content')
     <div class="container-fluid p-0">
         <div class="row">
@@ -11,6 +11,7 @@
                                 <h4 class="header-title text-uppercase">View Bill</h4>
                             </div>
                             <div class="col-auto">
+                                <a href="{{ route('bill.edit', ['bill' => $bill->id]) }}" class="btn btn-primary">Edit</a>
                                 <button type="button" id="generatePdfBtn" class="btn btn-danger" onclick="window.location.href='{{ route('bill.pdf', ['bill' => $bill->id]) }}'">Generate PDF</button>
                             </div>
                         </div>
@@ -37,7 +38,7 @@
                                     <div class="form-group mb-3">
                                         <label class="form-label">Invoice Date</label>
                                         <input type="date" name="invoice_date" class="form-control border-bottom"
-                                            id="validationCustom02" value="{{ $bill->bill_date }}">
+                                            value="{{ $bill->bill_date }}">
                                     </div>
                                 </div>
 
@@ -45,7 +46,7 @@
                                     <div class="form-group mb-3">
                                         <label class="form-label">Invoice Number</label>
                                         <input type="text" name="invoice_no" class="form-control border-bottom"
-                                            id="validationCustom02" placeholder="Enter Invoice number"
+                                            placeholder="Enter Invoice number"
                                             value="{{ $bill->bill_no }}">
                                     </div>
                                 </div>
@@ -121,136 +122,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Add Item Modal Start -->
-    {{-- <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="itemModalLabel">Add Item</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="item-form">
-                        <div class="form-group mb-2">
-                            <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="description" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="days" class="form-label">Days</label>
-                            <input type="number" class="form-control" id="days" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" required>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="amount" class="form-label">Amount</label>
-                            <input type="number" class="form-control" id="amount" readonly required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="add-item-btn"
-                        data-bs-dismiss="modal">Add</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Add Item Modal End -->
 @endsection
-{{-- @section('scripts')
-    <script>
-        $(document).ready(function() {
-            const itemTableBody = $('#itemTableBody');
-            // const modal = new bootstrap.Modal($('#itemModal')[0]);
-
-            $('#add-item-btn').click(function() {
-                const description = $('#description').val();
-                const days = $('#days').val();
-                const price = $('#price').val();
-                const amount = $('#amount').val();
-
-                if (description && days && price && amount) {
-                    const newRow = `
-                    <tr>
-                        <td>${itemTableBody.find('tr').length + 1}</td>
-                        <td><input type="text" class="form-control" name="description[]" value="${description}"></td>
-                        <td><input type="text" class="form-control days" name="days[]" value="${days}"></td>
-                        <td><input type="text" class="form-control price" name="price[]" value="${price}"></td>
-                        <td><input type="text" class="form-control amount" name="amount[]" value="${amount}" readonly></td>
-                    </tr>
-                `;
-                    itemTableBody.append(newRow);
-
-                    // Clear modal fields
-                    $('#description, #days, #price, #amount').val('');
-
-
-                    // Update totals
-                    updateTotals();
-
-                } else {
-                    alert('Please fill in all fields.');
-                }
-            });
-
-
-            // Event delegation for dynamically added elements
-            itemTableBody.on('input', '.price, .days', function() {
-                const row = $(this).closest('tr');
-                const days = parseFloat(row.find('.days').val()) || 0;
-                const price = parseFloat(row.find('.price').val()) || 0;
-                const amount = days * price || 0;
-                row.find('.amount').val(amount.toFixed(2));
-
-                // Update totals after calculating amount
-                updateTotals();
-            });
-
-
-            $('#addItemBtn').click(function() {
-                // Clone the first row
-                const firstRow = itemTableBody.find('tr:first');
-                const newRow = firstRow.clone();
-
-                // Clear the input fields in the new row
-                newRow.find('input').val('');
-
-                // Append the new row to the table body
-                itemTableBody.append(newRow);
-
-                // Update the serial numbers
-                itemTableBody.find('tr').each(function(index) {
-                    $(this).find('td:first').text(index + 1);
-                });
-
-                // Update totals
-                updateTotals();
-            });
-
-            $('#price').on('input', function() {
-                $('#amount').val($('#days').val() * $('#price').val());
-            });
-
-            function updateTotals() {
-                let subtotal = 0;
-                itemTableBody.find('tr').each(function() {
-                    const amount = parseFloat($(this).find('.amount').val());
-                    subtotal += amount;
-                });
-
-                const discount = parseFloat($('#taxAmount').val());
-                const totalAmount = subtotal - discount;
-
-                $('#totalAmountDisplay').text(subtotal.toFixed(2));
-                $('#netAmountDisplay').text(totalAmount.toFixed(2));
-                $('#netAmount').val(totalAmount.toFixed(2));
-            }
-        });
-    </script>
-@endsection --}}

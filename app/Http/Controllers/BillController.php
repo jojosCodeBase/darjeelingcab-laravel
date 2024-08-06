@@ -37,11 +37,12 @@ class BillController extends Controller
             'invoice_date' => 'required|date',
             'invoice_no' => 'required|string',
             'description' => 'required|array',
-            'days' => 'required|array',
+            'dates' => 'required|array',
             'price' => 'required|array',
             'amount' => 'required|array',
-            'tax_amount' => 'nullable|numeric',
-            'net_amount' => 'required|numeric',
+            'sub_total' => 'required|numeric',
+            'discount' => 'nullable|numeric',
+            'total' => 'required|numeric',
         ]);
 
         // Prepare data for insertion
@@ -50,12 +51,12 @@ class BillController extends Controller
         $bill->bill_date = $validatedData['invoice_date'];
         $bill->bill_no = $validatedData['invoice_no'];
         $bill->description = json_encode($validatedData['description']);
-        $bill->days = json_encode($validatedData['days']);
+        $bill->dates = json_encode($validatedData['dates']);
         $bill->price = json_encode($validatedData['price']);
         $bill->amount = json_encode($validatedData['amount']);
-        $bill->sub_total = 12.00;
-        $bill->discount = $validatedData['tax_amount'] ?? 0; // Default to 0 if not provided
-        $bill->total_amount = $validatedData['net_amount'];
+        $bill->sub_total = $validatedData['sub_total'];
+        $bill->discount = $validatedData['discount'] ?? 0; // Default to 0 if not provided
+        $bill->total_amount = $validatedData['total'];
 
         $bill->save();
 
@@ -93,18 +94,53 @@ class BillController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Bill $bill)
     {
-        //
+        $customers = Customer::orderBy('full_name')->get();
+        return view('admin.bills.edit', compact('bill', 'customers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        $validatedData = $request->validate([
+            'party_id' => 'required|integer',
+            'invoice_date' => 'required|date',
+            'invoice_no' => 'required|string',
+            'description' => 'required|array',
+            'dates' => 'required|array',
+            'price' => 'required|array',
+            'amount' => 'required|array',
+            'sub_total' => 'required|numeric',
+            'discount' => 'nullable|numeric',
+            'total' => 'required|numeric',
+        ]);
+
+        // Find the existing bill by ID
+        $bill = Bill::findOrFail($id);
+
+        // Update bill attributes
+        $bill->customer_id = $validatedData['party_id'];
+        $bill->bill_date = $validatedData['invoice_date'];
+        $bill->bill_no = $validatedData['invoice_no'];
+        $bill->description = json_encode($validatedData['description']);
+        $bill->dates = json_encode($validatedData['dates']);
+        $bill->price = json_encode($validatedData['price']);
+        $bill->amount = json_encode($validatedData['amount']);
+        $bill->sub_total = $validatedData['sub_total'];
+        $bill->discount = $validatedData['discount'] ?? 0; // Default to 0 if not provided
+        $bill->total_amount = $validatedData['total'];
+
+        // Save the updated bill
+        $bill->save();
+
+        // Redirect with success message
+        return redirect()->route('bills')->withSuccess('Bill updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

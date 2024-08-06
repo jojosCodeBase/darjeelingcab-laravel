@@ -94,6 +94,7 @@ Route::resource('bill', BillController::class)->names([
     'index' => 'bills',
     'create' => 'bill.create',
     'store' => 'bill.store',
+    'edit' => 'bill.edit',
     'update' => 'bill.update',
     'show' => 'bill.show',
     'destroy' => 'bill.destroy',
