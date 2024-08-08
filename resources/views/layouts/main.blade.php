@@ -119,10 +119,10 @@
 
     <div class="page-header">
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand text-light p-0" href="#">
-                    <img src="{{ asset('assets/images/test-logo2.png') }}" class="scr-fit" style="object-fit: cover;"
-                        height="80" width="80" alt="">
+            <div class="container">
+                <a class="navbar-brand text-light p-0" href="{{ url('/') }}">
+                    <img src="{{ asset('assets/images/white-logo.png') }}" class="scr-fit" style="object-fit: cover;"
+                        height="70" width="auto" alt="">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -133,41 +133,31 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item mx-3">
-                            <a href="#" class="nav-link fs-6">Home</a>
+                            <a href="{{ url('/') }}" class="nav-link fs-6">Home</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="travel-distance.html" class="nav-link fs-6">Blogs</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a href="#" class="nav-link dropdown-toggle fs-6" id="othersDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Destinations</a>
-                            <div class="dropdown-menu" aria-labelledby="othersDropdown">
-                                <a class="dropdown-item" href="./darjeeling.html">Darjeeling</a>
-                                <a class="dropdown-item" href="./kalimpong.html">Kalimpong</a>
-                                <a class="dropdown-item" href="./sikkim.html">Sikkim</a>
-                                <a class="dropdown-item" href="./kurseong.html">Kurseong</a>
-                            </div>
+                            <a href="{{ url('blogs') }}" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="#product" class="nav-link fs-6">Our Services</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#about" class="nav-link fs-6">About us</a>
+                            <a href="{{ url('about-us') }}" class="nav-link fs-6">About us</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#contact" class="nav-link fs-6">Contact us</a>
+                            <a href="{{ url('contact') }}" class="nav-link fs-6">Contact us</a>
                         </li>
                     </ul>
-                    <div class="btn btn-brand mx-lg-5 mx-sm-3 btn-mob">
-                        <a href="tel:+917478459652">Book Now</a>
-                    </div>
+                </div>
+                <div class="btn btn-brand mx-lg-5 mx-sm-3 btn-mob">
+                    <a href="tel:+917478459652">Book Now</a>
                 </div>
             </div>
         </nav>
     </div>
 
 
-    <main>
+    <main class="mb-5">
         @yield('content')
     </main>
 
@@ -178,13 +168,14 @@
                     <h5>LINKS</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0">Home</a></li>
-                        <li class="nav-item mb-2"><a href="travel-distance.html" class="nav-link p-0">Distances</a></li>
+                        <li class="nav-item mb-2"><a href="travel-distance.html" class="nav-link p-0">Distances</a>
+                        </li>
                         <li class="nav-item mb-2"><a href="#" class="nav-link p-0">Places to visit</a></li>
                         <li class="nav-item mb-2"><a href="#" class="nav-link p-0">FAQs</a></li>
                         <li class="nav-item mb-2"><a href="about-us.html" class="nav-link p-0">About</a></li>
                     </ul>
                 </div>
-    
+
                 <div class="col-md-3 mb-3 ms-md-5">
                     <h5>ADDRESS</h5>
                     <ul class="nav flex-column">
@@ -193,7 +184,7 @@
                         <li class="nav-item mb-1">Darjeeling - 734312</li>
                     </ul>
                 </div>
-    
+
                 <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
                     <h5>CONTACT US</h5>
                     <ul class="nav flex-column">
@@ -217,7 +208,7 @@
                         </li> --}}
                     </ul>
                 </div>
-    
+
                 <div class="col-md-2 ms-md-4 mb-3">
                     <h5>FOLLOW US</h5>
                     <ul class="nav">
@@ -261,6 +252,33 @@
             } else {
                 navbar.classList.remove('sticky');
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.counter');
+
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    let count = 0;
+                    const speed = 2000; // Time in milliseconds for the count to reach target
+
+                    const updateCounter = () => {
+                        const increment = target / (speed / 100);
+                        if (count < target) {
+                            count += increment;
+                            counter.innerText = Math.ceil(count);
+                            setTimeout(updateCounter, 100);
+                        } else {
+                            counter.innerText = target + '+';
+                        }
+                    };
+
+                    updateCounter();
+                });
+            };
+
+            animateCounters();
         });
     </script>
 

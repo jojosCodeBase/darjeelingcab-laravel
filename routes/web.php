@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/about', function () {
+Route::get('/about-us', function () {
     return view('about-us');
 });
 
@@ -47,10 +47,6 @@ Route::get('/contact', function () {
 
 Route::get('/booking-inquiry', function () {
     return view('booking-inquiry');
-});
-
-Route::get('/team', function () {
-    return view('team');
 });
 
 /***********************************************

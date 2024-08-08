@@ -107,7 +107,8 @@
                         extraordinary travel adventure with Darjeeling Cab.
 
                     </p>
-                    <button class="btn btn-brand mt-3"><a href="{{ url('about') }}" class="text-light" target="_blank">Read
+                    <button class="btn btn-brand mt-3"><a href="{{ url('about-us') }}" class="text-light"
+                            target="_blank">Read
                             more</a></button>
                 </div>
 
@@ -119,6 +120,34 @@
             </div>
         </div>
 
+    </div>
+    
+    <section class="stats-section text-center my-5 bg-brand">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <h2 class="counter" data-target="100">0</h2>
+                        <p>Rides</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <h2 class="counter" data-target="100">0</h2>
+                        <p>Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <h2 class="counter" data-target="50">0</h2>
+                        <p>Destinations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
         <div id="product" class="services">
             <div class="row" id="services">
                 <div class="col mt-5">
@@ -128,7 +157,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/bagdogra.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
@@ -137,7 +166,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/local-taxi.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
@@ -146,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/driver-hire.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
@@ -155,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/sightseeing.jpg') }}" alt="Sightseeing" class="card-img-top">
                         <div class="card-body">
@@ -164,16 +193,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
-                        <img src="{{ asset('assets/images/tour-planning.png') }}" alt="Sightseeing" class="card-img-top">
+                        <img src="{{ asset('assets/images/tour-planning.png') }}" alt="Sightseeing"
+                            class="card-img-top">
                         <div class="card-body">
                             <h3 class="fw-bold">Tour Package</h3>
                             <p>Book your stress-free airport transportation at competitive prices.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/hotel-booking.jpeg') }}" alt="Sightseeing"
                             class="card-img-top">
@@ -318,6 +348,114 @@
             </div>
         </div>
         <!-- end product -->
+
+        <style>
+            .enquiry-form {
+                background-color: #f8f9fa;
+                padding: 50px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .enquiry-form h2 {
+                color: #009688;
+                margin-bottom: 30px;
+                font-weight: 700;
+            }
+
+            .enquiry-form .form-control,
+            .enquiry-form .form-select{
+                border-color: #009688;
+            }
+
+            .enquiry-form .btn-primary {
+                background-color: #009688;
+                border-color: #009688;
+            }
+
+            .enquiry-form .btn-primary:hover {
+                background-color: #00796b;
+                border-color: #00796b;
+            }
+        </style>
+
+        <!-- Enquiry Form Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="enquiry-form">
+                        <h2 class="text-center mb-3 text-brand">Tour Enquiry</h2>
+                        <p class="text-center mb-4">Fill out the form below to inquire about our tour packages. We'll get back to you shortly with all the details.</p>
+
+                        <form action="your-form-processing-url" method="post">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="E.g. John Doe" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="E.g. example@example.com" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="E.g. +91 9876543210" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="from" class="form-label">From</label>
+                                    <input type="text" class="form-control" id="from" name="from"
+                                        placeholder="E.g. Siliguri" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="to" class="form-label">To</label>
+                                    <input type="text" class="form-control" id="to" name="to"
+                                        placeholder="E.g. Darjeeling" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="number-of-people" class="form-label">Number of People</label>
+                                    <input type="number" class="form-control" id="number-of-people"
+                                        name="number-of-people" placeholder="E.g. 2" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="vehicle-type" class="form-label">Vehicle Type</label>
+                                    <select class="form-select" id="vehicle-type" name="vehicle-type" required>
+                                        <option value="" disabled selected>Select Vehicle Type</option>
+                                        <option value="TATA SUMO">TATA SUMO</option>
+                                        <option value="TOYOTA INNOVA">TOYOTA INNOVA</option>
+                                        <option value="WAGON R">WAGON R</option>
+                                        <option value="SWIFT DZIRE">SWIFT DZIRE</option>
+                                        <option value="BOLERO">BOLERO</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="start-date" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="start-date" name="start-date"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="end-date" class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="end-date" name="end-date" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="message" class="form-label">Additional Requests/Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5"
+                                        placeholder="Any special requests or details"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-block">Submit Enquiry</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Enquiry Form End -->
+
     </div>
 
 @endsection

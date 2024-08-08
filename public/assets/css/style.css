@@ -37,11 +37,6 @@ body {
   opacity: 100%;
 } */
 
-
-.product_box:hover {
-  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.5);
-}
-
 .homepage .carousel-control-prev-icon {
   background-color: transparent;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 8 8'%3E%3Cpath d='M6 0L2 4l4 4V0z'/%3E%3C/svg%3E");
@@ -138,6 +133,9 @@ body {
   border-color: #009688;
   color: #009688;
 }
+.navbar-nav .show .nav-link{
+  color: #fff;
+}
 
 /* Set primary color for buttons */
 .btn-primary {
@@ -161,7 +159,7 @@ body {
   color: white;
 }
 
-.bg-brand{
+.bg-brand {
   background-color: #009688;
 }
 
@@ -179,13 +177,13 @@ footer li,
 footer .nav-item,
 footer .nav-link,
 footer .contact span,
-footer a, 
-.copyright, 
+footer a,
+.copyright,
 footer h5 {
   color: #fff;
 }
 
-footer h5{
+footer h5 {
   font-weight: bold;
 }
 
@@ -197,7 +195,8 @@ footer a {
 footer a {
   position: relative;
   text-decoration: none;
-  color: inherit; /* Maintain the initial color */
+  color: inherit;
+  /* Maintain the initial color */
 }
 
 footer a::after {
@@ -206,14 +205,16 @@ footer a::after {
   width: 0;
   height: 2px;
   display: block;
-  margin-top: 5px; /* Adjust this value to position the underline closer or further from the text */
+  margin-top: 5px;
+  /* Adjust this value to position the underline closer or further from the text */
   background: #fff;
   transition: width 0.3s;
 }
 
 footer a:hover,
-footer .nav-link:hover{
-  color: #fff; /* Change the text color to white on hover */
+footer .nav-link:hover {
+  color: #fff;
+  /* Change the text color to white on hover */
 }
 
 footer a:hover::after {
@@ -223,7 +224,7 @@ footer a:hover::after {
 
 
 /* our team style start */
-p,
+/* p,
 a,
 h1,
 h2,
@@ -320,6 +321,163 @@ h4 {
 .section-team .single-person:hover .full-name,
 .section-team .single-person:hover .speciality {
   color: #fff;
+} */
+
+/* our team style end */
+
+
+/* our team style start */
+p,
+a,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.section-team {
+  padding: 80px 0;
+}
+
+.section-team .header-section {
+  margin-bottom: 50px;
+}
+
+.section-team .header-section .small-title {
+  margin-bottom: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #009688;
+}
+
+.section-team .header-section .title {
+  font-weight: 700;
+  font-size: 45px;
+}
+
+.section-team .single-person {
+  margin-top: 30px;
+  padding: 30px;
+  background-color: #f6f9ff;
+  border-radius: 5px;
+}
+
+.section-team .single-person:hover {
+  background: linear-gradient(to right, #049483, #009688);
+}
+
+.section-team .single-person .person-image {
+  position: relative;
+  margin-bottom: 50px;
+  border-radius: 50%;
+  border: 4px dashed transparent;
+  transition: padding .3s;
+}
+
+.section-team .single-person:hover .person-image {
+  padding: 12px;
+  border: 4px dashed #fff;
+}
+
+.section-team .single-person .person-image img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.section-team .single-person .person-image .icon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  background: linear-gradient(to right, #00796b, #009688);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+
+.section-team .single-person:hover .person-image .icon {
+  background: none;
+  background-color: #fff;
+  color: #009688;
+}
+
+.social-links{
+  display: flex;
+  justify-content: center;
+}
+
+.social-links a {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  color: #009688;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.section-team .single-person:hover .social-links a{
+  color: #fff;
+}
+
+.section-team .single-person .person-info .full-name {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.section-team .single-person .person-info .speciality {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #009688;
+  text-align: center;
+}
+
+.section-team .single-person:hover .full-name,
+.section-team .single-person:hover .speciality {
+  color: #fff;
 }
 
 /* our team style end */
+
+.page-title{
+  font-weight: 700;
+  font-size: 45px;
+  text-align: center;
+}
+
+
+
+/* counter */
+
+.stats-section {
+  padding: 40px 0;
+}
+
+.stat-item {
+  margin: 0 auto;
+}
+
+.stat-item h2 {
+  font-size: 60px;
+  font-weight: 700; /* Bold text */
+  margin: 0;
+  color: #fff;
+}
+
+.stat-item p {
+  font-size: 24px;
+  margin: 10px 0 0;
+  color: #fff;
+}
+
+
