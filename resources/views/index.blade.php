@@ -145,11 +145,12 @@
                 </div>
             </div>
         </div>
+        <span id="services"></span>
     </section>
     
     <div class="container">
-        <div id="product" class="services">
-            <div class="row" id="services">
+        <div class="services">
+            <div class="row">
                 <div class="col mt-5">
                     <div class="title">
                         <h2>OUR<strong class="text-brand"> services</strong></h2>
@@ -159,57 +160,59 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
-                        <img src="{{ asset('assets/images/bagdogra.jpg') }}" alt="Sightseeing" class="card-img-top">
+                        <img src="{{ asset('assets/images/bagdogra.jpg') }}" alt="Sightseeing" class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Airport Taxi</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Airport Taxi</h3>
+                            <p>Ensure a smooth and timely journey to or from the airport with our reliable taxi service. Experience comfort and convenience at competitive rates, eliminating the stress of travel.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
-                        <img src="{{ asset('assets/images/local-taxi.jpg') }}" alt="Sightseeing" class="card-img-top">
+                        <img src="{{ asset('assets/images/local-taxi.jpg') }}" alt="Sightseeing" class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Shared Taxi</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Shared Taxi</h3>
+                            <p>Enjoy affordable and eco-friendly travel options with our shared taxi service. Perfect for those looking to save costs while still receiving professional and punctual service.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
-                        <img src="{{ asset('assets/images/driver-hire.jpg') }}" alt="Sightseeing" class="card-img-top">
+                        <img src="{{ asset('assets/images/driver-hire.jpg') }}" alt="Sightseeing" class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Driver Hiring</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Driver Hiring</h3>
+                            <p>Hire professional and experienced drivers for your personal or business needs. Our drivers are committed to providing safe and courteous service, ensuring your journey is both pleasant and secure.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
-                        <img src="{{ asset('assets/images/sightseeing.jpg') }}" alt="Sightseeing" class="card-img-top">
+                        <img src="{{ asset('assets/images/sightseeing.jpg') }}" alt="Sightseeing" class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Sightseeing</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Sightseeing</h3>
+                            <p>Explore the stunning beauty of the region with our customized sightseeing tours.  
+                                Ideal for both first-time visitors and seasoned travelers,  
+                                we offer personalized experiences that highlight the top attractions.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/tour-planning.png') }}" alt="Sightseeing"
-                            class="card-img-top">
+                            class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Tour Package</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Tour Package</h3>
+                            <p>Plan your perfect getaway with our expertly crafted tour packages. From adventure-filled itineraries to relaxing retreats, we handle all the details so you can enjoy a stress-free vacation.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card border-0 shadow">
                         <img src="{{ asset('assets/images/hotel-booking.jpeg') }}" alt="Sightseeing"
-                            class="card-img-top">
+                            class="card-img-top" height="220" width="auto">
                         <div class="card-body">
-                            <h3 class="fw-bold">Hotel Booking</h3>
-                            <p>Book your stress-free airport transportation at competitive prices.</p>
+                            <h3 class="fw-bold mb-2">Hotel Booking</h3>
+                            <p>Secure comfortable and well-located accommodations with our hotel booking service. We offer a range of options to suit every budget, ensuring you find the perfect place to stay during your travels.</p>
                         </div>
                     </div>
                 </div>

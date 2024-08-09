@@ -17,102 +17,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/chooseus.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        body {
-            padding: 0px;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .cBtn {
-            border-radius: 100px;
-            padding: 5px;
-            height: 50px;
-            width: 150px;
-            font-size: 1rem;
-            margin-right: 10px;
-        }
-
-        .btn-whatsapp:hover {
-            border: 2px solid #25D366;
-            color: #25D366;
-        }
-
-        .page-header {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 120;
-            width: 100%;
-        }
-
-        .page-header .sticky {
-            position: fixed;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            -webkit-animation: slideDown 0.35s ease-out;
-            animation: slideDown 0.35s ease-out;
-            width: 100%;
-        }
-
-        .page-header .sticky .fs-6 {
-            color: #000;
-        }
-
-        .carousel {
-            position: relative;
-            z-index: 1;
-        }
-
-        .fs-6,
-        .btn-mob a {
-            color: #fff;
-        }
-
-        @media (max-width: 576px) {
-            .buttons {
-                display: flex;
-            }
-
-            .cBtn {
-                border-radius: 100px;
-                padding: 5px;
-                font-size: 1rem;
-            }
-
-            .buttons .btn-brand {
-                width: 10rem;
-            }
-
-            .navbar-nav {
-                background-color: #fff;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-                border-color: #ced4da;
-                outline: none;
-            }
-
-            .btn-mob {
-                display: none;
-            }
-
-            .fs-6 {
-                color: black;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -139,7 +43,7 @@
                             <a href="{{ url('blogs') }}" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#product" class="nav-link fs-6">Our Services</a>
+                            <a href="#services" class="nav-link fs-6">Our Services</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('about-us') }}" class="nav-link fs-6">About us</a>
