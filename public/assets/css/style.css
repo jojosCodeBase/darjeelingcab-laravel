@@ -137,7 +137,8 @@ body {
 
 /* style for sticky */
 
-.sticky .navbar-nav .nav-item a:hover {
+.sticky .navbar-nav .nav-item a:hover ,
+.page-header .navbar-nav .nav-item a:hover {
   border-bottom: 3px solid #009688;
   color: #009688;
 }
@@ -149,10 +150,15 @@ body {
 
 /* style for normal */
 
-.navbar-nav .nav-item a:hover {
+.page-header-home .navbar-nav .nav-item a:hover {
   border-bottom: 3px solid #fff;
   color: #fff;
 }
+
+.page-header .navbar-nav .nav-item a{
+  color: #009688;
+}
+
 
 /* Set primary color for buttons */
 .btn-primary {
@@ -255,10 +261,6 @@ h4 {
   padding: 80px 0;
 }
 
-.section-team .header-section {
-  margin-bottom: 50px;
-}
-
 .section-team .header-section .small-title {
   margin-bottom: 25px;
   font-size: 16px;
@@ -279,7 +281,7 @@ h4 {
 }
 
 .section-team .single-person:hover {
-  background: linear-gradient(to right, #049483, #009688);
+  background: linear-gradient(to right, #07a794, #05b9a7);
 }
 
 .section-team .single-person .person-image {
@@ -412,7 +414,7 @@ h4 {
   color: #25D366;
 }
 
-.page-header {
+.page-header-home{
   position: absolute;
   top: 0;
   right: 0;
@@ -421,7 +423,17 @@ h4 {
   width: 100%;
 }
 
-.page-header .sticky {
+.page-header{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 120;
+  width: 100%;
+}
+
+.page-header-home .sticky,
+.page-header {
   position: fixed;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -432,13 +444,17 @@ h4 {
   width: 100%;
 }
 
-.page-header .sticky .fs-6 {
+.page-header-home .sticky .fs-6 {
   color: #000;
 }
 
 .carousel {
   position: relative;
   z-index: 1;
+}
+
+.about-us p{
+  font-size: 1rem;
 }
 
 .fs-6,
@@ -485,3 +501,37 @@ h4 {
 }
 
 /* main style end */
+
+/* blogs style start */
+
+.blogs-container h3 {
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.blogs-container .card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: none !important;
+}
+
+.blogs-container .card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.blogs-container .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blogs-container .card-title {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* blogs style start */

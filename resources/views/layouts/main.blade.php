@@ -20,8 +20,7 @@
 </head>
 
 <body>
-
-    <div class="page-header">
+    <div class="page-header{{ Route::is('index') ? '-home' : '' }}">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand text-light p-0" href="{{ url('/') }}">

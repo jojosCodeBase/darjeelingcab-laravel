@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Auth\AuthController;
@@ -19,23 +20,16 @@ use App\Http\Controllers\Auth\AuthController;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/about-us', function () {
     return view('about-us');
 });
 
-Route::get('/blogs', function () {
-    return view('blogs');
-})->name('blogs');
 
-Route::get('/blog-info/{id}', function () {
-    return view('blog-info');
-})->name('blog-info');
+Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
 
-Route::get('/blog-info/1', function () {
-    return view('blog-info');
-});
+Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
 
 Route::get('/testimonials', function () {
     return view('testimonials');
@@ -49,9 +43,6 @@ Route::get('/booking-inquiry', function () {
     return view('booking-inquiry');
 });
 
-/***********************************************
-                ADMIN ROUTES START
-*********************************************/
 
 Route::get('/login', function () {
     return view('admin.login');
@@ -59,46 +50,67 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/***********************************************
+                ADMIN ROUTES START
+*********************************************/
+
 Route::get('/register', function () {
     return view('admin.register');
 })->name('register');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
 
-Route::get('/profile', function () {
-    return view('admin.profile');
-})->name('profile');
+Route::prefix('admin')->middleware('auth')->group(function () {
 
-Route::get('/forms', function () {
-    return view('admin.forms');
-})->name('forms');
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
 
-Route::resource('customer', CustomerController::class)->names([
-    'index' => 'customers',
-    'create' => 'customer.create',
-    'store' => 'customer.store',
-    'edit' => 'customer.edit',
-    'update' => 'customer.update',
-    'show' => 'customer.show',
-    'destroy' => 'customer.destroy',
-]);
+    Route::get('/profile', function () {
+        return view('admin.profile');
+    })->name('profile');
+
+    Route::get('/forms', function () {
+        return view('admin.forms');
+    })->name('forms');
+
+    Route::resource('customer', CustomerController::class)->names([
+        'index' => 'customers',
+        'create' => 'customer.create',
+        'store' => 'customer.store',
+        'edit' => 'customer.edit',
+        'update' => 'customer.update',
+        'show' => 'customer.show',
+        'destroy' => 'customer.destroy',
+    ]);
 
 
-Route::resource('bill', BillController::class)->names([
-    'index' => 'bills',
-    'create' => 'bill.create',
-    'store' => 'bill.store',
-    'edit' => 'bill.edit',
-    'update' => 'bill.update',
-    'show' => 'bill.show',
-    'destroy' => 'bill.destroy',
-]);
+    Route::resource('bill', BillController::class)->names([
+        'index' => 'bills',
+        'create' => 'bill.create',
+        'store' => 'bill.store',
+        'edit' => 'bill.edit',
+        'update' => 'bill.update',
+        'show' => 'bill.show',
+        'destroy' => 'bill.destroy',
+    ]);
 
-Route::get('/bill/{bill}/pdf', [BillController::class, 'generatePDF'])->name('bill.pdf');
+    Route::resource('blogs', BlogController::class)->names([
+        'index' => 'blogs',
+        'create' => 'blogs.create',
+        'store' => 'blogs.store',
+        'edit' => 'blogs.edit',
+        'update' => 'blogs.update',
+        'destroy' => 'blogs.destroy',
+    ]);
 
-Route::post('/create-party', [BookingController::class, "createBooking"])->name('create-booking');
+    Route::post('blogs/update-status', [BlogController::class, 'updateStatus'])->name('blogs.update-status');
+
+    Route::get('/bill/{bill}/pdf', [BillController::class, 'generatePDF'])->name('bill.pdf');
+
+    Route::post('/create-party', [BookingController::class, "createBooking"])->name('create-booking');
+});
 
 /***********************************************
                 ADMIN ROUTES END

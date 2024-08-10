@@ -2,16 +2,16 @@
 @section('title', 'Bills')
 @section('content')
     <div class="container-fluid p-0">
-        <div class="card">
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col">
+                <h4 class="header-title text-uppercase">Bills</h4>
+            </div>
+            <div class="col-auto">
+                <a href="{{ route('bill.create') }}" class="btn btn-primary">Create</a>
+            </div>
+        </div>
+        <div class="card mt-3">
             <div class="card-body">
-                <div class="row d-flex justify-content-between">
-                    <div class="col">
-                        <h4 class="header-title text-uppercase">Bills</h4>
-                    </div>
-                    <div class="col-auto">
-                        <a href="{{ route('bill.create') }}" class="btn btn-primary">Create</a>
-                    </div>
-                </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>

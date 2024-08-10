@@ -62,32 +62,9 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('login') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('login') }}">
-                            <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Sign In</span>
-                        </a>
-                    </li>
-
-                    <li class="sidebar-item {{ Route::is('register') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('register') }}">
-                            <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign
-                                Up</span>
-                        </a>
-                    </li>
-
-                    {{-- <li class="sidebar-item">
-                        <a class="sidebar-link" href="pages-blank.html">
-                            <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
-                        </a>
-                    </li> --}}
-
-                    <li class="sidebar-header">
-                        Tools & Components
-                    </li>
-
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="ui-buttons.html">
-                            <i class="align-middle" data-feather="square"></i> <span class="align-middle">Bookings</span>
+                    <li class="sidebar-item {{ Route::is('blogs') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('blogs') }}">
+                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Blogs</span>
                         </a>
                     </li>
                 </ul>
@@ -272,7 +249,10 @@
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="help-circle"></i> Help Center</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Log out</a>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Log out</button>
+                                </form>
                             </div>
                         </li>
                     </ul>
@@ -302,6 +282,10 @@
     <script src="{{ asset('assets/admin/js/app.js') }}"></script>
 
     <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/tinymce/tinymce.min.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/tinymce/script.js') }}"></script>
 
 
     <script>
