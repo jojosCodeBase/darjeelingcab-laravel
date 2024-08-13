@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use PDF;
+use Illuminate\Support\Facades\View;
+use Barryvdh\Snappy\Facades\SnappyPdf;
+use TCPDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Mpdf\Mpdf;
 
 class BillController extends Controller
 {
@@ -72,24 +77,35 @@ class BillController extends Controller
         return view('admin.bills.show', compact('bill', 'customers'));
     }
 
-    public function generatePDF($billId)
+    public function generatePDF()
     {
-        $bill = Bill::findOrFail($billId);
-        $descriptions = json_decode($bill->description, true);
-        $days = json_decode($bill->days, true);
-        $price = json_decode($bill->price, true);
-        $amount = json_decode($bill->amount, true);
-        $combined = array_map(null, $descriptions, $days, $price, $amount);
+        // Render the Blade view to HTML
+        $html = View::make('admin.bills.test-pdf')->render();
 
-        $data = [
-            'bill' => $bill,
-            'combined' => $combined,
-        ];
+        // Initialize mPDF with margins set to 0
+        $mpdf = new Mpdf([
+            'margin_left' => 0,
+            'margin_right' => 0,
+            'margin_top' => 0,
+            'margin_bottom' => 0,
+        ]);
 
-        // $pdf = PDF::loadView('admin.bills.pdf', $data);
-        $pdf = PDF::loadView('admin.bills.test-pdf', $data);
-        return $pdf->download('bill_' . $bill->id . '.pdf');
+        // Write HTML to PDF
+        $mpdf->WriteHTML($html);
+
+        // Output the PDF as a download
+        return response()->stream(
+            function () use ($mpdf) {
+                $mpdf->Output('invoice.pdf', 'I');
+            },
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="invoice.pdf"',
+            ]
+        );
     }
+
 
     /**
      * Show the form for editing the specified resource.
