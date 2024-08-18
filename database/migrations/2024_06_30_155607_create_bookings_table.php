@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('created_by'); // Field to reference the user
             $table->integer('adults');
             $table->integer('child');
@@ -27,6 +27,7 @@ return new class extends Migration
 
             // Foreign key constraint for the created_by field
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

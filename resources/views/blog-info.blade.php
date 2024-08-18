@@ -1,52 +1,11 @@
 @extends('layouts.main')
+@section('blogs-seo')
+    {!! SEOMeta::generate() !!}
+    {!! OpenGraph::generate() !!}
+    {!! Twitter::generate() !!}
+    {!! JsonLd::generate() !!}
+@endsection
 @section('title', $blog['title'])
-<style>
-    h3 {
-        font-weight: 700;
-        color: #2c3e50;
-    }
-
-    .blog-content {
-        font-size: 16px;
-        color: #34495e;
-        line-height: 1.6;
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: justify;
-    }
-
-    .blog-content img {
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
-
-    .btn-primary {
-        background-color: #2c3e50;
-        border-color: #2c3e50;
-    }
-
-    .recent-blogs {
-        margin-top: 40px;
-    }
-    
-    .recent-blogs .card {
-        margin-bottom: 15px;
-        background-color: #f8f9fa;
-        border: none;
-    }
-
-    .recent-blogs img {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-
-    .recent-blogs .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-</style>
 @section('content')
     <div class="blogs-container container">
         <div class="row">

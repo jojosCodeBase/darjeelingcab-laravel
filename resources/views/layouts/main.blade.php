@@ -3,13 +3,15 @@
 
 <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-        content="Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!" />
-    <meta name="keywords"
-        content="Darjeeling Cab, taxi services, Darjeeling transportation, reliable cabs, scenic tours, tourist transport, local commuting" />
-    <meta name="author" content="Darjeeling Cab" />
-    <title>@yield('title') | Darjeeling Cab</title>
+    <meta name="title" content="@yield('title')" />
+    @yield('meta-tags')
+
+    @yield('blogs-seo')
+
+
+    <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -53,7 +55,7 @@
                     </ul>
                 </div>
                 <div class="btn btn-brand mx-lg-5 mx-sm-3 btn-mob">
-                    <a href="tel:+917478459652">Book Now</a>
+                    <a href="tel:+918967386612">Book Now</a>
                 </div>
             </div>
         </nav>
@@ -70,12 +72,12 @@
                 <div class="col-md-2 ms-md-4 mb-3">
                     <h5>LINKS</h5>
                     <ul class="nav flex-column">
-                        <li class="nav-item mb-2"><a href="index.html" class="nav-link p-0">Home</a></li>
-                        <li class="nav-item mb-2"><a href="travel-distance.html" class="nav-link p-0">Distances</a>
+                        <li class="nav-item mb-2"><a href="{{ url('/') }}" class="nav-link p-0">Home</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('blogs') }}" class="nav-link p-0">Blogs</a>
                         </li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0">Places to visit</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('about-us') }}" class="nav-link p-0">About us</a></li>
                         <li class="nav-item mb-2"><a href="#" class="nav-link p-0">FAQs</a></li>
-                        <li class="nav-item mb-2"><a href="about-us.html" class="nav-link p-0">About</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('contact') }}" class="nav-link p-0">Contact us</a></li>
                     </ul>
                 </div>
     
@@ -83,8 +85,8 @@
                     <h5>ADDRESS</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-1">Peshok, Peshok Tea Garden,</li>
-                        <li class="nav-item mb-1">Rangli Rangliot,</li>
-                        <li class="nav-item mb-1">Darjeeling - 734312</li>
+                        <li class="nav-item mb-1">Rangli Rangliot, Darjeeling</li>
+                        <li class="nav-item mb-1">West Bengal - 734312</li>
                     </ul>
                 </div>
     
@@ -92,10 +94,10 @@
                     <h5>CONTACT US</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-solid fa-phone"></i> 7478459652</span>
+                            <span class="p-0"><i class="fa-solid fa-phone"></i> 8967386612 / 7047089254 / 7478459652</span>
                         </li>
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 7478459652</span>
+                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 8967386612 / 7047089254 / 7478459652</span>
                         </li>
                         <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
                                 <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
@@ -107,16 +109,12 @@
                     <h5>FOLLOW US</h5>
                     <ul class="nav">
                         <li class="nav-item me-3">
-                            <a href="https://instagram.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
+                            <a href="https://instagram.com/darjeeling.cab" target="_blank" class="nav-link p-0 fs-4"><i
                                     class="fa-brands fa-instagram"></i></a>
                         </li>
                         <li class="nav-item me-3">
-                            <a href="https://facebook.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
+                            <a href="https://www.facebook.com/profile.php?id=61552052485531" target="_blank" class="nav-link p-0 fs-4"><i
                                     class="fa-brands fa-facebook"></i></a>
-                        </li>
-                        <li class="nav-item me-3">
-                            <a href="https://x.com/yourprofile" target="_blank" class="nav-link p-0 fs-4"><i
-                                    class="fa-brands fa-x-twitter"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -133,7 +131,7 @@
 
     <script>
         function book() {
-            var phoneNumber = "+917478459652";
+            var phoneNumber = "+918967386612";
             var message = "Hello, I want to book a cab!";
             var apiLink = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
             window.open(apiLink, "_blank");

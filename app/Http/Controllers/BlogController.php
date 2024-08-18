@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use SEOMeta;
+use Twitter;
+use OpenGraph;
+use JsonLd;
 use Carbon\Carbon;
 use App\Models\Blog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\MonthlyVisits;
-use SEOMeta;
-use OpenGraph;
-use Twitter;
 use App\Http\Controllers\Controller;
 
 
@@ -252,24 +253,24 @@ class BlogController extends Controller
         SEOMeta::setTitle($title);
         SEOMeta::setDescription($description);
         SEOMeta::addKeyword($keywords);
-        SEOMeta::setCanonical('https://www.calibehr.com');
+        SEOMeta::setCanonical('https://www.darjeelingcab.in/');
 
         OpenGraph::setDescription($description);
         OpenGraph::setTitle($title);
-        OpenGraph::setUrl('https://www.calibehr.com');
-        OpenGraph::addProperty('type', 'Calibehr');
+        OpenGraph::setUrl('https://www.darjeelingcab.in/');
+        OpenGraph::addProperty('type', 'Darjeeling Cab');
         OpenGraph::addImage(asset($blog->og_image));
 
         Twitter::setTitle($title);
-        Twitter::setSite('@Calibehr_BSS');
+        Twitter::setSite('@Darjeeling_Cab');
         Twitter::setDescription($description);
-        Twitter::setUrl('https://www.calibehr.com');
+        Twitter::setUrl('https://www.darjeelingcab.in/');
         Twitter::setImage(asset($blog->twitter_image));
 
-        // JsonLd::setTitle($title);
-        // JsonLd::setDescription($description);
-        // JsonLd::setType('Article');
-        // JsonLd::addImage(asset($blog->thumbnail));
+        JsonLd::setTitle($title);
+        JsonLd::setDescription($description);
+        JsonLd::setType('WebPage');
+        JsonLd::addImage(asset($blog->thumbnail));
 
         return view('blog-info', compact('blog', 'recentBlogs'));
     }

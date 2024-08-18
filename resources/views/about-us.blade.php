@@ -1,5 +1,21 @@
 @extends('layouts.main')
-@section('title', 'About us')
+@section('meta-tags')
+    <meta name="description"
+        content="Learn more about Darjeeling Cab, your trusted partner for reliable and comfortable taxi services in Darjeeling. Discover our commitment to customer satisfaction and quality transportation solutions." />
+    <meta name="keywords"
+        content="About Darjeeling Cab, taxi services Darjeeling, reliable transportation, Darjeeling cab services, customer satisfaction, transportation company" />
+    <meta name="author" content="Darjeeling Cab" />
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="About Darjeeling Cab - Reliable Taxi Services">
+    <meta property="og:description"
+        content="At Darjeeling Cab, we prioritize comfort and reliability in every journey. Get to know our story, values, and the dedicated team behind our top-notch taxi services in Darjeeling." />
+    <meta property="og:url" content="https://www.darjeelingcab.in/about-us">
+    <link rel="canonical" href="https://www.darjeelingcab.in/about-us">
+    <meta property="og:site_name" content="Darjeeling Cab">
+    <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+@endsection
+@section('title', 'About Darjeeling Cab - Reliable Taxi Services')
 @section('content')
     <div class="container about-us-container">
         <div class="row">
@@ -94,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="col-sm-6 col-lg-4 col-xl-3">
                         <div class="single-person">
                             <div class="person-image">
@@ -117,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="col-sm-6 col-lg-4 col-xl-3">
                         <div class="single-person">
                             <div class="person-image">
@@ -140,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="col-sm-6 col-lg-4 col-xl-3">
                         <div class="single-person">
                             <div class="person-image">

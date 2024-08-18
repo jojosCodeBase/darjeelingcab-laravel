@@ -1,27 +1,21 @@
 @extends('layouts.main')
-@section('title', 'Contact Us')
-<style>
-    .contact-section {
-        /* background-color: #f9f9f9; */
-        padding: 40px 0;
-    }
-
-    .contact-form {
-        background-color: #f9f9f9;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-    }
-
-    .form-group label {
-        color: #2c3e50;
-    }
-
-    .form-control {
-        border-radius: 5px;
-        border-color: #ced4da;
-    }
-</style>
+@section('meta-tags')
+    <meta name="description"
+        content="Get in touch with Darjeeling Cab for all your transportation needs in Darjeeling. Contact us today to book your ride or inquire about our services. We are here to assist you." />
+    <meta name="keywords"
+        content="Contact Darjeeling Cab, taxi booking, Darjeeling taxi service, transportation inquiries, contact information, customer support Darjeeling Cab" />
+    <meta name="author" content="Darjeeling Cab" />
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contact Darjeeling Cab - Book Your Ride Today">
+    <meta property="og:description"
+        content="Need reliable transportation in Darjeeling? Contact Darjeeling Cab for taxi bookings, service inquiries, or customer support. We're just a message or call away." />
+    <meta property="og:url" content="https://www.darjeelingcab.in/contact">
+    <link rel="canonical" href="https://www.darjeelingcab.in/contact">
+    <meta property="og:site_name" content="Darjeeling Cab">
+    <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+@endsection
+@section('title', 'Contact Darjeeling Cab - Book Your Ride Today')
 @section('content')
     <div class="container mt-5 contact-section">
         <div class="row">
@@ -32,19 +26,23 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Enter your name" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="email">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="Enter your email" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="subject">Subject <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject" required>
+                            <input type="text" class="form-control" id="subject" name="subject"
+                                placeholder="Enter subject" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="message">Message <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Start typing your message here...." required></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5"
+                                placeholder="Start typing your message here...." required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary mt-4">Send Message</button>
                     </form>
