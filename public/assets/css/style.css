@@ -14,35 +14,18 @@ body {
 
 .fit-screen {
   height: 100vh;
-  /* Set the image height to 100% of viewport height */
   object-fit: cover;
-  /* Maintain aspect ratio and cover the container */
 }
 
 .car-fit {
   width: 100%;
-  /* or any custom size */
   height: 100%;
   object-fit: contain;
 }
 
 .card-shadow {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  /* Adjust the values for your desired shadow effect */
 }
-
-.card:hover {
-  /* transform: scale(1.1); */
-  /* Adjust the scaling factor as desired */
-}
-
-/* .card img {
-  opacity: 85%;
-} */
-
-/* .card:hover img {
-  opacity: 100%;
-} */
 
 .homepage .carousel-control-prev-icon {
   background-color: transparent;
@@ -58,27 +41,18 @@ body {
   border: 2px solid black;
 }
 
-/* image container for logo */
 .image-container {
   max-width: 100%;
-  /* Ensures the container doesn't exceed the width of its parent */
   max-height: 100%;
-  /* Ensures the container doesn't exceed the height of its parent */
   display: flex;
-  /* Optional: Aligns the image within the container */
   justify-content: center;
-  /* Optional: Horizontally centers the image */
   align-items: center;
-  /* Optional: Vertically centers the image */
 }
 
 .image-container img {
   max-width: 100%;
-  /* Makes sure the image doesn't exceed the width of the container */
   max-height: 100%;
-  /* Makes sure the image doesn't exceed the height of the container */
   height: auto;
-  /* Allows the image to maintain its aspect ratio */
 }
 
 .justify {
@@ -115,6 +89,15 @@ body {
   background-color: #25D366;
 }
 
+.btn-whatsapp:hover {
+  border: 2px solid #25D366;
+  color: #25D366;
+}
+
+.btn-whatsapp:hover a {
+  color: #25D366;
+}
+
 .dropdown-menu {
   border: none;
 }
@@ -138,8 +121,9 @@ body {
 /* style for sticky */
 
 .sticky .navbar-nav .nav-item a:hover ,
+.page-header-home .sticky .navbar-nav .nav-item a:hover,
 .page-header .navbar-nav .nav-item a:hover {
-  border-bottom: 3px solid #009688;
+  border-bottom: 2px solid #009688;
   color: #009688;
 }
 
@@ -151,7 +135,7 @@ body {
 /* style for normal */
 
 .page-header-home .navbar-nav .nav-item a:hover {
-  border-bottom: 3px solid #fff;
+  border-bottom: 2px solid #fff;
   color: #fff;
 }
 
@@ -409,11 +393,6 @@ h4 {
   margin-right: 10px;
 }
 
-.btn-whatsapp:hover {
-  border: 2px solid #25D366;
-  color: #25D366;
-}
-
 .page-header-home{
   position: absolute;
   top: 0;
@@ -506,7 +485,11 @@ h4 {
 
 .blogs-container h3 {
   font-weight: 700;
-  color: #2c3e50;
+}
+
+.blogs-container,
+.about-us-container{
+  margin-top: 120px;
 }
 
 .blogs-container .card {
@@ -516,6 +499,10 @@ h4 {
   flex-direction: column;
   height: 100%;
   border: none !important;
+}
+
+.blogs-container .card-body .card-text{
+  text-align: justify;
 }
 
 .blogs-container .card-img-top {

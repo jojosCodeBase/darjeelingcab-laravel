@@ -12,7 +12,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     
-    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
 
     <title>@yield('title') | Darjeeling Cab</title>
     

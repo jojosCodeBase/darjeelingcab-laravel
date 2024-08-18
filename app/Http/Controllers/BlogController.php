@@ -198,24 +198,24 @@ class BlogController extends Controller
 
     public function viewBlog($slug)
     {
-        $blog_details = Blog::where('slugged_title', $slug)->firstOrFail();
+        $blog = Blog::where('slugged_title', $slug)->firstOrFail();
 
         // Check if the user has already viewed this blog in the current session
-        if (!session()->has('blog_' . $blog_details->id . '_viewed')) {
-            $blog_details->increment('views');
-            session(['blog_' . $blog_details->id . '_viewed' => true]);
+        if (!session()->has('blog_' . $blog->id . '_viewed')) {
+            $blog->increment('views');
+            session(['blog_' . $blog->id . '_viewed' => true]);
         }
 
         // Get the previous two blogs
-        $previousBlogs = Blog::where('id', '<', $blog_details->id)
+        $previousBlogs = Blog::where('id', '<', $blog->id)
             ->orderBy('id', 'desc')
-            ->take(2)
+            ->take(1)
             ->get();
 
         // Get the next two blogs
-        $nextBlogs = Blog::where('id', '>', $blog_details->id)
+        $nextBlogs = Blog::where('id', '>', $blog->id)
             ->orderBy('id', 'asc')
-            ->take(2)
+            ->take(1)
             ->get();
 
         $recentBlogs = $previousBlogs->merge($nextBlogs);
@@ -226,7 +226,7 @@ class BlogController extends Controller
         $currentMonthStart = Carbon::now()->startOfMonth();
         $currentMonthEnd = Carbon::now()->endOfMonth();
 
-        $monthlyVisit = MonthlyVisits::where('blog_id', $blog_details->id)
+        $monthlyVisit = MonthlyVisits::where('blog_id', $blog->id)
             ->whereBetween('start_date', [$currentMonthStart, $currentMonthEnd])
             ->whereBetween('end_date', [$currentMonthStart, $currentMonthEnd])
             ->first();
@@ -237,7 +237,7 @@ class BlogController extends Controller
         } else {
             // Create a new MonthlyVisit record for the current month
             MonthlyVisits::create([
-                'blog_id' => $blog_details->id,
+                'blog_id' => $blog->id,
                 'start_date' => $currentMonthStart,
                 'end_date' => $currentMonthEnd,
                 'visits' => 1, // Initial visit count
@@ -245,9 +245,9 @@ class BlogController extends Controller
         }
 
         // SEO data
-        $title = $blog_details->title;
-        $description = $blog_details->meta_description;
-        $keywords = $blog_details->meta_keywords;
+        $title = $blog->title;
+        $description = $blog->meta_description;
+        $keywords = $blog->meta_keywords;
 
         SEOMeta::setTitle($title);
         SEOMeta::setDescription($description);
@@ -258,19 +258,19 @@ class BlogController extends Controller
         OpenGraph::setTitle($title);
         OpenGraph::setUrl('https://www.calibehr.com');
         OpenGraph::addProperty('type', 'Calibehr');
-        OpenGraph::addImage(asset($blog_details->og_image));
+        OpenGraph::addImage(asset($blog->og_image));
 
         Twitter::setTitle($title);
         Twitter::setSite('@Calibehr_BSS');
         Twitter::setDescription($description);
         Twitter::setUrl('https://www.calibehr.com');
-        Twitter::setImage(asset($blog_details->twitter_image));
+        Twitter::setImage(asset($blog->twitter_image));
 
         // JsonLd::setTitle($title);
         // JsonLd::setDescription($description);
         // JsonLd::setType('Article');
-        // JsonLd::addImage(asset($blog_details->thumbnail));
+        // JsonLd::addImage(asset($blog->thumbnail));
 
-        return view('blogs-info', compact('blog_details', 'recentBlogs'));
+        return view('blog-info', compact('blog', 'recentBlogs'));
     }
 }

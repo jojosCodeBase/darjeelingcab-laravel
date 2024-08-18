@@ -10,7 +10,7 @@
         content="Darjeeling Cab, taxi services, Darjeeling transportation, reliable cabs, scenic tours, tourist transport, local commuting" />
     <meta name="author" content="Darjeeling Cab" />
     <title>@yield('title') | Darjeeling Cab</title>
-    <link rel="icon" href="{{ asset('assets/images/darjeelingcab-logo.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/services.css') }}" />
@@ -64,9 +64,9 @@
         @yield('content')
     </main>
 
-    <div class="mb-0 mt-0 bg-brand">
+    <div class="bg-brand">
         <div class="container">
-            <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mt-5 mb-4">
+            <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 mt-5">
                 <div class="col-md-2 ms-md-4 mb-3">
                     <h5>LINKS</h5>
                     <ul class="nav flex-column">
@@ -78,7 +78,7 @@
                         <li class="nav-item mb-2"><a href="about-us.html" class="nav-link p-0">About</a></li>
                     </ul>
                 </div>
-
+    
                 <div class="col-md-3 mb-3 ms-md-5">
                     <h5>ADDRESS</h5>
                     <ul class="nav flex-column">
@@ -87,7 +87,7 @@
                         <li class="nav-item mb-1">Darjeeling - 734312</li>
                     </ul>
                 </div>
-
+    
                 <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
                     <h5>CONTACT US</h5>
                     <ul class="nav flex-column">
@@ -100,18 +100,9 @@
                         <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
                                 <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
                         </li>
-                        {{-- <li class="nav-item">
-                            <div class="row mt-4">
-                                <button class="col-5 mx-2 btn btn-call"><a href="tel:+917478459652"><i
-                                            class="fa-solid fa-phone"></i> Call Now</a></button>
-    
-                                <button class="col-5 mx-2 btn btn-whatsapp" onclick="book()"><i
-                                        class="fa-brands fa-whatsapp"></i> Whatsapp</button>
-                            </div>
-                        </li> --}}
                     </ul>
                 </div>
-
+    
                 <div class="col-md-2 ms-md-4 mb-3">
                     <h5>FOLLOW US</h5>
                     <ul class="nav">
