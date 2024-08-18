@@ -58,11 +58,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
                 ADMIN ROUTES START
 *********************************************/
 
-Route::get('/register', function () {
-    return view('admin.register');
-})->name('register');
-
-
 Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
