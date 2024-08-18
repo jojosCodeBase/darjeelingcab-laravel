@@ -14,11 +14,20 @@
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Customer</label>
-                                        <select class="form-select border-bottom" name="party_id" id="validationCustom01">
+                                        <select class="form-select border-bottom" name="party_id" id="customerSelect">
                                             <option value="">Please select</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" id="bookingSelectContainer" style="display: none;">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Booking</label>
+                                        <select class="form-select border-bottom" name="booking_id" id="bookingSelect">
+                                            <!-- Options will be populated by JavaScript -->
                                         </select>
                                     </div>
                                 </div>
@@ -45,7 +54,7 @@
                                     <h4 class="header-title text-uppercase">Item Details</h4>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" id="###addItemBtn" class="btn btn-primary"
+                                    <button type="button" id="addItemBtn" class="btn btn-primary"
                                         data-bs-target="#itemModal" data-bs-toggle="modal">Add item</button>
                                 </div>
                             </div>
@@ -86,7 +95,6 @@
                                     </ul>
                                 </div>
                             </div>
-
 
                             <div class="row mt-3">
                                 <div class="col-md-12">
@@ -141,10 +149,58 @@
     </div>
     <!-- Add Item Modal End -->
 @endsection
+
 @section('scripts')
     <script>
         $(document).ready(function() {
-            const itemTableBody = $('#itemTableBody');
+            $('#customerSelect').change(function() {
+                const customerId = $(this).val();
+                if (customerId) {
+                    $.get('{{ route('billing.customer.details') }}', {
+                        customer_id: customerId
+                    }, function(data) {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            const bookings = data.bookings;
+                            const bookingSelect = $('#bookingSelect');
+                            $('#bookingSelectContainer').show();
+                            bookingSelect.empty();
+                            if (bookings.length > 1) {
+                                bookingSelect.append('<option value="">Select Booking</option>');
+                                bookings.forEach(booking => {
+                                    console.log(booking.day_date);
+                                    var dayDateArray = JSON.parse(booking.day_date);
+                                    console.log(dayDateArray[0]);
+                                    bookingSelect.append(
+                                        `<option value="${booking.id}">${booking.id} - ${dayDateArray[0]}</option>`
+                                        );
+                                });
+                            } else {
+                                bookingSelect.hide();
+                            }
+                        }
+                    });
+                } else {
+                    $('#bookingSelectContainer').hide();
+                }
+            });
+
+            $('#bookingSelect').change(function() {
+                var bookingId = $(this).val();
+                if (bookingId) {
+                    $.getJSON('/booking/' + bookingId, function(booking) {
+                        populateForm(booking);
+                    });
+                }
+            });
+
+            function populateForm(booking) {
+            // You need to implement this based on your form structure and booking data
+            // Example:
+            $('#invoice_date').val(booking.date);
+            // Populate other fields as necessary
+        }
 
             $('#add-item-btn').click(function() {
                 const description = $('#description').val();

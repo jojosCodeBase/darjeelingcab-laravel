@@ -13,17 +13,20 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('party_type');
-            $table->string('full_name', 20);
-            $table->string('phone_no');
-            $table->string('address', 255);
-            $table->date('booking_date');
-            $table->integer('persons');
-            $table->string('vehicle_type', 255);
-            $table->integer('days');
-            $table->string('pickup_point', 255);
-            $table->string('drop_point', 255);
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by'); // Field to reference the user
+            $table->integer('adults');
+            $table->integer('child');
+            $table->integer('infant');
+            $table->json('day_date'); // Store dates as JSON for dynamic days
+            $table->json('destination'); // Store destinations as JSON
+            $table->json('vehicle_type'); // Store vehicle types as JSON
+            $table->json('vehicle_no'); // Store vehicle numbers as JSON
+            $table->json('driver_name'); // Store driver names as JSON
             $table->timestamps();
+
+            // Foreign key constraint for the created_by field
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

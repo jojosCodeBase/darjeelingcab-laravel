@@ -32,6 +32,19 @@ class BillController extends Controller
         return view('admin.bills.create', compact('customers'));
     }
 
+    public function getCustomerDetails(Request $request)
+    {
+        $customerId = $request->input('customer_id');
+        $customer = Customer::with('bookings')->find($customerId);
+
+        if (!$customer) {
+            return response()->json(['error' => 'Customer not found.'], 404);
+        }
+
+        $bookings = $customer->bookings;
+        return response()->json(['customer' => $customer, 'bookings' => $bookings]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

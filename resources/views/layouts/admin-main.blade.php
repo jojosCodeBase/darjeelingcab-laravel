@@ -28,7 +28,7 @@
     <div class="wrapper">
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="index.html">
+                <a class="sidebar-brand" href="{{ route('dashboard') }}">
                     <span class="align-middle">Admin Darjeeling Cab</span>
                 </a>
 
@@ -56,9 +56,9 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('bill.create') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('bill.create') }}">
-                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Generate Bill</span>
+                    <li class="sidebar-item {{ Route::is('bookings') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('bookings') }}">
+                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Bookings</span>
                         </a>
                     </li>
 
@@ -234,17 +234,17 @@
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
                                 data-bs-toggle="dropdown">
-                                <img src="{{ asset('assets/img/avatars/avatar.jpg') }}"
+                                <img src="{{ asset('assets/images/favicon.ico') }}"
                                     class="avatar img-fluid rounded me-1" alt="{{ Auth::user()->name }}" /> <span
                                     class="text-dark">{{ Auth::user()->name }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="user"></i> Profile</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="pie-chart"></i> Analytics</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="index.html"><i class="align-middle me-1"
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="settings"></i> Settings & Privacy</a>
                                 <a class="dropdown-item" href="#"><i class="align-middle me-1"
                                         data-feather="help-circle"></i> Help Center</a>

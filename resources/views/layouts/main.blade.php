@@ -122,7 +122,7 @@
                 </div>
             </footer>
             <div class="p-3">
-                <p class="text-light text-center fw-bold fs-5">Visitors: 1246</p>
+                <p class="text-light text-center fw-bold fs-5">Visitors: {{ $visitCount }}</p>
             </div>
             <div class="row mb-5 copyright">
                 <span class="text-center">© Darjeeling Cab. All rights reserved | Designed and Developed by Kunsang

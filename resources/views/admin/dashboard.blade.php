@@ -14,16 +14,16 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title">Rides</h5>
+                                            <h5 class="card-title">Site Visits</h5>
                                         </div>
 
                                         <div class="col-auto">
                                             <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="truck"></i>
+                                                <i class="align-middle" data-feather="globe"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">2.382</h1>
+                                    <h1 class="mt-1 mb-3">{{ $visits }}</h1>
                                     <div class="mb-0">
                                         <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
                                         <span class="text-muted">Since last week</span>
@@ -34,7 +34,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title">Guests</h5>
+                                            <h5 class="card-title">Customers</h5>
                                         </div>
 
                                         <div class="col-auto">
@@ -43,7 +43,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">14.212</h1>
+                                    <h1 class="mt-1 mb-3">{{ $customers }}</h1>
                                     <div class="mb-0">
                                         <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
                                         <span class="text-muted">Since last week</span>
@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">64</h1>
+                                    <h1 class="mt-1 mb-3">{{ $bookings }}</h1>
                                     <div class="mb-0">
                                         <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
                                         <span class="text-muted">Since last week</span>

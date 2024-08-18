@@ -9,15 +9,25 @@ class Booking extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'party_type',
-        'full_name',
-        'phone_no',
-        'address',
-        'booking_date',
-        'persons',
+        'customer_id',
+        'created_by',
+        'adults',
+        'child',
+        'infant',
+        'day_date',
+        'destination',
         'vehicle_type',
-        'days',
-        'pickup_point',
-        'drop_point',
+        'vehicle_no',
+        'driver_name',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

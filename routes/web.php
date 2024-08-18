@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Auth\AuthController;
@@ -18,29 +19,30 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::middleware('track')->group(function () {
+    Route::get('/', function () {
+        return view('index');
+    })->name('index');
 
-Route::get('/about-us', function () {
-    return view('about-us');
-});
+    Route::get('/about-us', function () {
+        return view('about-us');
+    });
 
+    Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
 
-Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
+    Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
 
-Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
+    Route::get('/testimonials', function () {
+        return view('testimonials');
+    });
 
-Route::get('/testimonials', function () {
-    return view('testimonials');
-});
+    Route::get('/contact', function () {
+        return view('contact');
+    });
 
-Route::get('/contact', function () {
-    return view('contact');
-});
-
-Route::get('/booking-inquiry', function () {
-    return view('booking-inquiry');
+    Route::get('/booking-inquiry', function () {
+        return view('booking-inquiry');
+    });
 });
 
 
@@ -63,9 +65,7 @@ Route::get('/register', function () {
 
 Route::prefix('admin')->middleware('auth')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', function () {
         return view('admin.profile');
@@ -94,6 +94,20 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'update' => 'bill.update',
         'show' => 'bill.show',
         'destroy' => 'bill.destroy',
+    ]);
+
+    Route::get('/billing/customer-details', [BillController::class, 'getCustomerDetails'])->name('billing.customer.details');
+    Route::get('/booking/{id}', [BookingController::class, 'show'])->name('getBookingDetails');
+
+
+    Route::resource('bookings', BookingController::class)->names([
+        'index' => 'bookings',
+        'create' => 'bookings.create',
+        'store' => 'bookings.store',
+        'show' => 'bookings.show',
+        'edit' => 'bookings.edit',
+        'update' => 'bookings.update',
+        'destroy' => 'bookings.destroy',
     ]);
 
     Route::resource('blogs', BlogController::class)->names([

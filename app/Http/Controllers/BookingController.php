@@ -3,39 +3,134 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
-    public function addBooking(){
-        return view('add-customer');
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $bookings = Booking::with('user', 'customer')->get();
+
+        return view('admin.bookings.index', compact('bookings'));
     }
-    public function bookings(){
-        $customers = Booking::all();
-        return view('customers', compact('customers'));
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $customers = Customer::orderBy('full_name')->get();
+        return view('admin.bookings.create', compact('customers'));
     }
-    public function createBooking(Request $request)
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
         $request->validate([
-            'party_type' => 'required',
-            'full_name' => 'required|string|min:2|max:20',
-            'phone_no' => 'required',
-            'address' => 'required|max:255',
-            'booking_date' => 'required|date',
-            'persons' => 'required|numeric|min:1',
-            'vehicle_type' => 'required|max:255',
-            'days' => 'required|numeric|min:1',
-            'pickup_point' => 'required|max:255',
-            'drop_point' => 'required|max:255',
+            'customer_id' => 'required|exists:customers,id',
+            'adults' => 'required|integer|min:0',
+            'child' => 'required|integer|min:0',
+            'infant' => 'required|integer|min:0',
+            'day_date.*' => 'required|date',
+            'destination.*' => 'required|string|max:255',
+            'vehicle_type.*' => 'required|string|max:255',
+            'vehicle_no.*' => 'required|string|max:255',
+            'driver_name.*' => 'required|string|max:255',
         ]);
 
-        $param = $request->all();
+        $dayDates = json_encode($request->input('day_date'));
+        $destinations = json_encode($request->input('destination'));
+        $vehicleTypes = json_encode($request->input('vehicle_type'));
+        $vehicleNos = json_encode($request->input('vehicle_no'));
+        $driverNames = json_encode($request->input('driver_name'));
 
-        // Remove token from post data before inserting
-        unset($param['_token']);
+        $booking = Booking::create([
+            'customer_id' => $request->input('customer_id'),
+            'created_by' => Auth::id(), // Get the ID of the authenticated user
+            'adults' => $request->input('adults'),
+            'child' => $request->input('child'),
+            'infant' => $request->input('infant'),
+            'day_date' => $dayDates,
+            'destination' => $destinations,
+            'vehicle_type' => $vehicleTypes,
+            'vehicle_no' => $vehicleNos,
+            'driver_name' => $driverNames,
+        ]);
 
-        Booking::create($param);
+        return redirect()->route('bookings')->with('success', 'Booking created successfully');
+    }
 
-        return back()->withSuccess("Booking created successfully");
+    /**
+     * Display the specified resource.
+     */
+    public function show(Booking $booking)
+    {
+        return view('admin.bookings.show', compact('booking'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Booking $booking)
+    {
+        $customers = Customer::all();
+        return view('admin.bookings.edit', compact('booking', 'customers'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Booking $booking)
+    {
+        $validator = Validator::make($request->all(), [
+            'customer_id' => 'required|exists:customers,id',
+            'adults' => 'required|integer|min:0',
+            'child' => 'required|integer|min:0',
+            'infant' => 'required|integer|min:0',
+            'day_date.*' => 'required|date',
+            'destination.*' => 'required|string',
+            'vehicle_type.*' => 'required|string',
+            'vehicle_no.*' => 'required|string',
+            'driver_name.*' => 'required|string',
+        ]);
+
+        // Handle validation failure
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Update the booking record
+        $booking->customer_id = $request->input('customer_id');
+        $booking->adults = $request->input('adults');
+        $booking->child = $request->input('child');
+        $booking->infant = $request->input('infant');
+        $booking->day_date = json_encode($request->input('day_date'));
+        $booking->destination = json_encode($request->input('destination'));
+        $booking->vehicle_type = json_encode($request->input('vehicle_type'));
+        $booking->vehicle_no = json_encode($request->input('vehicle_no'));
+        $booking->driver_name = json_encode($request->input('driver_name'));
+        $booking->created_by = Auth::id();
+
+        // Save the changes
+        $booking->save();
+
+        // Redirect back to the bookings with a success message
+        return redirect()->route('bookings')->with('success', 'Booking updated successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Booking $booking)
+    {
+        //
     }
 }

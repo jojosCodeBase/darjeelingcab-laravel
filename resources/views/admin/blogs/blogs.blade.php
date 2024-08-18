@@ -41,7 +41,7 @@
                                                 @if (is_null($blog->thumbnail))
                                                     <img src="https://via.placeholder.com/100x80" alt="case_study_thumbnail">
                                                 @else
-                                                    <img src="{{ asset($blog->thumbnail) }}" alt="" width="100"
+                                                    <img src="{{ asset($blog->thumbnail) }}" alt="thumbnail" width="120"
                                                         height="80">
                                                 @endif
                                             </td>
