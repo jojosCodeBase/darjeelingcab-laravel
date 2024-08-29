@@ -64,18 +64,6 @@
                                                     {{ $errors->first('password') }}
                                                 @endif
                                             </span>
-                                            <small>
-                                                <a href="index.html">Forgot password?</a>
-                                            </small>
-                                        </div>
-                                        <div>
-                                            <label class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="remember-me"
-                                                    name="remember-me" checked>
-                                                <span class="form-check-label">
-                                                    Remember me next time
-                                                </span>
-                                            </label>
                                         </div>
                                         <div class="text-center mt-3">
                                             <button type="submit" class="btn btn-lg btn-primary w-100">Log in</button>

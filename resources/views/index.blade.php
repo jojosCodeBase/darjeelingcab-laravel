@@ -485,6 +485,11 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="col-md-6">
+                    <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+                    <div class="elfsight-app-490bc79e-86ec-4589-8908-9a8eb16692cf" data-elfsight-app-lazy></div>
+                </div>
             </div>
         </div>
         <!-- Enquiry Form End -->

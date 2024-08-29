@@ -1,12 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +64,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
-    Route::get('/profile', function () {
-        return view('admin.profile');
-    })->name('profile');
+    // Route::get('/profile', function () {
+    //     return view('admin.profile');
+    // })->name('profile');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::patch('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
     Route::get('/forms', function () {
         return view('admin.forms');

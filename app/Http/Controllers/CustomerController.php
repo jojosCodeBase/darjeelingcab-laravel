@@ -25,10 +25,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'customer_type' => 'required',
-            'full_name' => 'required|string|min:2|max:20',
-            'phone_no' => 'required|string|max:10|unique:customers,phone_no',
-            'email' => 'required|email|unique:customers,email',
-            'address' => 'required|max:255',
+            'full_name' => 'required|string|min:2|max:100',
+            'phone_no' => 'required|string|max:15|unique:customers,phone_no',
+            'email' => 'nullable|email|unique:customers,email',
+            'address' => 'required|string',
         ]);
 
         $param = $request->all();
@@ -58,10 +58,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'customer_type' => 'required',
-            'full_name' => 'required|string|min:2|max:20',
-            'phone_no' => 'required|string|max:10|unique:customers,phone_no,' . $id,
-            'email' => 'required|email|unique:customers,email,' . $id,
-            'address' => 'required|max:255',
+            'full_name' => 'required|string|min:2|max:100',
+            'phone_no' => 'required|string|max:15|unique:customers,phone_no,' . $id,
+            'email' => 'nullable|email|unique:customers,email,' . $id,
+            'address' => 'required|string',
         ]);
 
         // Find the customer by ID
