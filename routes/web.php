@@ -100,7 +100,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ]);
 
     Route::get('/billing/customer-details', [BillController::class, 'getCustomerDetails'])->name('billing.customer.details');
-    Route::get('/booking/{id}', [BookingController::class, 'show'])->name('getBookingDetails');
+    // Route::get('/booking/{id}', [BookingController::class, 'show'])->name('getBookingDetails');
+
+    Route::get('/billing/bookings', [BookingController::class, 'getBookings'])->name('billing.getBookings');
+
+    // Route to fetch booking details based on booking ID
+    Route::get('/booking/{id}', [BookingController::class, 'getBookingDetails'])->name('booking.details');
 
 
     Route::resource('bookings', BookingController::class)->names([

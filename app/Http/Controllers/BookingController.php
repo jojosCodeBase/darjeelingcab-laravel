@@ -133,4 +133,22 @@ class BookingController extends Controller
     {
         //
     }
+
+    public function getBookings(Request $request)
+    {
+        $customerId = $request->input('customer_id');
+        $bookings = Booking::where('customer_id', $customerId)->get();
+
+        return response()->json(['bookings' => $bookings]);
+    }
+
+    // Controller method to get booking details
+    public function getBookingDetails($bookingId)
+    {
+        $booking = Booking::with('customer', 'user')->findOrFail($bookingId);
+
+        // dd($booking);
+
+        return response()->json($booking);
+    }
 }
