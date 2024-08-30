@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('customer_type');
             $table->string('full_name', 100);
             $table->string('phone_no');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('address', 300);
             $table->timestamps();
         });

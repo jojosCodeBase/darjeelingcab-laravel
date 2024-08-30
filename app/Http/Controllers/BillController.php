@@ -90,10 +90,23 @@ class BillController extends Controller
         return view('admin.bills.show', compact('bill', 'customers'));
     }
 
-    public function generatePDF()
+    public function generatePDF(Bill $bill)
     {
+        // dd($bill);
+
+        $customer = Customer::find($bill->customer_id);
+
+        $data = [
+            'bill' => $bill,
+            'customer' => $customer,
+            'description' => json_decode($bill->description),
+            'dates' => json_decode($bill->dates),
+            'prices' => json_decode($bill->price),
+            'amounts' => json_decode($bill->amount),
+        ];
+
         // Render the Blade view to HTML
-        $html = View::make('admin.bills.test-pdf')->render();
+        $html = View::make('admin.bills.test-pdf', $data)->render();
 
         // Initialize mPDF with margins set to 0
         $mpdf = new Mpdf([
@@ -117,6 +130,8 @@ class BillController extends Controller
                 'Content-Disposition' => 'inline; filename="invoice.pdf"',
             ]
         );
+
+        //  return $pdf->download('invoice-' . $bill->bill_no . '.pdf');
     }
 
 

@@ -51,7 +51,7 @@
                                     <div class="form-group mb-3">
                                         <label class="form-label">Invoice Number</label>
                                         <input type="text" name="invoice_no" class="form-control border-bottom"
-                                            placeholder="Enter Invoice number" required>
+                                            placeholder="Enter Invoice number" value="DC-2024-" required>
                                     </div>
                                 </div>
                             </div>
