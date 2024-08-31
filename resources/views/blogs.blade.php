@@ -28,7 +28,7 @@
                                 alt="Tea Gardens of Darjeeling">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $blog->title }}</h5>
-                                <p class="card-text">{!! $blog->content !!}</p>
+                                <p class="card-text">{{ Str::limit(strip_tags($blog->content), 140, '...') }}</p>
                                 <div class="d-flex justify-content-between">
                                     <small class="text-muted">Published on
                                         {{ \Carbon\Carbon::parse($blog->created_at)->format('d F, Y') }}</small>
