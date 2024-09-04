@@ -52,19 +52,25 @@
 
                     <li class="sidebar-item {{ Route::is('bills') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('bills') }}">
-                            <i class="align-middle" data-feather="book"></i> <span class="align-middle">Bills</span>
+                            <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Bills</span>
                         </a>
                     </li>
-
+                    
                     <li class="sidebar-item {{ Route::is('bookings') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('bookings') }}">
                             <i class="align-middle" data-feather="file"></i> <span class="align-middle">Bookings</span>
                         </a>
                     </li>
 
+                    <li class="sidebar-item {{ Route::is('receipts') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('receipts') }}">
+                            <i class="align-middle" data-feather="file-minus"></i> <span class="align-middle">Receipts</span>
+                        </a>
+                    </li>
+
                     <li class="sidebar-item {{ Route::is('blogs') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('blogs') }}">
-                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Blogs</span>
+                            <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Blogs</span>
                         </a>
                     </li>
                 </ul>

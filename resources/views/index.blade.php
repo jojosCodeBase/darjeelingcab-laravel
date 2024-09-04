@@ -384,7 +384,7 @@
         <style>
             .enquiry-form {
                 background-color: #f8f9fa;
-                padding: 50px;
+                /* padding: 50px; */
                 border-radius: 10px;
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             }
@@ -415,12 +415,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="enquiry-form">
+                    <div class="enquiry-form p-xl-5 p-lg-5 p-md-5 p-4">
                         <h2 class="text-center mb-3 text-brand">Tour Enquiry</h2>
                         <p class="text-center mb-4">Fill out the form below to inquire about our tour packages. We'll get
                             back to you shortly with all the details.</p>
 
-                        <form action="your-form-processing-url" method="post">
+                        <form action="{{ route('enquiry.submit') }}" method="post">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="name" class="form-label">Full Name</label>
@@ -486,7 +487,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12">
                     <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
                     <div class="elfsight-app-490bc79e-86ec-4589-8908-9a8eb16692cf" data-elfsight-app-lazy></div>
                 </div>

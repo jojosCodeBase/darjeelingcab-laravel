@@ -6,8 +6,11 @@ use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -45,6 +48,8 @@ Route::middleware('track')->group(function () {
     Route::get('/booking-inquiry', function () {
         return view('booking-inquiry');
     });
+
+    Route::post('enquiry', [FormController::class, 'sendEnquiry'])->name('enquiry.submit');
 });
 
 
@@ -98,6 +103,18 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'show' => 'bill.show',
         'destroy' => 'bill.destroy',
     ]);
+
+    Route::resource('receipt', ReceiptController::class)->names([
+        'index' => 'receipts',
+        'create' => 'receipt.create',
+        'store' => 'receipt.store',
+        'edit' => 'receipt.edit',
+        'update' => 'receipt.update',
+        'show' => 'receipt.show',
+        'destroy' => 'receipt.destroy',
+    ]);
+
+    Route::get('/get-customer-bills/{customerId}', [ReceiptController::class, 'getCustomerBills']);
 
     Route::get('/billing/customer-details', [BillController::class, 'getCustomerDetails'])->name('billing.customer.details');
     // Route::get('/booking/{id}', [BookingController::class, 'show'])->name('getBookingDetails');
