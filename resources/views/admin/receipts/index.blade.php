@@ -7,7 +7,7 @@
                 <h4 class="header-title text-uppercase">Receipts</h4>
             </div>
             <div class="col-auto">
-                <a href="{{ route('receipt.create') }}" class="btn btn-primary">Create</a>
+                <a href="{{ route('receipt.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
             </div>
         </div>
         <div class="card mt-3">
@@ -28,14 +28,13 @@
                         <tbody>
                             @forelse ($receipts as $receipt)
                                 <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#receiptModal"
-                                    data-id="{{ $receipt->id }}"
-                                    data-bill-id="{{ $receipt->bill_id }}"
+                                    data-id="{{ $receipt->id }}" data-bill-id="{{ $receipt->bill_id }}"
                                     data-customer-name="{{ $receipt->customer->full_name }}"
                                     data-amount="{{ $receipt->amount }}"
                                     data-payment-method="{{ $receipt->payment_method }}"
                                     data-payment-status="{{ $receipt->payment_status }}"
-                                    data-balance="{{ $receipt->balance }}"
-                                    data-payment-date="{{ $receipt->payment_date }}" class="cursor">
+                                    data-balance="{{ $receipt->balance }}" data-payment-date="{{ $receipt->payment_date }}"
+                                    class="cursor">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $receipt->id }}</td>
                                     <td>{{ $receipt->bill_id }}</td>
@@ -66,14 +65,22 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p><strong>Receipt ID:</strong> <span id="modal-receipt-id"></span></p>
-                        <p><strong>Invoice ID:</strong> <span id="modal-bill-id"></span></p>
-                        <p><strong>Customer Name:</strong> <span id="modal-customer-name"></span></p>
-                        <p><strong>Amount Paid:</strong> <span id="modal-amount-paid"></span></p>
-                        <p><strong>Payment Method:</strong> <span id="modal-payment-method"></span></p>
-                        <p><strong>Payment Status:</strong> <span id="modal-payment-status"></span></p>
-                        <p><strong>Balance Due:</strong> <span id="modal-balance-due"></span></p>
-                        <p><strong>Payment Date:</strong> <span id="modal-payment-date"></span></p>
+                        <form action="{{ route('generate-receipt') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="receipt_id" id="receipt_id">
+                            <p><strong>Receipt ID:</strong> <span id="modal-receipt-id"></span></p>
+                            <p><strong>Invoice ID:</strong> <span id="modal-bill-id"></span></p>
+                            <p><strong>Customer Name:</strong> <span id="modal-customer-name"></span></p>
+                            <p><strong>Amount Paid:</strong> <span id="modal-amount-paid"></span></p>
+                            <p><strong>Payment Method:</strong> <span id="modal-payment-method"></span></p>
+                            <p><strong>Payment Status:</strong> <span id="modal-payment-status"></span></p>
+                            <p><strong>Balance Due:</strong> <span id="modal-balance-due"></span></p>
+                            <p><strong>Payment Date:</strong> <span id="modal-payment-date"></span></p>
+                            <p>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-file-pdf"></i> Generate
+                                    Receipt</button>
+                            </p>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -100,6 +107,7 @@
                 var paymentDate = button.data('payment-date');
 
                 var modal = $(this);
+                modal.find('#receipt_id').val(id);
                 modal.find('#modal-receipt-id').text(id);
                 modal.find('#modal-bill-id').text(billId);
                 modal.find('#modal-customer-name').text(customerName);

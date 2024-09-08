@@ -114,6 +114,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'destroy' => 'receipt.destroy',
     ]);
 
+    Route::post('/generate-receipt', [ReceiptController::class, 'generateReceipt'])->name('generate-receipt');
+
     Route::get('/get-customer-bills/{customerId}', [ReceiptController::class, 'getCustomerBills']);
 
     Route::get('/billing/customer-details', [BillController::class, 'getCustomerDetails'])->name('billing.customer.details');
