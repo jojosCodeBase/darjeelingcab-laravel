@@ -60,13 +60,6 @@ class BlogController extends Controller
             $data['twitter_image'] = $data['thumbnail'];
         }
 
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $imageName = 'image_' . time() . '.' . $image->getClientOriginalExtension();
-        //     $image->move(public_path('assets/blogs'), $imageName);
-        //     $data['image'] = 'assets/blogs/' . $imageName;
-        // }
-
         if ($request->hasFile('og_image')) {
             $ogImage = $request->file('og_image');
             $ogImageName = 'og_' . time() . '.' . $ogImage->getClientOriginalExtension();
@@ -151,13 +144,6 @@ class BlogController extends Controller
             $data['twitter_image'] = 'assets/blogs/' . $twitterImageName;
             $updatedImages['twitter_image'] = 'assets/blogs/' . $twitterImageName;
         }
-
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $imageName = 'image_' . time() . '.' . $image->getClientOriginalExtension();
-        //     $image->move(public_path('assets/blogs'), $imageName);
-        //     $data['image'] = 'assets/blogs/' . $imageName;
-        // }
 
         $blog->update($data);
 

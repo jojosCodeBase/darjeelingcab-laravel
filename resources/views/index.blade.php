@@ -420,7 +420,13 @@
                         <p class="text-center mb-4">Fill out the form below to inquire about our tour packages. We'll get
                             back to you shortly with all the details.</p>
 
-                        <form action="{{ route('enquiry.submit') }}" method="post">
+                        <div class="alert alert-success" role="alert" id="success-message" hidden>
+                            Thank you for your enquiry! We have received your message and will get back to you shortly.
+                        </div>
+
+                        <div id="error-message" hidden></div>
+
+                        <form action="{{ route('enquiry.submit') }}" method="post" id="enquiryForm">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 mb-3">
@@ -480,7 +486,8 @@
                                         placeholder="Any special requests or details"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-block">Submit Enquiry</button>
+                                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit
+                                        Enquiry</button>
                                 </div>
                             </div>
                         </form>
@@ -495,5 +502,61 @@
         </div>
         <!-- Enquiry Form End -->
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#enquiryForm').on('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission
 
+                // Serialize the form data
+                var formData = $(this).serialize();
+
+                $('#submitBtn').prop('disabled', true).text('Submitting...');
+
+
+                console.log(formData);
+
+                $.ajax({
+                    url: $(this).attr('action'), // Get the form action URL
+                    type: 'POST', // Form method
+                    data: formData, // Form data
+                    success: function(response) {
+                        // Handle successful response
+                        $('#success-message').removeAttr('hidden');
+                        $('#error-message').attr('hidden',
+                            true); // Ensure error message is hidden
+                        $('#enquiryForm')[0].reset(); // Optionally reset the form
+                        $('#submitBtn').prop('disabled', false).text('Submit Enquiry');
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            // Validation errors
+                            var errors = xhr.responseJSON.errors;
+                            var errorHtml = '';
+
+                            $.each(errors, function(key, value) {
+                                errorHtml +=
+                                    '<div class="alert alert-danger" role="alert">' +
+                                    value.join('<br>') + '</div>';
+                            });
+
+                            $('#error-message').html(errorHtml).removeAttr('hidden');
+                            $('#success-message').attr('hidden',
+                                true); // Ensure success message is hidden
+                        } else {
+                            // Other errors
+                            $('#error-message').html(
+                                '<div class="alert alert-danger" role="alert">Oops! Something went wrong while submitting your enquiry. Please try again later or contact us directly.</div>'
+                            ).removeAttr('hidden');
+                            $('#success-message').attr('hidden',
+                                true); // Ensure success message is hidden
+                        }
+
+                        $('#submitBtn').prop('disabled', false).text('Submit Enquiry');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

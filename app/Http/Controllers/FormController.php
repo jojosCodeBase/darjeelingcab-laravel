@@ -8,9 +8,9 @@ use Mail;
 
 class FormController extends Controller
 {
-    public function sendEnquiry(Request $request){
-        // dd($request->all());
-        $validatedData = $request->validate([
+    public function sendEnquiry(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|regex:/^\+?[1-9]\d{1,14}$/', // Validate international phone numbers
@@ -23,14 +23,34 @@ class FormController extends Controller
             'message' => 'nullable|string|max:1000'
         ]);
 
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-        // Mail::to('info@darjeelingcab.in')->send(new EnquiryMail($validatedData));
 
-        Mail::send('emails.enquiry', ['data' => $validatedData], function($message) {
-            $message->to('info@darjeelingcab.in')
+        try {
+            Mail::send('emails.enquiry', ['data' => $request->all()], function ($message) {
+                $message->to('info@darjeelingcab.in')
                     ->subject('New Enquiry from Website');
-        });
+            });
 
-        return response()->json('Enquiry sent successfully');
+            Mail::send('emails.thank_you', [
+                'name' => $request->input('name'),
+                'from' => $request->input('from'),
+                'to' => $request->input('to'),
+                'numberOfPeople' => $request->input('number-of-people'),
+                'vehicleType' => $request->input('vehicle-type'),
+                'startDate' => $request->input('start-date'),
+                'endDate' => $request->input('end-date'),
+                'custom_message' => $request->input('message'),
+            ], function ($message) use ($request) {
+                $message->to($request->input('email'))
+                    ->subject('Thank You for Your Enquiry');
+            });
+
+            return response()->json(['message' => 'Enquiry submitted successfully!'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'There was an error submitting your enquiry. Please try again.'], 500);
+        }
     }
 }
