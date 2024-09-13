@@ -24,7 +24,12 @@ class FormController extends Controller
         ]);
 
 
-        Mail::to('developer@darjeelingcab.in')->send(new EnquiryMail($validatedData));
+        // Mail::to('info@darjeelingcab.in')->send(new EnquiryMail($validatedData));
+
+        Mail::send('emails.enquiry', ['data' => $validatedData], function($message) {
+            $message->to('info@darjeelingcab.in')
+                    ->subject('New Enquiry from Website');
+        });
 
         return response()->json('Enquiry sent successfully');
     }
