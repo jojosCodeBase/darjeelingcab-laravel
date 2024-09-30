@@ -85,18 +85,17 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="vehicle_type" class="form-label">Vehicle Type</label>
                                     <input type="text" name="vehicle_type[]" class="form-control"
-                                        placeholder="E.g. INNOVA" value="{{ $vehicle_type }}" required>
+                                        placeholder="E.g. INNOVA" value="{{ $vehicle_type }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="vehicle_no" class="form-label">Vehicle Number</label>
                                     <input type="text" name="vehicle_no[]" class="form-control text-uppercase"
-                                        placeholder="E.g. WB 76 A 0143" value="{{ $vehicle_nos[$index] ?? '' }}" required>
+                                        placeholder="E.g. WB 76 A 0143" value="{{ $vehicle_nos[$index] ?? '' }}">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="driver_name" class="form-label">Driver Name</label>
                                     <input type="text" name="driver_name[]" class="form-control"
-                                        placeholder="E.g. Lokesh Gurung" value="{{ $driver_names[$index] ?? '' }}"
-                                        required>
+                                        placeholder="E.g. Lokesh Gurung" value="{{ $driver_names[$index] ?? '' }}">
                                 </div>
                             </div>
                         @endforeach

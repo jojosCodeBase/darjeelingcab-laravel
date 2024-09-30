@@ -41,16 +41,16 @@ class BookingController extends Controller
             'infant' => 'required|integer|min:0',
             'day_date.*' => 'required|date',
             'destination.*' => 'required|string|max:255',
-            'vehicle_type.*' => 'required|string|max:255',
-            'vehicle_no.*' => 'required|string|max:255',
-            'driver_name.*' => 'required|string|max:255',
+            // 'vehicle_type.*' => 'required|string|max:255',
+            // 'vehicle_no.*' => 'required|string|max:255',
+            // 'driver_name.*' => 'required|string|max:255',
         ]);
 
         $dayDates = json_encode($request->input('day_date'));
         $destinations = json_encode($request->input('destination'));
-        $vehicleTypes = json_encode($request->input('vehicle_type'));
-        $vehicleNos = json_encode($request->input('vehicle_no'));
-        $driverNames = json_encode($request->input('driver_name'));
+        // vehicleTypes = json_encode($request->input('vehicle_type'));
+        // vehicleNos = json_encode($request->input('vehicle_no'));
+        // driverNames = json_encode($request->input('driver_name'));
 
         $booking = Booking::create([
             'customer_id' => $request->input('customer_id'),
@@ -60,9 +60,13 @@ class BookingController extends Controller
             'infant' => $request->input('infant'),
             'day_date' => $dayDates,
             'destination' => $destinations,
-            'vehicle_type' => $vehicleTypes,
-            'vehicle_no' => $vehicleNos,
-            'driver_name' => $driverNames,
+            // 'vehicle_type' => $vehicleTypes,
+            // 'vehicle_no' => $vehicleNos,
+            // 'driver_name' => $driverNames,
+
+            'vehicle_type' => [],
+            'vehicle_no' => [],
+            'driver_name' => [],
         ]);
 
         return redirect()->route('bookings')->with('success', 'Booking created successfully');
