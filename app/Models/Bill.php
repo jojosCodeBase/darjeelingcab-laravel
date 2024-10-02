@@ -13,6 +13,8 @@ class Bill extends Model
         'customer_id',
         'bill_date',
         'bill_no',
+        'vehicle_details',
+        'payment_status',
         'description',
         'dates',
         'price',

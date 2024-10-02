@@ -17,7 +17,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Customer</label>
-                                        <select class="form-select border-bottom" name="party_id" id="customerSelect" required>
+                                        <select class="form-select border-bottom" name="party_id" id="customerSelect"
+                                            required>
                                             <option value="">Please select</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
@@ -30,7 +31,8 @@
                                 <div class="col-md-4" id="bookingSelectContainer" style="display: none;">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Booking</label>
-                                        <select class="form-select border-bottom" name="booking_id" id="bookingSelect" required>
+                                        <select class="form-select border-bottom" name="booking_id" id="bookingSelect"
+                                            required>
                                             <!-- Options will be populated by JavaScript -->
                                         </select>
                                     </div>
@@ -52,6 +54,26 @@
                                         <label class="form-label">Invoice Number</label>
                                         <input type="text" name="invoice_no" class="form-control border-bottom"
                                             placeholder="Enter Invoice number" value="DC-2024-" required>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Status -->
+                                <div class="col-md-3">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Payment Status</label>
+                                        <select name="payment_status" id="" class="form-select" required>
+                                            <option value="" selected>Select payment status</option>
+                                            <option value="Advance paid">Advance paid</option>
+                                            <option value="Unpaid">Unpaid</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Vehicle Details</label>
+                                        <input type="text" name="vehicle_details" id="vehicle_details"
+                                            class="form-control" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +231,9 @@
 
             function populateForm(booking) {
                 // Populate form fields with booking data
-                $('#invoice_date').val(booking.created_at.split(' ')[0]); // Example for invoice date
+                // $('#invoice_date').val(booking.created_at.split(' ')[0]); 
+
+                console.log(booking);
 
                 // Clear existing rows
                 $('#itemTableBody').empty();
@@ -221,6 +245,28 @@
                 const vehicleNumbers = JSON.parse(booking.vehicle_no);
                 const driverNames = JSON.parse(booking.driver_name);
 
+                if (
+                    (booking.vehicle_type === "[null]") ||
+                    (booking.vehicle_no === "[null]") ||
+                    (booking.driver_name === "[null]")
+                ) {
+                    $('#vehicle_details').val('NA');
+                } else {
+                    let data = '';
+                    vehicleNumbers.forEach((item, index) => {
+                        const vehicleType = vehicleTypes[index] || '';
+                        const vehicleNumber = vehicleNumbers[index] || '';
+                        const driverName = driverNames[index] || '';
+
+                        data = data + ' ' + vehicleNumber + ' ' + vehicleType + ' (' + driverName + '), ';
+                    });
+
+                    $('#vehicle_details').val(data);
+                }
+
+
+                // $('#vehicle_details').val(vehicleType, vehicleNumber (driverName));
+
                 dayDates.forEach((date, index) => {
                     const destination = destinations[index] || '';
                     const vehicleType = vehicleTypes[index] || '';
@@ -231,7 +277,7 @@
                     $('#itemTableBody').append(`
                         <tr>
                             <td>${index + 1}</td>
-                            <td><input type="text" class="form-control" name="description[]" value="${destination} - ${vehicleType} ${vehicleNumber} (${driverName})" readonly></td>
+                            <td><input type="text" class="form-control" name="description[]" value="${destination}" readonly></td>
                             <td><input type="date" class="form-control dates" name="dates[]" value="${date}" readonly></td>
                             <td>${destination}</td>
                             <td><input type="number" class="form-control price" name="price[]" value="0" min="0"></td>

@@ -6,10 +6,6 @@ use App\Models\Bill;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Barryvdh\Snappy\Facades\SnappyPdf;
-use TCPDF;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Mpdf\Mpdf;
 
 class BillController extends Controller
@@ -54,6 +50,8 @@ class BillController extends Controller
             'party_id' => 'required|integer',
             'invoice_date' => 'required|date',
             'invoice_no' => 'required|string',
+            'vehicle_details' => 'required|string',
+            'payment_status' => 'required|string',
             'description' => 'required|array',
             'dates' => 'required|array',
             'price' => 'required|array',
@@ -68,6 +66,8 @@ class BillController extends Controller
         $bill->customer_id = $validatedData['party_id'];
         $bill->bill_date = $validatedData['invoice_date'];
         $bill->bill_no = $validatedData['invoice_no'];
+        $bill->vehicle_details = $validatedData['vehicle_details'];
+        $bill->payment_status = $validatedData['payment_status'];
         $bill->description = json_encode($validatedData['description']);
         $bill->dates = json_encode($validatedData['dates']);
         $bill->price = json_encode($validatedData['price']);
@@ -92,8 +92,6 @@ class BillController extends Controller
 
     public function generatePDF(Bill $bill)
     {
-        // dd($bill);
-
         $customer = Customer::find($bill->customer_id);
 
         $data = [
@@ -103,10 +101,12 @@ class BillController extends Controller
             'dates' => json_decode($bill->dates),
             'prices' => json_decode($bill->price),
             'amounts' => json_decode($bill->amount),
+            'vehicle_details' => $bill->vehicle_details,
+            'payment_status' => $bill->payment_status,
         ];
 
         // Render the Blade view to HTML
-        $html = View::make('admin.bills.test-pdf', $data)->render();
+        $html = View::make('admin.bills.bill-pdf', $data)->render();
 
         // Initialize mPDF with margins set to 0
         $mpdf = new Mpdf([
@@ -119,15 +119,17 @@ class BillController extends Controller
         // Write HTML to PDF
         $mpdf->WriteHTML($html);
 
+        $filename = 'Invoice - ' . $bill->bill_no;
+
         // Output the PDF as a download
         return response()->stream(
-            function () use ($mpdf) {
-                $mpdf->Output('invoice.pdf', 'I');
+            function () use ($mpdf, $filename) {
+                $mpdf->Output($filename, 'I');
             },
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="invoice.pdf"',
+                'Content-Disposition' => 'inline; filename=' . $filename . '',
             ]
         );
 
@@ -154,6 +156,8 @@ class BillController extends Controller
             'party_id' => 'required|integer',
             'invoice_date' => 'required|date',
             'invoice_no' => 'required|string',
+            'vehicle_details' => 'required|string',
+            'payment_status' => 'required|string',
             'description' => 'required|array',
             'dates' => 'required|array',
             'price' => 'required|array',
@@ -170,6 +174,8 @@ class BillController extends Controller
         $bill->customer_id = $validatedData['party_id'];
         $bill->bill_date = $validatedData['invoice_date'];
         $bill->bill_no = $validatedData['invoice_no'];
+        $bill->vehicle_details = $validatedData['vehicle_details'];
+        $bill->payment_status = $validatedData['payment_status'];
         $bill->description = json_encode($validatedData['description']);
         $bill->dates = json_encode($validatedData['dates']);
         $bill->price = json_encode($validatedData['price']);

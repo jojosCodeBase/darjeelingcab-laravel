@@ -35,7 +35,7 @@
                                             data-bs-target="#customerModal" data-type="{{ $customer->customer_type }}"
                                             data-name="{{ $customer->full_name }}" data-phone="{{ $customer->phone_no }}"
                                             data-email="{{ $customer->email }}" data-address="{{ $customer->address }}">
-                                            View
+                                            <i class="align-middle" data-feather="eye"></i>
                                         </button>
                                         <a href="{{ route('customer.edit', ['customer' => $customer->id]) }}" class="btn btn-success"><i class="align-middle" data-feather="edit"></i></a>
                                         <form action="{{ route('customer.destroy', $customer->id) }}" method="POST"

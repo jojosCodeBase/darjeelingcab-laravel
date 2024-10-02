@@ -158,11 +158,9 @@
                     {{ $customer->address }}<br>
                 </td>
                 <td style="width: 40%;">
-                    <h3 style="color: #FF6224;">Payment Details</h3>
-                    <p style="margin-bottom: 20px;">Payment Method: Credit Card</p>
-                    <p style="margin-bottom: 20px;">Transaction ID: TRX123456789</p>
-                    <p style="margin-bottom: 20px;">Payment Date: {{ \Carbon\Carbon::now()->format('d M, Y') }}</p>
-                    <p>Status: Paid</p>
+                    <h3 style="color: #FF6224;">Other Details</h3>
+                    <p style="margin-bottom: 20px;">Payment Status: {{ $payment_status }}</p>
+                    <p style="margin-bottom: 20px;">Vehicle Details: {{ $vehicle_details }}</p>
                 </td>
             </tr>
         </table>
@@ -207,7 +205,7 @@
         <div class="footer">
             <p><strong>Note:</strong> This is a system-generated invoice and does not require a physical signature.</p>
             <p class="highlight">info@darjeelingcab.in | 8967386612/7478459652 | www.darjeelingcab.in | Peshok, Peshok Tea Garden, Rangli Rangliot, Darjeeling - 734312, West Bengal, IN</p>
-            <p class="highlight">Thank you for choosing Darjeeling Cab. We hope to serve you again!</p>
+            <p class="highlight">Thank you for choosing Darjeeling Cab.</p>
         </div>
     </div>
 </body>
