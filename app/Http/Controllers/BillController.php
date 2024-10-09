@@ -119,7 +119,7 @@ class BillController extends Controller
         // Write HTML to PDF
         $mpdf->WriteHTML($html);
 
-        $filename = 'Invoice - ' . $bill->bill_no;
+        $filename = 'Invoice - ' . $bill->bill_no . '.pdf';
 
         // Output the PDF as a download
         return response()->stream(
