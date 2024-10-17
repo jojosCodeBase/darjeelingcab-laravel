@@ -6,6 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="@yield('title')" />
+    <meta name="google-site-verification" content="0-kA7VEKuVIWaPJrQu-oqypJIhP0f91P6yHri9iZzXQ">
     @yield('meta-tags')
 
     @yield('blogs-seo')
@@ -19,6 +20,19 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/chooseus.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL3L0R15FV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-FL3L0R15FV');
+    </script>
 </head>
 
 <body>
@@ -75,12 +89,14 @@
                         <li class="nav-item mb-2"><a href="{{ url('/') }}" class="nav-link p-0">Home</a></li>
                         <li class="nav-item mb-2"><a href="{{ url('blogs') }}" class="nav-link p-0">Blogs</a>
                         </li>
-                        <li class="nav-item mb-2"><a href="{{ url('about-us') }}" class="nav-link p-0">About us</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('about-us') }}" class="nav-link p-0">About us</a>
+                        </li>
                         <li class="nav-item mb-2"><a href="#" class="nav-link p-0">FAQs</a></li>
-                        <li class="nav-item mb-2"><a href="{{ url('contact') }}" class="nav-link p-0">Contact us</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('contact') }}" class="nav-link p-0">Contact us</a>
+                        </li>
                     </ul>
                 </div>
-    
+
                 <div class="col-md-3 mb-3 ms-md-5">
                     <h5>ADDRESS</h5>
                     <ul class="nav flex-column">
@@ -89,32 +105,34 @@
                         <li class="nav-item mb-1">West Bengal - 734312</li>
                     </ul>
                 </div>
-    
+
                 <div class="col-md-3 ms-md-4 mb-3 contact" id="contact">
                     <h5>CONTACT US</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-solid fa-phone"></i> 8967386612 / 7047089254 / 7478459652</span>
+                            <span class="p-0"><i class="fa-solid fa-phone"></i> 8967386612 / 7047089254 /
+                                7478459652</span>
                         </li>
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 8967386612 / 7047089254 / 7478459652</span>
+                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 8967386612 / 7047089254 /
+                                7478459652</span>
                         </li>
                         <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
                                 <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></span>
                         </li>
                     </ul>
                 </div>
-    
+
                 <div class="col-md-2 ms-md-4 mb-3">
                     <h5>FOLLOW US</h5>
                     <ul class="nav">
                         <li class="nav-item me-3">
-                            <a href="https://instagram.com/darjeeling.cab" target="_blank" class="nav-link p-0 fs-4"><i
-                                    class="fa-brands fa-instagram"></i></a>
+                            <a href="https://instagram.com/darjeeling.cab" target="_blank"
+                                class="nav-link p-0 fs-4"><i class="fa-brands fa-instagram"></i></a>
                         </li>
                         <li class="nav-item me-3">
-                            <a href="https://www.facebook.com/profile.php?id=61552052485531" target="_blank" class="nav-link p-0 fs-4"><i
-                                    class="fa-brands fa-facebook"></i></a>
+                            <a href="https://www.facebook.com/profile.php?id=61552052485531" target="_blank"
+                                class="nav-link p-0 fs-4"><i class="fa-brands fa-facebook"></i></a>
                         </li>
                     </ul>
                 </div>
