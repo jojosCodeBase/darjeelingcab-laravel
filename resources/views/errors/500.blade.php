@@ -19,6 +19,7 @@
     <meta property=og:site_name content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
     <title>500 Internal Server Error | Darjeeling Cab</title>
+    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/error-page-style.css') }}">
 </head>
