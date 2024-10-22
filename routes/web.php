@@ -25,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('track')->group(function () {
+    Route::get('/{any}.html', function () {
+        return redirect('/');
+    })->where('any', '.*');
+
     Route::get('/', function () {
         return view('index');
     })->name('index');
