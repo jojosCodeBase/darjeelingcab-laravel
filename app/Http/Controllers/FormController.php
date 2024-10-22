@@ -48,9 +48,30 @@ class FormController extends Controller
                     ->subject('Thank You for Your Enquiry');
             });
 
-            return response()->json(['message' => 'Enquiry submitted successfully!'], 200);
+            return response()->json(['message' => 'Enquiry Submitted Successfully!'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'There was an error submitting your enquiry. Please try again.'], 500);
+        }
+    }
+
+    public function contactUs(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|regex:/^\+?[1-9]\d{1,14}$/',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        try {
+            Mail::send('emails.contact-form', ['data' => $request->all()], function ($message) {
+                $message->to('info@darjeelingcab.in')
+                    ->subject("New Enquiry from Website's Contact Form");
+            });
+
+            return back()->withSuccess('Enquiry Submitted Successfully!');
+        } catch (\Exception $e) {
+            return back()->withError('There was an error submitting your enquiry. Please try again.');
         }
     }
 }

@@ -18,34 +18,43 @@
 @section('title', 'Contact Darjeeling Cab - Book Your Ride Today')
 @section('content')
     <div class="container mt-5 contact-section">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="contact-form">
-                    <h3 class="mb-4 text-center text-brand">Contact Us</h3>
-                    <form action="#" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Enter your name" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="email">Email <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="subject">Subject <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="subject" name="subject"
-                                placeholder="Enter subject" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="message">Message <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="message" name="message" rows="5"
-                                placeholder="Start typing your message here...." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-4">Send Message</button>
-                    </form>
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-8">
+                @include('include.alerts')
+                <div class="contact-form shadow">
+                    <h1 class="mb-4 text-center text-brand fw-bold">Contact Us</h3>
+                        <form action="{{ route('contact-form-submit') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="name">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Enter your name" value="{{ old('name') }}" required>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="email">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Enter your email" value="{{ old('email') }}" required>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="phone">Phone <span class="text-danger">*</span></label>
+                                    <input type="phone" class="form-control" id="phone" name="phone"
+                                        placeholder="Enter your phone number" value="{{ old('phone') }}" required>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <label for="subject">Subject <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="subject" value="{{ old('subject') }}"
+                                        name="subject" placeholder="Enter subject" required>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <label for="message">Message (Max 1000 Characters) <span
+                                            class="text-danger">*</span></label>
+                                    <textarea class="form-control" id="message" name="message" rows="5"
+                                        placeholder="Start typing your message here...." required>{{ old('message') }}</textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-brand mt-4">Send Message</button>
+                        </form>
                 </div>
             </div>
         </div>

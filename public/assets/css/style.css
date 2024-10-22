@@ -85,6 +85,15 @@ body {
   color: #128C7E;
 }
 
+.btn-brand {
+  border: 2px solid #128C7E;
+  background-color: transparent;
+}
+
+.btn-brand:hover {
+  color: #29af9f;
+}
+
 .btn-whatsapp {
   background-color: #25D366;
 }
@@ -120,7 +129,7 @@ body {
 
 /* style for sticky */
 
-.sticky .navbar-nav .nav-item a:hover ,
+.sticky .navbar-nav .nav-item a:hover,
 .page-header-home .sticky .navbar-nav .nav-item a:hover,
 .page-header .navbar-nav .nav-item a:hover {
   border-bottom: 2px solid #009688;
@@ -139,7 +148,7 @@ body {
   color: #fff;
 }
 
-.page-header .navbar-nav .nav-item a{
+.page-header .navbar-nav .nav-item a {
   color: #009688;
 }
 
@@ -393,7 +402,7 @@ h4 {
   margin-right: 10px;
 }
 
-.page-header-home{
+.page-header-home {
   position: absolute;
   top: 0;
   right: 0;
@@ -402,7 +411,7 @@ h4 {
   width: 100%;
 }
 
-.page-header{
+.page-header {
   position: absolute;
   top: 0;
   right: 0;
@@ -432,7 +441,7 @@ h4 {
   z-index: 1;
 }
 
-.about-us p{
+.about-us p {
   font-size: 1rem;
 }
 
@@ -488,7 +497,7 @@ h4 {
 }
 
 .blogs-container,
-.about-us-container{
+.about-us-container {
   margin-top: 120px;
 }
 
@@ -501,7 +510,7 @@ h4 {
   border: none !important;
 }
 
-.blogs-container .card-body .card-text{
+.blogs-container .card-body .card-text {
   text-align: justify;
 }
 
