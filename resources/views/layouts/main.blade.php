@@ -6,6 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="@yield('title')" />
+    <link rel="canonical" href="{{ url()->current() }}">
     <meta name="google-site-verification" content="0-kA7VEKuVIWaPJrQu-oqypJIhP0f91P6yHri9iZzXQ">
     @yield('meta-tags')
 

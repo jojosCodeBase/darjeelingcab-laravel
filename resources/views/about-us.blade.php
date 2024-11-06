@@ -10,8 +10,7 @@
     <meta property="og:title" content="About Darjeeling Cab - Reliable Taxi Services">
     <meta property="og:description"
         content="At Darjeeling Cab, we prioritize comfort and reliability in every journey. Get to know our story, values, and the dedicated team behind our top-notch taxi services in Darjeeling." />
-    <meta property="og:url" content="https://www.darjeelingcab.in/about-us">
-    <link rel="canonical" href="https://www.darjeelingcab.in/about-us">
+    <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
 @endsection

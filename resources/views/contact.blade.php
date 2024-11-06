@@ -10,8 +10,7 @@
     <meta property="og:title" content="Contact Darjeeling Cab - Book Your Ride Today">
     <meta property="og:description"
         content="Need reliable transportation in Darjeeling? Contact Darjeeling Cab for taxi bookings, service inquiries, or customer support. We're just a message or call away." />
-    <meta property="og:url" content="https://www.darjeelingcab.in/contact">
-    <link rel="canonical" href="https://www.darjeelingcab.in/contact">
+    <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
 @endsection
