@@ -15,6 +15,7 @@
 
     <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon.ico') }}">
     <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/css/services.css') }}" />
@@ -42,7 +43,7 @@
             <div class="container">
                 <a class="navbar-brand text-light p-0" href="{{ url('/') }}">
                     <img src="{{ asset('assets/images/white-logo.png') }}" class="scr-fit" style="object-fit: cover;"
-                        height="70" width="auto" alt="">
+                        height="70" width="auto" alt="logo">
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -194,7 +195,7 @@
     </script>
 
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> --}}
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/js/bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
     @yield('scripts')

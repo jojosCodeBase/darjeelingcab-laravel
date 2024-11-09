@@ -1,9 +1,10 @@
 @extends('layouts.main')
 @section('meta-tags')
     <meta name="description"
-        content="Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!" />
+        content="Explore Darjeeling with Darjeeling Cab – your trusted taxi service for comfortable, reliable travel. Book now for an unforgettable journey!" />
+
     <meta name="keywords"
-        content="Darjeeling Cab, taxi services, Darjeeling transportation, reliable cabs, scenic tours, tourist transport, local commuting, best cab service in Darjeeling, affordable cab service, cab service near me, taxi near me, NJP taxi, Bagdogra taxi, Darjeeling taxi, taxi booking Darjeeling, local Darjeeling cab, Darjeeling airport transfer, Sikkim taxi, sightseeing taxi Darjeeling, budget-friendly cabs, taxi for tourists, hire cabs Darjeeling" />
+        content="Darjeeling Cab, taxi services, Darjeeling transportation, reliable cabs, scenic tours, tourist transport, local commuting, best cab service in Darjeeling, affordable cab service, cab service near me, taxi near me, NJP taxi, Bagdogra taxi, Darjeeling taxi, taxi booking Darjeeling, local Darjeeling cab, Darjeeling airport transfer, Sikkim taxi, sightseeing taxi Darjeeling, budget-friendly cabs, taxi for tourists, hire cabs Darjeeling, Cab for sightseeing, Darjeeling Sightseeing, Darjeeling Local Sightseeing, Local Sightseeing, darjeeling cab service for sightseeing, premium taxi service provider in darjeeling, taxi driver near me contact number, cab driver near me" />
     <meta name="author" content="Darjeeling Cab" />
     <meta property=og:locale content=en_US>
     <meta property=og:type content=website>
@@ -14,7 +15,7 @@
     <meta property=og:site_name content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
 @endsection
-@section('title', 'Your premier choice for exploring Darjeeling')
+@section('title', 'Darjeeling Cab - Your premier choice for exploring Darjeeling')
 @section('content')
     <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -65,7 +66,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('assets/images/darjeeling.jpg') }}" alt=""
+                <img src="{{ asset('assets/images/darjeeling.jpg') }}" alt="slider1"
                     class="w-100 h-100 object-fit-cover" />
                 <div class="container">
                     <div class="carousel-caption text-end">
@@ -82,7 +83,7 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('assets/images/sikkim.jpg') }}" alt="" class="w-100 h-100 object-fit-cover" />
+                <img src="{{ asset('assets/images/sikkim.jpg') }}" alt="slider2" class="w-100 h-100 object-fit-cover" />
                 <div class="container">
                     <div class="carousel-caption text-start">
                         <h1 class="carousel-title text-warning">Scenic Routes, Seamless Rides.</h1>
@@ -129,7 +130,7 @@
 
                 <div class="col-md-5 col-lg-5 ms-md-3 mb-3 d-flex justify-content-center align-items-center">
                     <div class="image-container">
-                        <img src="{{ asset('assets/images/slider-img.png') }}" alt="">
+                        <img src="{{ asset('assets/images/slider-img.png') }}" alt="slider-image">
                     </div>
                 </div>
             </div>
@@ -258,7 +259,7 @@
                         <div class="col-md-4">
                             <div class="box b1">
                                 <div class="img-box">
-                                    <img src="{{ asset('assets/images/w1.png') }}" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w1.png') }}" alt="icon-1" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>
@@ -277,7 +278,7 @@
                         <div class="col-md-4">
                             <div class="box b2">
                                 <div class="img-box">
-                                    <img src="{{ asset('assets/images/w2.png') }}" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w2.png') }}" alt="icon-2" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>
@@ -296,7 +297,7 @@
                         <div class="col-md-4">
                             <div class="box b3">
                                 <div class="img-box">
-                                    <img src="{{ asset('assets/images/w3.png') }}" alt="" class="" />
+                                    <img src="{{ asset('assets/images/w3.png') }}" alt="icon-3" class="" />
                                 </div>
                                 <div class="detail-box">
                                     <h5>
@@ -379,36 +380,6 @@
             </div>
         </div>
         <!-- end product -->
-
-        <style>
-            .enquiry-form {
-                background-color: #f8f9fa;
-                /* padding: 50px; */
-                border-radius: 10px;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            }
-
-            .enquiry-form h2 {
-                color: #009688;
-                margin-bottom: 30px;
-                font-weight: 700;
-            }
-
-            .enquiry-form .form-control,
-            .enquiry-form .form-select {
-                border-color: #009688;
-            }
-
-            .enquiry-form .btn-primary {
-                background-color: #009688;
-                border-color: #009688;
-            }
-
-            .enquiry-form .btn-primary:hover {
-                background-color: #00796b;
-                border-color: #00796b;
-            }
-        </style>
 
         <!-- Enquiry Form Start -->
         <div class="container">

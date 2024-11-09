@@ -601,3 +601,30 @@ h4 {
   border-radius: 5px;
   border-color: #ced4da;
 }
+
+.enquiry-form {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.enquiry-form h2 {
+  color: #009688;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.enquiry-form .form-control,
+.enquiry-form .form-select {
+  border-color: #009688;
+}
+
+.enquiry-form .btn-primary {
+  background-color: #009688;
+  border-color: #009688;
+}
+
+.enquiry-form .btn-primary:hover {
+  background-color: #00796b;
+  border-color: #00796b;
+}
