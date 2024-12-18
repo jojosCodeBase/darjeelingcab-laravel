@@ -132,7 +132,7 @@
         <!-- Header Section -->
         <div class="header">
             <div class="logo">
-                <img src="https://darjeelingcab.in/assets/images/white-logo.png" alt="Darjeeling Cab Logo" style="width: 150px;">
+                <img src="https://www.darjeelingcab.in/assets/images/white-logo.png" alt="Darjeeling Cab Logo" style="width: 150px;">
             </div>
             <div class="info">
                 <p><strong>Receipt Number:</strong> {{ $receipt_no }}</p>
@@ -166,7 +166,7 @@
         <!-- Footer -->
         <div class="footer">
             <p><strong>Note:</strong> This is a system-generated receipt and does not require a physical signature.</p>
-            <p class="highlight">info@darjeelingcab.in | 8967386612/7478459652 | www.darjeelingcab.in | Peshok, Peshok Tea Garden, Rangli Rangliot, Darjeeling - 734312, West Bengal, IN</p>
+            <p class="highlight">info@darjeelingcab.in | 9339342603/8967386612 | www.darjeelingcab.in | Peshok, Peshok Tea Garden, Rangli Rangliot, Darjeeling - 734312, West Bengal, IN</p>
             <p class="highlight">Thank you for choosing Darjeeling Cab. We hope to serve you again!</p>
         </div>
     </div>

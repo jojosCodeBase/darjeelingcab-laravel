@@ -24,7 +24,7 @@
     <h2>Contact Information</h2>
     <p>Here are our contact details:</p>
     <ul>
-        <li><strong>Phone:</strong> 8967386612 / 7047089254 / 7478459652</li>
+        <li><strong>Phone:</strong> 9339342603 / 8967386612 / 7478459652</li>
         <li><strong>Email:</strong> <a href="mailto:info@darjeelingcab.in">info@darjeelingcab.in</a></li>
         <li><strong>Address:</strong> Peshok, Peshok Tea Garden, Rangli Rangliot, Darjeeling, West Bengal - 734312</li>
     </ul>

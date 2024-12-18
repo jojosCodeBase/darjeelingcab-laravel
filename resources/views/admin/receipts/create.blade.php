@@ -90,7 +90,7 @@
                                 <select name="payment_status" class="form-select border-bottom" id="payment_status"
                                     required>
                                     <option value="">Please select</option>
-                                    <option value="Full Paid" @if (old('payment_status') == 'Full Paid') selected @endif>Full Paid
+                                    <option value="Fully Paid" @if (old('payment_status') == 'Fully Paid') selected @endif>Fully Paid
                                     </option>
                                     <option value="Advance Paid" @if (old('payment_status') == 'Advance Paid') selected @endif>Advance
                                         Paid</option>
@@ -172,13 +172,13 @@
             $amountPaidInput.on('input', calculateBalanceDue);
 
             $paymentStatusSelect.on('change', function() {
-                if ($(this).val() === 'Full Paid') {
+                if ($(this).val() === 'Fully Paid') {
                     const billAmount = parseFloat($billAmountInput.val() || 0);
                     $amountPaidInput.val(billAmount);
                     $balanceDueInput.val(0);
-                    $amountPaidInput.prop('disabled', true);
+                    $amountPaidInput.prop('readOnly', true);
                 } else {
-                    $amountPaidInput.prop('disabled', false);
+                    $amountPaidInput.prop('readOnly', false);
                     calculateBalanceDue();
                 }
             });

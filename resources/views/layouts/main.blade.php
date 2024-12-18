@@ -12,7 +12,6 @@
 
     @yield('blogs-seo')
 
-
     <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -71,12 +70,11 @@
                     </ul>
                 </div>
                 <div class="btn btn-brand mx-lg-5 mx-sm-3 btn-mob">
-                    <a href="tel:+918967386612">Book Now</a>
+                    <a href="tel:+919339342603">Book Now</a>
                 </div>
             </div>
         </nav>
     </div>
-
 
     <main class="mb-5">
         @yield('content')
@@ -112,11 +110,11 @@
                     <h5>CONTACT US</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-solid fa-phone"></i> 8967386612 / 7047089254 /
+                            <span class="p-0"><i class="fa-solid fa-phone"></i> 9339342603 / 8967386612 /
                                 7478459652</span>
                         </li>
                         <li class="nav-item mb-1">
-                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 8967386612 / 7047089254 /
+                            <span class="p-0"><i class="fa-brands fa-whatsapp"></i> 7047089254 / 8967386612 /
                                 7478459652</span>
                         </li>
                         <li class="nav-item mb-2"><span class="p-0"><i class="fa-solid fa-envelope"></i>
@@ -151,7 +149,7 @@
 
     <script>
         function book() {
-            var phoneNumber = "+918967386612";
+            var phoneNumber = "+917047089254";
             var message = "Hello, I want to book a cab!";
             var apiLink = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + encodeURIComponent(message);
             window.open(apiLink, "_blank");

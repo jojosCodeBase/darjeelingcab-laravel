@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->decimal('amount', 10, 2); // Amount paid
             $table->decimal('balance', 10, 2); // Amount paid
             $table->string('payment_method'); // Payment method (e.g., Credit Card, Cash)
-            $table->enum('payment_status', ['Full Paid', 'Advance Paid', 'Failed'])->default('Full Paid'); // Payment status
+            $table->string('payment_status')->default('Fully Paid'); // Payment status
             $table->date('payment_date'); // Date of payment
             $table->timestamps(); // Created at and updated at
 
