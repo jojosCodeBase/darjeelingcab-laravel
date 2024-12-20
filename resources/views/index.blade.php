@@ -40,7 +40,7 @@
                         </p>
                         <div class="buttons">
                             <button class="btn btn-whatsapp cBtn"><i class="fa-solid fa-phone"></i><a
-                                    href="tel:+917478459652"> Call Now</a></button>
+                                    href="tel:+917047089254"> Call Now</a></button>
                             <button class="btn btn-brand cBtn" onclick="book()"><i class="fa fa-paper-plane"
                                     aria-hidden="true"></i> Book Now</button>
                         </div>
@@ -58,7 +58,7 @@
                         </p>
                         <div class="buttons">
                             <button class="btn btn-whatsapp cBtn"><i class="fa-solid fa-phone"></i><a
-                                    href="tel:+917478459652"> Call Now</a></button>
+                                    href="tel:+917047089254"> Call Now</a></button>
                             <button class="btn btn-brand cBtn" onclick="book()"><i class="fa fa-paper-plane"
                                     aria-hidden="true"></i> Book Now</button>
                         </div>
@@ -75,7 +75,7 @@
                             journey as enjoyable as the destination.</p>
                         <div class="buttons">
                             <button class="btn btn-whatsapp cBtn"><i class="fa-solid fa-phone"></i><a
-                                    href="tel:+917478459652"> Call Now</a></button>
+                                    href="tel:+917047089254"> Call Now</a></button>
                             <button class="btn btn-brand cBtn" onclick="book()"><i class="fa fa-paper-plane"
                                     aria-hidden="true"></i> Book Now</button>
                         </div>
@@ -90,7 +90,7 @@
                         <p>Your adventure starts the moment you step into our cabs.</p>
                         <div class="buttons">
                             <button class="btn btn-whatsapp cBtn"><i class="fa-solid fa-phone"></i><a
-                                    href="tel:+917478459652"> Call Now</a></button>
+                                    href="tel:+917047089254"> Call Now</a></button>
                             <button class="btn btn-brand cBtn" onclick="book()"><i class="fa fa-paper-plane"
                                     aria-hidden="true"></i> Book Now</button>
                         </div>
