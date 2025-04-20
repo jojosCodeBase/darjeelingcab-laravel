@@ -20,13 +20,13 @@ class FormController extends Controller
             'vehicle-type' => 'required|string|max:255',
             'start-date' => 'required|date|after_or_equal:today',
             'end-date' => 'required|date|after_or_equal:start-date',
-            'message' => 'nullable|string|max:1000'
+            'message' => 'nullable|string|max:1000',
+            'g-recaptcha-response' =>'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
 
         try {
             Mail::send('emails.enquiry', ['data' => $request->all()], function ($message) {
@@ -61,6 +61,7 @@ class FormController extends Controller
             'email' => 'required|email|max:255',
             'phone' => 'required|string|regex:/^\+?[1-9]\d{1,14}$/',
             'message' => 'required|string|max:1000',
+            'g-recaptcha-response' => 'required',
         ]);
 
         try {

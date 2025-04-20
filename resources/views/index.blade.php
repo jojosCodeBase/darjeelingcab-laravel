@@ -14,6 +14,12 @@
     <meta property=og:url content="{{ url()->current() }}">
     <meta property=og:site_name content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function enableSubmitButton() {
+            document.getElementById('submitBtn').disabled = false;
+        }
+    </script>
 @endsection
 @section('title', 'Darjeeling Cab - Your premier choice for exploring Darjeeling')
 @section('content')
@@ -456,7 +462,8 @@
                                         placeholder="Any special requests or details"></textarea>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit
+                                    <div class="g-recaptcha" data-sitekey="6LfjWx4rAAAAAD2aLJj4yr0pQJKCwC9BJU6-n5Sg" data-callback="enableSubmitButton"></div>
+                                    <button type="submit" class="btn btn-primary btn-block mt-2" id="submitBtn" disabled>Submit
                                         Enquiry</button>
                                 </div>
                             </div>

@@ -90,6 +90,13 @@ body {
   background-color: transparent;
 }
 
+.btn-brand:disabled {
+  background-color: #009688;
+  color: #fff;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .btn-brand:hover {
   color: #29af9f;
 }

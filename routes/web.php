@@ -56,6 +56,8 @@ Route::middleware('track')->group(function () {
     Route::post('enquiry', [FormController::class, 'sendEnquiry'])->name('enquiry.submit');
 
     Route::post('contact-submit', [FormController::class, 'contactUs'])->name('contact-form-submit');
+
+    Route::get('places-of-interest');
 });
 
 
