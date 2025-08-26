@@ -1,0 +1,724 @@
+{
+    "version": "0.1.20250526",
+    "status_code": 20000,
+    "status_message": "Ok.",
+    "time": "0.5551 sec.",
+    "cost": 0.0103,
+    "tasks_count": 1,
+    "tasks_error": 0,
+    "tasks": [
+        {
+            "id": "06241155-1046-0381-0000-a2a852c75f35",
+            "status_code": 20000,
+            "status_message": "Ok.",
+            "time": "0.4464 sec.",
+            "cost": 0.0103,
+            "result_count": 1,
+            "path": [
+                "v3",
+                "dataforseo_labs",
+                "google",
+                "ranked_keywords",
+                "live"
+            ],
+            "data": {
+                "api": "dataforseo_labs",
+                "function": "ranked_keywords",
+                "se_type": "google",
+                "target": "darjeelingcab.in",
+                "language_name": "English",
+                "location_name": "India",
+                "load_rank_absolute": true,
+                "limit": 3
+            },
+            "result": [
+                {
+                    "se_type": "google",
+                    "target": "darjeelingcab.in",
+                    "location_code": 2356,
+                    "language_code": "en",
+                    "total_count": 11,
+                    "items_count": 3,
+                    "metrics": {
+                        "organic": {
+                            "pos_1": 0,
+                            "pos_2_3": 0,
+                            "pos_4_10": 0,
+                            "pos_11_20": 2,
+                            "pos_21_30": 1,
+                            "pos_31_40": 4,
+                            "pos_41_50": 2,
+                            "pos_51_60": 2,
+                            "pos_61_70": 0,
+                            "pos_71_80": 0,
+                            "pos_81_90": 0,
+                            "pos_91_100": 0,
+                            "etv": 25.326000034809113,
+                            "count": 11,
+                            "estimated_paid_traffic_cost": 6.347640037536621,
+                            "is_new": 3,
+                            "is_up": 3,
+                            "is_down": 5,
+                            "is_lost": 0,
+                            "clickstream_etv": null,
+                            "clickstream_gender_distribution": null,
+                            "clickstream_age_distribution": null
+                        },
+                        "paid": {
+                            "pos_1": 0,
+                            "pos_2_3": 0,
+                            "pos_4_10": 0,
+                            "pos_11_20": 0,
+                            "pos_21_30": 0,
+                            "pos_31_40": 0,
+                            "pos_41_50": 0,
+                            "pos_51_60": 0,
+                            "pos_61_70": 0,
+                            "pos_71_80": 0,
+                            "pos_81_90": 0,
+                            "pos_91_100": 0,
+                            "etv": 0,
+                            "count": 0,
+                            "estimated_paid_traffic_cost": 0,
+                            "is_new": 0,
+                            "is_up": 0,
+                            "is_down": 0,
+                            "is_lost": 0,
+                            "clickstream_etv": null,
+                            "clickstream_gender_distribution": null,
+                            "clickstream_age_distribution": null
+                        },
+                        "featured_snippet": null,
+                        "local_pack": null,
+                        "ai_overview_reference": null
+                    },
+                    "metrics_absolute": {
+                        "organic": {
+                            "pos_1": 0,
+                            "pos_2_3": 0,
+                            "pos_4_10": 0,
+                            "pos_11_20": 0,
+                            "pos_21_30": 3,
+                            "pos_31_40": 3,
+                            "pos_41_50": 3,
+                            "pos_51_60": 2,
+                            "pos_61_70": 0,
+                            "pos_71_80": 0,
+                            "pos_81_90": 0,
+                            "pos_91_100": 0,
+                            "is_new": 3,
+                            "is_up": 3,
+                            "is_down": 5,
+                            "is_lost": 0,
+                            "clickstream_etv": null,
+                            "clickstream_gender_distribution": null,
+                            "clickstream_age_distribution": null
+                        },
+                        "paid": {
+                            "pos_1": 0,
+                            "pos_2_3": 0,
+                            "pos_4_10": 0,
+                            "pos_11_20": 0,
+                            "pos_21_30": 0,
+                            "pos_31_40": 0,
+                            "pos_41_50": 0,
+                            "pos_51_60": 0,
+                            "pos_61_70": 0,
+                            "pos_71_80": 0,
+                            "pos_81_90": 0,
+                            "pos_91_100": 0,
+                            "is_new": 0,
+                            "is_up": 0,
+                            "is_down": 0,
+                            "is_lost": 0,
+                            "clickstream_etv": null,
+                            "clickstream_gender_distribution": null,
+                            "clickstream_age_distribution": null
+                        },
+                        "featured_snippet": null,
+                        "local_pack": null,
+                        "ai_overview_reference": null
+                    },
+                    "items": [
+                        {
+                            "se_type": "google",
+                            "keyword_data": {
+                                "se_type": "google",
+                                "keyword": "cab in darjeeling",
+                                "location_code": 2356,
+                                "language_code": "en",
+                                "keyword_info": {
+                                    "se_type": "google",
+                                    "last_updated_time": "2025-06-12 22:12:00 +00:00",
+                                    "competition": 0.6299999952316284,
+                                    "competition_level": "MEDIUM",
+                                    "cpc": 0.20999999344348907,
+                                    "search_volume": 320,
+                                    "low_top_of_page_bid": 0.07999999821186066,
+                                    "high_top_of_page_bid": 0.1899999976158142,
+                                    "categories": [
+                                        10017,
+                                        10146,
+                                        10784
+                                    ],
+                                    "monthly_searches": [
+                                        {
+                                            "year": 2025,
+                                            "month": 5,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 4,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 3,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 2,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 1,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 12,
+                                            "search_volume": 260
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 11,
+                                            "search_volume": 260
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 10,
+                                            "search_volume": 260
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 9,
+                                            "search_volume": 260
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 8,
+                                            "search_volume": 170
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 7,
+                                            "search_volume": 260
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 6,
+                                            "search_volume": 720
+                                        }
+                                    ],
+                                    "search_volume_trend": {
+                                        "monthly": -19,
+                                        "quarterly": -19,
+                                        "yearly": -56
+                                    }
+                                },
+                                "keyword_info_normalized_with_bing": null,
+                                "keyword_info_normalized_with_clickstream": null,
+                                "clickstream_keyword_info": null,
+                                "keyword_properties": {
+                                    "se_type": "google",
+                                    "core_keyword": "darjeeling cabs",
+                                    "synonym_clustering_algorithm": "text_processing",
+                                    "keyword_difficulty": 0,
+                                    "detected_language": "en",
+                                    "is_another_language": false
+                                },
+                                "serp_info": {
+                                    "se_type": "google",
+                                    "check_url": "https://www.google.co.in/search?q=cab%20in%20darjeeling&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                    "serp_item_types": [
+                                        "ai_overview",
+                                        "organic",
+                                        "local_pack",
+                                        "people_also_ask",
+                                        "related_searches"
+                                    ],
+                                    "se_results_count": 4070000,
+                                    "last_updated_time": "2025-04-16 20:21:24 +00:00",
+                                    "previous_updated_time": "2025-02-15 04:28:23 +00:00"
+                                },
+                                "avg_backlinks_info": {
+                                    "se_type": "google",
+                                    "backlinks": 15.100000381469727,
+                                    "dofollow": 8.100000381469727,
+                                    "referring_pages": 14.899999618530273,
+                                    "referring_domains": 7.599999904632568,
+                                    "referring_main_domains": 7.400000095367432,
+                                    "rank": 43.79999923706055,
+                                    "main_domain_rank": 450.29998779296875,
+                                    "last_updated_time": "2025-04-16 20:21:24 +00:00"
+                                },
+                                "search_intent_info": {
+                                    "se_type": "google",
+                                    "main_intent": "commercial",
+                                    "foreign_intent": null,
+                                    "last_updated_time": "2023-03-06 07:55:39 +00:00"
+                                }
+                            },
+                            "ranked_serp_element": {
+                                "se_type": "google",
+                                "serp_item": {
+                                    "se_type": "google",
+                                    "type": "organic",
+                                    "rank_group": 19,
+                                    "rank_absolute": 24,
+                                    "position": "left",
+                                    "xpath": "/html[1]/body[1]/div[3]/div[1]/div[12]/div[2]/div[1]/div[2]/div[1]/div[1]/div[22]/div[1]",
+                                    "domain": "www.darjeelingcab.in",
+                                    "title": "Darjeeling Cab - Your premier choice for exploring ...",
+                                    "url": "https://www.darjeelingcab.in/",
+                                    "breadcrumb": "https://www.darjeelingcab.in",
+                                    "website_name": "darjeelingcab.in",
+                                    "is_image": true,
+                                    "is_video": false,
+                                    "is_featured_snippet": false,
+                                    "is_malicious": false,
+                                    "description": "Discover Darjeeling Cab, your premier choice for exploring Darjeeling, Sikkim, and Kalimpong. Book our comfortable cabs to traverse these stunning destinations.",
+                                    "pre_snippet": null,
+                                    "extended_snippet": null,
+                                    "amp_version": false,
+                                    "rating": null,
+                                    "highlighted": [
+                                        "Darjeeling Cab",
+                                        "Darjeeling",
+                                        "cabs"
+                                    ],
+                                    "links": null,
+                                    "about_this_result": null,
+                                    "main_domain": "darjeelingcab.in",
+                                    "relative_url": "/",
+                                    "etv": 0.8640000224113464,
+                                    "estimated_paid_traffic_cost": 0.18143999576568604,
+                                    "clickstream_etv": null,
+                                    "rank_changes": {
+                                        "previous_rank_absolute": 18,
+                                        "is_new": false,
+                                        "is_up": false,
+                                        "is_down": true
+                                    },
+                                    "backlinks_info": null,
+                                    "rank_info": {
+                                        "page_rank": 0,
+                                        "main_domain_rank": 0
+                                    }
+                                },
+                                "check_url": "https://www.google.co.in/search?q=cab%20in%20darjeeling&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                "serp_item_types": [
+                                    "ai_overview",
+                                    "organic",
+                                    "local_pack",
+                                    "people_also_ask",
+                                    "related_searches"
+                                ],
+                                "se_results_count": 4070000,
+                                "keyword_difficulty": 0,
+                                "is_lost": false,
+                                "last_updated_time": "2025-04-16 20:21:24 +00:00",
+                                "previous_updated_time": "2025-02-15 04:28:23 +00:00"
+                            }
+                        },
+                        {
+                            "se_type": "google",
+                            "keyword_data": {
+                                "se_type": "google",
+                                "keyword": "darjeeling cabs",
+                                "location_code": 2356,
+                                "language_code": "en",
+                                "keyword_info": {
+                                    "se_type": "google",
+                                    "last_updated_time": "2025-06-14 03:23:31 +00:00",
+                                    "competition": 0.3799999952316284,
+                                    "competition_level": "MEDIUM",
+                                    "cpc": 0.2199999988079071,
+                                    "search_volume": 480,
+                                    "low_top_of_page_bid": 0.07999999821186066,
+                                    "high_top_of_page_bid": 0.18000000715255737,
+                                    "categories": [
+                                        10017,
+                                        10146,
+                                        10784
+                                    ],
+                                    "monthly_searches": [
+                                        {
+                                            "year": 2025,
+                                            "month": 5,
+                                            "search_volume": 590
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 4,
+                                            "search_volume": 720
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 3,
+                                            "search_volume": 720
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 2,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 1,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 12,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 11,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 10,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 9,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 8,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 7,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 6,
+                                            "search_volume": 720
+                                        }
+                                    ],
+                                    "search_volume_trend": {
+                                        "monthly": -18,
+                                        "quarterly": -18,
+                                        "yearly": -41
+                                    }
+                                },
+                                "keyword_info_normalized_with_bing": null,
+                                "keyword_info_normalized_with_clickstream": null,
+                                "clickstream_keyword_info": null,
+                                "keyword_properties": {
+                                    "se_type": "google",
+                                    "core_keyword": null,
+                                    "synonym_clustering_algorithm": "text_processing",
+                                    "keyword_difficulty": 0,
+                                    "detected_language": "en",
+                                    "is_another_language": false
+                                },
+                                "serp_info": {
+                                    "se_type": "google",
+                                    "check_url": "https://www.google.co.in/search?q=darjeeling%20cabs&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                    "serp_item_types": [
+                                        "local_pack",
+                                        "organic",
+                                        "images",
+                                        "related_searches"
+                                    ],
+                                    "se_results_count": 99,
+                                    "last_updated_time": "2025-04-12 02:52:12 +00:00",
+                                    "previous_updated_time": null
+                                },
+                                "avg_backlinks_info": {
+                                    "se_type": "google",
+                                    "backlinks": 15.100000381469727,
+                                    "dofollow": 8.100000381469727,
+                                    "referring_pages": 14.899999618530273,
+                                    "referring_domains": 7.599999904632568,
+                                    "referring_main_domains": 7.400000095367432,
+                                    "rank": 43.79999923706055,
+                                    "main_domain_rank": 362.29998779296875,
+                                    "last_updated_time": "2025-04-12 02:52:12 +00:00"
+                                },
+                                "search_intent_info": {
+                                    "se_type": "google",
+                                    "main_intent": "commercial",
+                                    "foreign_intent": [
+                                        "navigational"
+                                    ],
+                                    "last_updated_time": "2025-04-11 09:55:45 +00:00"
+                                }
+                            },
+                            "ranked_serp_element": {
+                                "se_type": "google",
+                                "serp_item": {
+                                    "se_type": "google",
+                                    "type": "organic",
+                                    "rank_group": 20,
+                                    "rank_absolute": 23,
+                                    "position": "left",
+                                    "xpath": "/html[1]/body[1]/div[3]/div[1]/div[12]/div[2]/div[1]/div[2]/div[1]/div[1]/div[21]/div[1]",
+                                    "domain": "www.darjeelingcab.in",
+                                    "title": "Darjeeling Cab - Your premier choice for exploring Darjeeling",
+                                    "url": "https://www.darjeelingcab.in/",
+                                    "breadcrumb": "https://www.darjeelingcab.in",
+                                    "website_name": "darjeelingcab.in",
+                                    "is_image": false,
+                                    "is_video": false,
+                                    "is_featured_snippet": false,
+                                    "is_malicious": false,
+                                    "description": "Discover Darjeeling Cab, your premier choice for exploring Darjeeling, Sikkim, and Kalimpong. Book our comfortable cabs to traverse these stunning destinations.",
+                                    "pre_snippet": null,
+                                    "extended_snippet": null,
+                                    "amp_version": false,
+                                    "rating": null,
+                                    "highlighted": [
+                                        "s"
+                                    ],
+                                    "links": null,
+                                    "about_this_result": null,
+                                    "main_domain": "darjeelingcab.in",
+                                    "relative_url": "/",
+                                    "etv": 1.1519999504089355,
+                                    "estimated_paid_traffic_cost": 0.2534399926662445,
+                                    "clickstream_etv": null,
+                                    "rank_changes": {
+                                        "previous_rank_absolute": null,
+                                        "is_new": true,
+                                        "is_up": false,
+                                        "is_down": false
+                                    },
+                                    "backlinks_info": null,
+                                    "rank_info": {
+                                        "page_rank": 0,
+                                        "main_domain_rank": 0
+                                    }
+                                },
+                                "check_url": "https://www.google.co.in/search?q=darjeeling%20cabs&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                "serp_item_types": [
+                                    "local_pack",
+                                    "organic",
+                                    "images",
+                                    "related_searches"
+                                ],
+                                "se_results_count": 99,
+                                "keyword_difficulty": 0,
+                                "is_lost": false,
+                                "last_updated_time": "2025-04-12 02:52:12 +00:00",
+                                "previous_updated_time": null
+                            }
+                        },
+                        {
+                            "se_type": "google",
+                            "keyword_data": {
+                                "se_type": "google",
+                                "keyword": "darjeeling cab",
+                                "location_code": 2356,
+                                "language_code": "en",
+                                "keyword_info": {
+                                    "se_type": "google",
+                                    "last_updated_time": "2025-06-12 09:05:21 +00:00",
+                                    "competition": 0.3799999952316284,
+                                    "competition_level": "MEDIUM",
+                                    "cpc": 0.2199999988079071,
+                                    "search_volume": 480,
+                                    "low_top_of_page_bid": 0.07999999821186066,
+                                    "high_top_of_page_bid": 0.18000000715255737,
+                                    "categories": [
+                                        10017,
+                                        10146,
+                                        10784
+                                    ],
+                                    "monthly_searches": [
+                                        {
+                                            "year": 2025,
+                                            "month": 5,
+                                            "search_volume": 590
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 4,
+                                            "search_volume": 720
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 3,
+                                            "search_volume": 720
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 2,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2025,
+                                            "month": 1,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 12,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 11,
+                                            "search_volume": 390
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 10,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 9,
+                                            "search_volume": 480
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 8,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 7,
+                                            "search_volume": 320
+                                        },
+                                        {
+                                            "year": 2024,
+                                            "month": 6,
+                                            "search_volume": 720
+                                        }
+                                    ],
+                                    "search_volume_trend": {
+                                        "monthly": -18,
+                                        "quarterly": -18,
+                                        "yearly": -41
+                                    }
+                                },
+                                "keyword_info_normalized_with_bing": null,
+                                "keyword_info_normalized_with_clickstream": null,
+                                "clickstream_keyword_info": null,
+                                "keyword_properties": {
+                                    "se_type": "google",
+                                    "core_keyword": "darjeeling cabs",
+                                    "synonym_clustering_algorithm": "text_processing",
+                                    "keyword_difficulty": 0,
+                                    "detected_language": "en",
+                                    "is_another_language": false
+                                },
+                                "serp_info": {
+                                    "se_type": "google",
+                                    "check_url": "https://www.google.co.in/search?q=darjeeling%20cab&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                    "serp_item_types": [
+                                        "local_pack",
+                                        "people_also_ask",
+                                        "organic",
+                                        "related_searches"
+                                    ],
+                                    "se_results_count": 3970000,
+                                    "last_updated_time": "2025-04-20 02:49:55 +00:00",
+                                    "previous_updated_time": "2025-02-18 08:36:09 +00:00"
+                                },
+                                "avg_backlinks_info": {
+                                    "se_type": "google",
+                                    "backlinks": 16.899999618530273,
+                                    "dofollow": 8.899999618530273,
+                                    "referring_pages": 16.700000762939453,
+                                    "referring_domains": 9,
+                                    "referring_main_domains": 8.800000190734863,
+                                    "rank": 29.799999237060547,
+                                    "main_domain_rank": 362.70001220703125,
+                                    "last_updated_time": "2025-04-20 02:49:56 +00:00"
+                                },
+                                "search_intent_info": {
+                                    "se_type": "google",
+                                    "main_intent": "commercial",
+                                    "foreign_intent": null,
+                                    "last_updated_time": "2023-03-02 22:19:09 +00:00"
+                                }
+                            },
+                            "ranked_serp_element": {
+                                "se_type": "google",
+                                "serp_item": {
+                                    "se_type": "google",
+                                    "type": "organic",
+                                    "rank_group": 24,
+                                    "rank_absolute": 28,
+                                    "position": "left",
+                                    "xpath": "/html[1]/body[1]/div[3]/div[1]/div[12]/div[2]/div[1]/div[2]/div[1]/div[1]/div[26]/div[1]",
+                                    "domain": "www.darjeelingcab.in",
+                                    "title": "Darjeeling Cab - Your premier choice for exploring Darjeeling",
+                                    "url": "https://www.darjeelingcab.in/",
+                                    "breadcrumb": "https://www.darjeelingcab.in",
+                                    "website_name": "darjeelingcab.in",
+                                    "is_image": false,
+                                    "is_video": false,
+                                    "is_featured_snippet": false,
+                                    "is_malicious": false,
+                                    "description": "Discover Darjeeling Cab, your premier choice for exploring Darjeeling, Sikkim, and Kalimpong. Book our comfortable cabs to traverse these stunning destinations.",
+                                    "pre_snippet": null,
+                                    "extended_snippet": null,
+                                    "amp_version": false,
+                                    "rating": null,
+                                    "highlighted": [
+                                        "Darjeeling Cab"
+                                    ],
+                                    "links": null,
+                                    "about_this_result": null,
+                                    "main_domain": "darjeelingcab.in",
+                                    "relative_url": "/",
+                                    "etv": 1.0080000162124634,
+                                    "estimated_paid_traffic_cost": 0.22176000475883484,
+                                    "clickstream_etv": null,
+                                    "rank_changes": {
+                                        "previous_rank_absolute": 33,
+                                        "is_new": false,
+                                        "is_up": true,
+                                        "is_down": false
+                                    },
+                                    "backlinks_info": null,
+                                    "rank_info": {
+                                        "page_rank": 0,
+                                        "main_domain_rank": 0
+                                    }
+                                },
+                                "check_url": "https://www.google.co.in/search?q=darjeeling%20cab&num=100&hl=en&gl=IN&gws_rd=cr&ie=UTF-8&oe=UTF-8&glp=1&uule=w+CAIQICIFSW5kaWE",
+                                "serp_item_types": [
+                                    "local_pack",
+                                    "people_also_ask",
+                                    "organic",
+                                    "related_searches"
+                                ],
+                                "se_results_count": 3970000,
+                                "keyword_difficulty": 0,
+                                "is_lost": false,
+                                "last_updated_time": "2025-04-20 02:49:55 +00:00",
+                                "previous_updated_time": "2025-02-18 08:36:09 +00:00"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

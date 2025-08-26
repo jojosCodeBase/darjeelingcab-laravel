@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/chooseus.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL3L0R15FV"></script>
@@ -37,6 +38,12 @@
 </head>
 
 <body>
+
+    <a href="https://api.whatsapp.com/send?phone=+918967386612&text=Hello, I want to book a cab!"
+        class="float" target="_blank">
+        <i class="fa fa-whatsapp my-float"></i>
+    </a>
+
     <div class="page-header{{ Route::is('index') ? '-home' : '' }}">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -56,10 +63,19 @@
                             <a href="{{ url('/') }}" class="nav-link fs-6">Home</a>
                         </li>
                         <li class="nav-item mx-3">
+                            <a href="#services" class="nav-link fs-6">Our Services</a>
+                        </li>
+                        <li class="nav-item mx-3">
+                            <a href="#services" class="nav-link fs-6">Routes</a>
+                        </li>
+                        <li class="nav-item mx-3">
+                            <a href="#services" class="nav-link fs-6">Pricing</a>
+                        </li>
+                        <li class="nav-item mx-3">
                             <a href="{{ url('blogs') }}" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#services" class="nav-link fs-6">Our Services</a>
+                            <a href="{{ url('blogs') }}" class="nav-link fs-6">FAQ</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('about-us') }}" class="nav-link fs-6">About us</a>

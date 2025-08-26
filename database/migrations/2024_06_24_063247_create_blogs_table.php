@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('views')->default(0);
             $table->string('thumbnail');
             $table->string('image')->nullable();
-            $table->string('meta_description')->nullable();
-            $table->string('meta_keywords')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->text('meta_keywords')->nullable();
             $table->string('og_image')->nullable();
             $table->string('twitter_image')->nullable();
             $table->timestamps();

@@ -14,6 +14,12 @@
     <meta property=og:url content="{{ url()->current() }}">
     <meta property=og:site_name content="Darjeeling Cab">
     <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+
+    <link rel="preload" href="{{ asset('assets/images/Kangchenjunga.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">
+    <link rel="preload" href="{{ asset('assets/images/sandakphu.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">
+    <link rel="preload" href="{{ asset('assets/images/darjeeling.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">
+    <link rel="preload" href="{{ asset('assets/images/sikkim.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">
+
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         function enableSubmitButton() {
@@ -129,7 +135,7 @@
                         extraordinary travel adventure with Darjeeling Cab.
 
                     </p>
-                    <button class="btn btn-brand mt-3"><a href="{{ url('about-us') }}" class="text-light"
+                    <button class="btn btn-brand mt-3"><a href="{{ url('about-us') }}" aria-label="Read more about Darjeeling Cab" class="text-light"
                             target="_blank">Read
                             more</a></button>
                 </div>

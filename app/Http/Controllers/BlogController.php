@@ -39,12 +39,12 @@ class BlogController extends Controller
             'title' => 'required|unique:blogs,title',
             'content' => 'required',
             'author' => 'required',
-            'thumbnail' => 'required|image|max:500',
-            // 'image' => 'nullable|image|max:500',
-            'meta_description' => 'nullable|string|max:160',
+            'thumbnail' => 'required|image|max:1024',
+            // 'image' => 'nullable|image|max:1024',
+            'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'og_image' => 'nullable|image|max:500',
-            'twitter_image' => 'nullable|image|max:500',
+            'og_image' => 'nullable|image|max:1024',
+            'twitter_image' => 'nullable|image|max:1024',
         ]);
 
         $data = $request->all();
@@ -98,12 +98,12 @@ class BlogController extends Controller
             'title' => 'required',
             'content' => 'required',
             'author' => 'required',
-            'thumbnail' => 'nullable|image|max:500',
-            // 'image' => 'nullable|image|max:500',
-            'meta_description' => 'nullable|string|max:160',
+            'thumbnail' => 'nullable|image|max:1024',
+            // 'image' => 'nullable|image|max:1024',
+            'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'og_image' => 'nullable|image|max:500',
-            'twitter_image' => 'nullable|image|max:500',
+            'og_image' => 'nullable|image|max:1024',
+            'twitter_image' => 'nullable|image|max:1024',
         ]);
 
         // Store original image paths

@@ -37,6 +37,14 @@ Route::middleware('track')->group(function () {
         return view('about-us');
     });
 
+    Route::get('/faqs', function () {
+        return view('faqs');
+    });
+
+    Route::get('/pricing', function () {
+        return view('pricing');
+    })->name('booking');
+
     Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
 
     Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
@@ -60,6 +68,9 @@ Route::middleware('track')->group(function () {
     Route::get('places-of-interest');
 });
 
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
 
 Route::get('/login', function () {
     return view('admin.login');
