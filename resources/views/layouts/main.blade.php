@@ -69,13 +69,13 @@
                             <a href="#services" class="nav-link fs-6">Routes</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#services" class="nav-link fs-6">Pricing</a>
+                            <a href="{{ url('pricing') }}" class="nav-link fs-6">Pricing</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('blogs') }}" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="{{ url('blogs') }}" class="nav-link fs-6">FAQ</a>
+                            <a href="{{ url('faqs') }}" class="nav-link fs-6">FAQ</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('about-us') }}" class="nav-link fs-6">About us</a>

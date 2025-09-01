@@ -249,7 +249,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0 h-100">
                             <div class="card-header bg-brand text-white text-center">
-                                <h5 class="mb-0">NJP → Darjeeling</h5>
+                                <h5 class="mb-0 text-light">NJP → Darjeeling</h5>
                             </div>
                             <div class="card-body text-center">
                                 <h3 class="text-brand">₹ 2,500</h3>
@@ -269,7 +269,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0 h-100">
                             <div class="card-header bg-brand text-white text-center">
-                                <h5 class="mb-0">Bagdogra → Darjeeling</h5>
+                                <h5 class="mb-0 text-light">Bagdogra → Darjeeling</h5>
                             </div>
                             <div class="card-body text-center">
                                 <h3 class="text-brand">₹ 3,000</h3>
@@ -289,7 +289,7 @@
                     <div class="col-md-4">
                         <div class="card shadow-lg border-0 h-100">
                             <div class="card-header bg-brand text-white text-center">
-                                <h5 class="mb-0">Darjeeling → Gangtok</h5>
+                                <h5 class="mb-0 text-light">Darjeeling → Gangtok</h5>
                             </div>
                             <div class="card-body text-center">
                                 <h3 class="text-brand">₹ 4,500</h3>

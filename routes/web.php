@@ -66,6 +66,10 @@ Route::middleware('track')->group(function () {
     Route::post('contact-submit', [FormController::class, 'contactUs'])->name('contact-form-submit');
 
     Route::get('places-of-interest');
+
+    Route::get('/darjeeling-to-njp', function () {
+        return view('routes.darjeeling-to-njp');
+    })->name('darjeeling-to-njp');
 });
 
 Route::get('/privacy-policy', function () {
