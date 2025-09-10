@@ -63,10 +63,10 @@
                             <a href="{{ url('/') }}" class="nav-link fs-6">Home</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#services" class="nav-link fs-6">Our Services</a>
+                            <a href="{{ url('/') }}#services" class="nav-link fs-6">Our Services</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="#services" class="nav-link fs-6">Routes</a>
+                            <a href="{{ url('routes') }}" class="nav-link fs-6">Routes</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('pricing') }}" class="nav-link fs-6">Pricing</a>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\EnquiryMail;
+use App\Models\Waitlist;
+use Exception;
 use Illuminate\Http\Request;
+use Log;
 use Mail;
 
 class FormController extends Controller
@@ -21,7 +24,7 @@ class FormController extends Controller
             'start-date' => 'required|date|after_or_equal:today',
             'end-date' => 'required|date|after_or_equal:start-date',
             'message' => 'nullable|string|max:1000',
-            'g-recaptcha-response' =>'required'
+            'g-recaptcha-response' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -73,6 +76,42 @@ class FormController extends Controller
             return back()->withSuccess('Enquiry Submitted Successfully!');
         } catch (\Exception $e) {
             return back()->withError('There was an error submitting your enquiry. Please try again.');
+        }
+    }
+
+
+    public function notify(Request $request)
+    {
+        try {
+
+            $waitlist = Waitlist::where('email', $request->email)->orWhere('phone', $request->phone)->exists();
+
+            if ($waitlist) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You are already in our waiting list.'
+                ]);
+            }
+
+            Waitlist::create([
+                'email' => $request->email,
+                'phone' => $request->phone ?? null,
+                'ip_address' => $request->ip(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Added to waitlist'
+            ]);
+
+        } catch (Exception $e) {
+
+            Log::error('Error adding user to waitlist - ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to add to waitlist',
+            ]);
         }
     }
 }

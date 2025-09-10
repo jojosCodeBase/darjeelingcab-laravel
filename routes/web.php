@@ -65,7 +65,11 @@ Route::middleware('track')->group(function () {
 
     Route::post('contact-submit', [FormController::class, 'contactUs'])->name('contact-form-submit');
 
-    Route::get('places-of-interest');
+    // Route::get('places-of-interest');
+
+    Route::get('routes', function(){
+        return view('routes');
+    });
 
     Route::get('/darjeeling-to-njp', function () {
         return view('routes.darjeeling-to-njp');
@@ -83,6 +87,8 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('notify-me', [FormController::class, 'notify'])->name('notify-me');
 
 /***********************************************
                 ADMIN ROUTES START
