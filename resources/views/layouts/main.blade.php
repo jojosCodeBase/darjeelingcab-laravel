@@ -157,8 +157,7 @@
                 <p class="text-light text-center fw-bold fs-5">Visitors: {{ $visitCount }}</p>
             </div>
             <div class="row mb-5 copyright">
-                <span class="text-center">© Darjeeling Cab. All rights reserved | Designed and Developed by Kunsang
-                    Moktan</span>
+                <span class="text-center">© Darjeeling Cab. All rights reserved</span>
             </div>
         </div>
     </div>
@@ -208,11 +207,11 @@
         });
     </script>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> --}}
+    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
     @yield('scripts')
+    @stack('scripts')
 </body>
 
 </html>

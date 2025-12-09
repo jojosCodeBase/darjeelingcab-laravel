@@ -45,6 +45,10 @@ Route::middleware('track')->group(function () {
         return view('pricing');
     })->name('booking');
 
+    Route::get('/calculator', function () {
+        return view('calculator');
+    })->name('calculator');
+
     Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
 
     Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
