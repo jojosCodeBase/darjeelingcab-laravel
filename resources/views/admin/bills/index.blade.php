@@ -29,7 +29,7 @@
                             @forelse ($bills as $bill)
                                 <tr onclick="window.location.href='{{ route('bill.show', ['bill' => $bill->id]) }}'" style="cursor: pointer;">
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $bill->customer->full_name }}</td>
+                                    <td><span class="text-decoration-underline text-primary">{{ $bill->customer->full_name }}</span></td>
                                     <td>{{ $bill->customer->customer_type }}</td>
                                     <td>{{ $bill->bill_no }}</td>
                                     <td>

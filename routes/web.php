@@ -37,18 +37,6 @@ Route::middleware('track')->group(function () {
         return view('about-us');
     });
 
-    Route::get('/faqs', function () {
-        return view('faqs');
-    });
-
-    Route::get('/pricing', function () {
-        return view('pricing');
-    })->name('booking');
-
-    Route::get('/calculator', function () {
-        return view('calculator');
-    })->name('calculator');
-
     Route::get('/blogs', [BlogController::class, 'show'])->name('blogs');
 
     Route::get('/blogs/{slug}', [BlogController::class, 'viewBlog'])->name('view-blog');
@@ -69,20 +57,9 @@ Route::middleware('track')->group(function () {
 
     Route::post('contact-submit', [FormController::class, 'contactUs'])->name('contact-form-submit');
 
-    // Route::get('places-of-interest');
-
-    Route::get('routes', function(){
-        return view('routes');
-    });
-
-    Route::get('/darjeeling-to-njp', function () {
-        return view('routes.darjeeling-to-njp');
-    })->name('darjeeling-to-njp');
+    Route::get('places-of-interest');
 });
 
-Route::get('/privacy-policy', function () {
-    return view('privacy-policy');
-})->name('privacy-policy');
 
 Route::get('/login', function () {
     return view('admin.login');
@@ -91,8 +68,6 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::post('notify-me', [FormController::class, 'notify'])->name('notify-me');
 
 /***********************************************
                 ADMIN ROUTES START

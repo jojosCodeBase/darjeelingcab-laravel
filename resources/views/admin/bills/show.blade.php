@@ -84,9 +84,13 @@
                                                 <td>
                                                     {{ $data[0] }} <br>
                                                 </td>
-                                                <td>{{ $data[1] }}</td>
-                                                <td>{{ $data[2] }}</td>
-                                                <td>{{ $data[3] }}</td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($data[1])->format('D - d M, Y') }}
+                                                </td>
+                                                <td>₹ {{ number_format($data[2]) }}</td>
+                                                <td>
+                                                    ₹ {{ number_format($data[3]) }}
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -97,21 +101,19 @@
                                 <div class="col">
                                     <ul style="list-style: none;float: right;">
                                         <li>
-                                            <b>Sub Total:</b> ₹ <span type="text" id="totalAmountDisplay">{{ $bill->sub_total }}</span>
+                                            <b>Total Amount:</b> ₹ <span type="text" id="totalAmount">{{ number_format($bill->total_amount, 2, '.', ',') }}</span>
                                         </li>
                                         <li>
-                                            <b>Discount:</b> ₹ <span type="text" id="taxDisplay">{{ $bill->discount }}</span>
-                                            <input type="hidden" value="0" name="tax_amount" id="taxAmount">
+                                            <b>Received Amount:</b> ₹ <span type="text" id="receivedAmount">{{ number_format($bill->received_amount, 2, '.', ',') }}</span>
                                         </li>
                                         <li>
-                                            <b>Total Amount:</b> ₹ <span type="text" id="netAmountDisplay">{{ $bill->total_amount }}</span>
-                                            <input type="hidden" value="0" name="net_amount" id="netAmount">
+                                            <b>Balance Due:</b> ₹ <span type="text" id="balanceDue">{{ number_format($bill->balance_due, 2, '.', ',') }}</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="row mt-3">
+                            <div class="row mt-3 d-none">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary float-right mb-2">SUBMIT</button>
                                 </div>

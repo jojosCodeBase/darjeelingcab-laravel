@@ -10,6 +10,7 @@ class Bill extends Model
     use HasFactory;
 
     protected $fillable = [
+        'booking_id',
         'customer_id',
         'bill_date',
         'bill_no',
@@ -19,8 +20,8 @@ class Bill extends Model
         'dates',
         'price',
         'amount',
-        'sub_total',
-        'discount',
+        'balance_due',
+        'received_amount',
         'total_amount'
     ];
 

@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
+            $table->integer('booking_id');
             $table->integer('customer_id');
             $table->date('bill_date');
             $table->string('bill_no');
@@ -21,8 +22,8 @@ return new class extends Migration {
             $table->json('dates');
             $table->json('price');
             $table->json('amount');
-            $table->decimal('sub_total', 12, 2);
-            $table->decimal('discount', 12, 2);
+            $table->decimal('balance_due', 12, 2);
+            $table->decimal('received_amount', 12, 2);
             $table->decimal('total_amount', 12, 2);
             $table->timestamps();
         });

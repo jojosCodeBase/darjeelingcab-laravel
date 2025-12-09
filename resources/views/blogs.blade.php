@@ -13,7 +13,7 @@
         content="Explore our blog for travel inspiration, tips, and insider knowledge about Darjeeling. Learn how to enhance your journey with our reliable taxi services." />
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Darjeeling Cab">
-    <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+    <meta property="og:image" content="{{ asset('assets/images/favicon.ico') }}">
 @endsection
 @section('content')
     <div class="container blogs-container">

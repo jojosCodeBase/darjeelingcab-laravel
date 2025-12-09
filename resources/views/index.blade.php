@@ -6,14 +6,14 @@
     <meta name="keywords"
         content="Darjeeling Cab, taxi services, Darjeeling transportation, reliable cabs, scenic tours, tourist transport, local commuting, best cab service in Darjeeling, affordable cab service, cab service near me, taxi near me, NJP taxi, Bagdogra taxi, Darjeeling taxi, taxi booking Darjeeling, local Darjeeling cab, Darjeeling airport transfer, Sikkim taxi, sightseeing taxi Darjeeling, budget-friendly cabs, taxi for tourists, hire cabs Darjeeling, Cab for sightseeing, Darjeeling Sightseeing, Darjeeling Local Sightseeing, Local Sightseeing, darjeeling cab service for sightseeing, premium taxi service provider in darjeeling, taxi driver near me contact number, cab driver near me" />
     <meta name="author" content="Darjeeling Cab" />
-    <meta property=og:locale content=en_US>
-    <meta property=og:type content=website>
-    <meta property=og:title content="Your premier choice for exploring Darjeeling">
-    <meta property=og:description
+    <meta property="og:locale" content=en_US>
+    <meta property="og:type" content=website>
+    <meta property="og:title" content="Your premier choice for exploring Darjeeling">
+    <meta property="og:description"
         content="Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!">
-    <meta property=og:url content="{{ url()->current() }}">
-    <meta property=og:site_name content="Darjeeling Cab">
-    <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="Darjeeling Cab">
+    <meta property="og:image" content="{{ asset('assets/images/favicon.ico') }}">
 
     <link rel="preload" href="{{ asset('assets/images/Kangchenjunga.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">
     <link rel="preload" href="{{ asset('assets/images/sandakphu.jpg') }}" as="image" type="image/jpeg" fetchpriority="high">

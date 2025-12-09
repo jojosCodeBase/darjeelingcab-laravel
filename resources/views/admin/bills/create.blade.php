@@ -16,12 +16,13 @@
                                 <!-- Customer Select -->
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
-                                        <label class="form-label">Customer</label>
+                                        <label class="form-label">Customer <span class="text-danger">*</span></label>
                                         <select class="form-select border-bottom" name="party_id" id="customerSelect"
                                             required>
                                             <option value="">Please select</option>
                                             @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
+                                                <option value="{{ $customer->id }}">{{ $customer->full_name }} -
+                                                    {{ $customer->phone_no }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -30,7 +31,7 @@
                                 <!-- Booking Select -->
                                 <div class="col-md-4" id="bookingSelectContainer" style="display: none;">
                                     <div class="form-group mb-3">
-                                        <label class="form-label">Booking</label>
+                                        <label class="form-label">Booking <span class="text-danger">*</span></label>
                                         <select class="form-select border-bottom" name="booking_id" id="bookingSelect"
                                             required>
                                             <!-- Options will be populated by JavaScript -->
@@ -41,7 +42,7 @@
                                 <!-- Invoice Date -->
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
-                                        <label class="form-label">Invoice Date</label>
+                                        <label class="form-label">Invoice Date <span class="text-danger">*</span></label>
                                         <input type="date" name="invoice_date" id="invoice_date"
                                             class="form-control border-bottom"
                                             value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" required>
@@ -51,20 +52,20 @@
                                 <!-- Invoice Number -->
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
-                                        <label class="form-label">Invoice Number</label>
+                                        <label class="form-label">Invoice Number <span class="text-danger">*</span></label>
                                         <input type="text" name="invoice_no" class="form-control border-bottom"
-                                            placeholder="Enter Invoice number" value="DC-2024-" required>
+                                            placeholder="Enter Invoice number" value="DC-{{ date('Y') }}-" required>
                                     </div>
                                 </div>
 
                                 <!-- Payment Status -->
                                 <div class="col-md-3">
                                     <div class="form-group mb-3">
-                                        <label class="form-label">Payment Status</label>
+                                        <label class="form-label">Payment Status <span class="text-danger">*</span></label>
                                         <select name="payment_status" id="" class="form-select" required>
                                             <option value="" selected>Select payment status</option>
-                                            <option value="Advance paid">Advance paid</option>
-                                            <option value="Unpaid">Unpaid</option>
+                                            <option value="advance-paid">Advance paid</option>
+                                            <option value="unpaid">Unpaid</option>
                                         </select>
                                     </div>
                                 </div>
@@ -72,8 +73,9 @@
                                 <div class="col-md-5">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Vehicle Details</label>
-                                        <input type="text" name="vehicle_details" id="vehicle_details"
-                                            class="form-control" readonly>
+                                        <div id="vehicle_details">
+                                            {{-- result will be rendered here --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,9 +97,8 @@
                                     <thead>
                                         <tr>
                                             <th>Sl.no</th>
-                                            <th class="w-50">Description</th>
+                                            <th>Description</th>
                                             <th>Dates</th>
-                                            <th>Destination</th>
                                             <th>Price</th>
                                             <th>Amount</th>
                                         </tr>
@@ -113,16 +114,16 @@
                                 <div class="col">
                                     <ul style="list-style: none; float: right;">
                                         <li>
-                                            <b>Sub Total:</b> ₹ <span id="sub_total">0</span>
-                                            <input type="hidden" value="0" name="sub_total">
-                                        </li>
-                                        <li>
-                                            <b>Discount:</b> ₹ <input type="number" class="form-control" id="discount"
-                                                name="discount" value="0" min="0">
-                                        </li>
-                                        <li>
                                             <b>Total Amount:</b> ₹ <span id="total">0</span>
                                             <input type="hidden" value="0" name="total">
+                                        </li>
+                                        <li>
+                                            <b>Received Amount:</b> ₹ <input type="number" class="form-control"
+                                                id="received_amount" name="received_amount" value="0" min="0">
+                                        </li>
+                                        <li>
+                                            <b>Balance Due:</b> ₹ <span id="balance_due">0</span>
+                                            <input type="hidden" value="0" name="balance_due">
                                         </li>
                                     </ul>
                                 </div>
@@ -217,10 +218,10 @@
                 }
             });
 
-
             $('#bookingSelect').change(function() {
+
                 const bookingId = $(this).val();
-                console.log(bookingId);
+
                 if (bookingId) {
                     const url = `/admin/booking/${bookingId}`;
                     $.get(url, function(booking) {
@@ -229,11 +230,15 @@
                 }
             });
 
+            function convertYmdToDmy(dateStr) {
+                const parts = dateStr.split("-");
+                return `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+
+
             function populateForm(booking) {
                 // Populate form fields with booking data
                 // $('#invoice_date').val(booking.created_at.split(' ')[0]); 
-
-                console.log(booking);
 
                 // Clear existing rows
                 $('#itemTableBody').empty();
@@ -250,22 +255,45 @@
                     (booking.vehicle_no === "[null]") ||
                     (booking.driver_name === "[null]")
                 ) {
+
                     $('#vehicle_details').val('NA');
+
                 } else {
-                    let data = '';
+
+                    $('#vehicle_details').html('');
+
+                    let result_div = document.createElement('div');
+
+                    let html = '';
+
                     vehicleNumbers.forEach((item, index) => {
                         const vehicleType = vehicleTypes[index] || '';
                         const vehicleNumber = vehicleNumbers[index] || '';
                         const driverName = driverNames[index] || '';
 
-                        data = data + ' ' + vehicleNumber + ' ' + vehicleType + ' (' + driverName + '), ';
+                        let vehicleObject = {
+                            type: vehicleType,
+                            number: vehicleNumber,
+                            driver: driverName
+                        };
+
+                        // Convert JS object to JSON string
+                        let vehicleJSON = JSON.stringify(vehicleObject);
+
+                        html += `
+                            <input type="text" name="vehicle_details[]" value='${vehicleJSON}' hidden>
+                            <div class="mb-2 p-2 border rounded">
+                                <p class='mb-0'><strong>Vehicle Type:</strong> ${vehicleType}</p>
+                                <p class='mb-0'><strong>Driver:</strong> ${driverName}</p>
+                                <p class='mb-0'><strong>Vehicle No:</strong> ${vehicleNumber}</p>
+                            </div>
+                        `;
                     });
 
-                    $('#vehicle_details').val(data);
+                    result_div.innerHTML = html;
+
+                    $('#vehicle_details').append(result_div);
                 }
-
-
-                // $('#vehicle_details').val(vehicleType, vehicleNumber (driverName));
 
                 dayDates.forEach((date, index) => {
                     const destination = destinations[index] || '';
@@ -273,13 +301,20 @@
                     const vehicleNumber = vehicleNumbers[index] || '';
                     const driverName = driverNames[index] || '';
 
+                    let formatted_date = convertYmdToDmy(date);
+
                     // Add a row to the table for each itinerary item
                     $('#itemTableBody').append(`
                         <tr>
                             <td>${index + 1}</td>
-                            <td><input type="text" class="form-control" name="description[]" value="${destination}" readonly></td>
-                            <td><input type="date" class="form-control dates" name="dates[]" value="${date}" readonly></td>
-                            <td>${destination}</td>
+                            <td>
+                                <input type="text" class="form-control" name="description[]" value="${destination}" hidden>
+                                <p>${destination}</p>
+                            </td>
+                            <td>
+                                <input type="date" class="form-control dates" name="dates[]" value="${date}" hidden>
+                                <p>${formatted_date}</p>
+                            </td>
                             <td><input type="number" class="form-control price" name="price[]" value="0" min="0"></td>
                             <td><input type="number" class="form-control amount" name="amount[]" value="0" readonly></td>
                         </tr>
@@ -302,7 +337,6 @@
                             <td>${$('#itemTableBody tr').length + 1}</td>
                             <td><input type="text" class="form-control" name="description[]" value="${description}"></td>
                             <td><input type="date" class="form-control dates" name="dates[]" value="${dates}"></td>
-                            <td><input type="text" class="form-control" name="destination[]" value="${description}"></td>
                             <td><input type="number" class="form-control price" name="price[]" value="${price}"></td>
                             <td><input type="number" class="form-control amount" name="amount[]" value="${amount}" readonly></td>
                         </tr>
@@ -323,14 +357,11 @@
                 $('#amount').val($('#price').val()); // Set amount to be equal to price
             });
 
-            $('#discount').on('input', function() {
-                updateTotals(); // Update totals when discount changes
+            $('#received_amount').on('input', function() {
+                updateTotals(); // Update totals when received_amount changes
             });
 
             $(document).on('input', '.price', function() {
-                // Log to console to verify the event is firing correctly
-                console.log('Price inputted');
-
                 // Get the current row (tr) where the price input exists
                 const currentRow = $(this).closest('tr');
 
@@ -345,47 +376,33 @@
             });
 
             function updateTotals() {
-                let subtotal = 0;
+                let total = 0;
 
-                // Iterate through each row in the table body
-                $('#itemTableBody tr').each(function() {
-                    // Get the value of the amount input in the current row
-                    const amount = parseFloat($(this).find('.amount').val()) || 0;
-                    subtotal += amount;
-                });
-
-                const discount = parseFloat($('#discount').val()) || 0;
-                const totalAmount = subtotal - discount;
-
-                $('#sub_total').text(subtotal.toFixed(2));
-                $('#total').text(totalAmount.toFixed(2));
-                $('input[name="total"]').val(totalAmount.toFixed(2));
-                $('input[name="sub_total"]').val(subtotal.toFixed(2));
-
-                // Update row numbers
-                $('#itemTableBody tr').each(function(index) {
-                    $(this).find('td:first').text(index + 1);
-                });
-            }
-
-
-
-            function updateTotals() {
-                let subtotal = 0;
                 $('#itemTableBody tr').each(function() {
                     const amount = parseFloat($(this).find('.amount').val()) || 0;
-                    subtotal += amount;
+                    total += amount;
                 });
 
-                const discount = parseFloat($('#discount').val()) || 0;
-                const totalAmount = subtotal - discount;
+                const received_amount = parseFloat($('#received_amount').val()) || 0;
+                const balanceAmount = total - received_amount;
 
-                $('#sub_total').text(subtotal.toFixed(2));
-                $('#total').text(totalAmount.toFixed(2));
-                $('input[name="total"]').val(totalAmount.toFixed(2));
-                $('input[name="sub_total"]').val(subtotal.toFixed(2));
+                $('#total').text(
+                    total.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
 
-                // Update row numbers
+                $('#balance_due').text(
+                    balanceAmount.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })
+                );
+
+                $('input[name="total"]').val(total.toFixed(2));
+                $('input[name="balance_due"]').val(balanceAmount.toFixed(2));
+
                 $('#itemTableBody tr').each(function(index) {
                     $(this).find('td:first').text(index + 1);
                 });

@@ -12,7 +12,7 @@
         content="Need reliable transportation in Darjeeling? Contact Darjeeling Cab for taxi bookings, service inquiries, or customer support. We're just a message or call away." />
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="Darjeeling Cab">
-    <meta property=og:image content="{{ asset('assets/images/favicon.ico') }}">
+    <meta property="og:image" content="{{ asset('assets/images/favicon.ico') }}">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         function enableSubmitButton() {

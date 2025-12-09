@@ -5,14 +5,17 @@
     <meta charset="UTF-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="title" content="@yield('title')" />
-    <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="google-site-verification" content="0-kA7VEKuVIWaPJrQu-oqypJIhP0f91P6yHri9iZzXQ">
+
+    <title>@yield('title')</title>
+
     @yield('meta-tags')
+
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <meta name="google-site-verification" content="0-kA7VEKuVIWaPJrQu-oqypJIhP0f91P6yHri9iZzXQ">
 
     @yield('blogs-seo')
 
-    <title>@yield('title')</title>
     <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('assets/images/favicon.ico') }}">
     <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet" />
@@ -21,7 +24,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/chooseus.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FL3L0R15FV"></script>
@@ -35,15 +37,98 @@
 
         gtag('config', 'G-FL3L0R15FV');
     </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "TaxiService",
+            "name": "Darjeeling Cab",
+            "url": "https://darjeelingcab.in",
+            "image": "https://darjeelingcab.in/assets/images/favicon.ico",
+            "logo": "https://darjeelingcab.in/assets/images/favicon.ico",
+            "description": "Darjeeling Cab offers reliable, affordable, and comfortable taxi services in Darjeeling, NJP, Bagdogra Airport, and the surrounding region. Book sightseeing trips, airport transfers, and outstation travel easily.",
+            
+            "priceRange": "₹1500 - ₹9000",
+            "telephone": "+91-8967386612", 
+            "email": "info@darjeelingcab.in",
+
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Peshok Tea Garden, Peshok",
+                "addressLocality": "Darjeeling",
+                "addressRegion": "West Bengal",
+                "postalCode": "734312",
+                "addressCountry": "IN"
+            },
+
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 27.0591,
+                "longitude": 88.3849
+            },
+
+            "areaServed": [
+                "Darjeeling",
+                "Kurseong",
+                "Mirik",
+                "Kalimpong",
+                "NJP",
+                "Bagdogra",
+                "Sikkim"
+            ],
+
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Cab Services",
+                "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "name": "NJP to Darjeeling Taxi",
+                    "price": "₹3000",
+                    "priceCurrency": "INR"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Bagdogra Airport to Darjeeling",
+                    "price": "₹3500",
+                    "priceCurrency": "INR"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Darjeeling Local Sightseeing",
+                    "price": "₹3000",
+                    "priceCurrency": "INR"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Darjeeling to Gangtok",
+                    "price": "₹4500",
+                    "priceCurrency": "INR"
+                }
+                ]
+            },
+
+            "openingHoursSpecification": [
+                {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+                ],
+                "opens": "06:00",
+                "closes": "21:00"
+                }
+            ],
+
+            "sameAs": [
+                "https://www.facebook.com/profile.php?id=61552052485531",
+                "https://instagram.com/darjeeling.cab"
+            ]
+        }
+    </script>
+
 </head>
 
 <body>
-
-    <a href="https://api.whatsapp.com/send?phone=+918967386612&text=Hello, I want to book a cab!"
-        class="float" target="_blank">
-        <i class="fa fa-whatsapp my-float"></i>
-    </a>
-
     <div class="page-header{{ Route::is('index') ? '-home' : '' }}">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -63,19 +148,10 @@
                             <a href="{{ url('/') }}" class="nav-link fs-6">Home</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="{{ url('/') }}#services" class="nav-link fs-6">Our Services</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a href="{{ url('routes') }}" class="nav-link fs-6">Routes</a>
-                        </li>
-                        <li class="nav-item mx-3">
-                            <a href="{{ url('pricing') }}" class="nav-link fs-6">Pricing</a>
-                        </li>
-                        <li class="nav-item mx-3">
                             <a href="{{ url('blogs') }}" class="nav-link fs-6">Blogs</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a href="{{ url('faqs') }}" class="nav-link fs-6">FAQ</a>
+                            <a href="#services" class="nav-link fs-6">Our Services</a>
                         </li>
                         <li class="nav-item mx-3">
                             <a href="{{ url('about-us') }}" class="nav-link fs-6">About us</a>
@@ -157,7 +233,8 @@
                 <p class="text-light text-center fw-bold fs-5">Visitors: {{ $visitCount }}</p>
             </div>
             <div class="row mb-5 copyright">
-                <span class="text-center">© Darjeeling Cab. All rights reserved</span>
+                <span class="text-center">© Darjeeling Cab. All rights reserved | Designed and Developed by Kunsang
+                    Moktan</span>
             </div>
         </div>
     </div>
@@ -207,11 +284,10 @@
         });
     </script>
 
-    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
     @yield('scripts')
-    @stack('scripts')
 </body>
 
 </html>

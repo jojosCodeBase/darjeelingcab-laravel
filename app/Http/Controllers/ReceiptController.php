@@ -54,10 +54,8 @@ class ReceiptController extends Controller
     {
         $receipt = Receipt::with('customer')->find($request->receipt_id);
 
-        // dd($receipt);
-
         $data = [
-            'receipt_no' => 'DC-2024-RC-' . $receipt->id,
+            'receipt_no' => 'DC-' . date('Y') . '-RC-' . $receipt->id,
             'bill_no' => $receipt->bill_id,
             'amount' => $receipt->amount,
             'balance' => $receipt->balance,
@@ -92,7 +90,7 @@ class ReceiptController extends Controller
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="'. $data['receipt_no'] . '.pdf',
+                'Content-Disposition' => 'inline; filename="' . $data['receipt_no'] . '.pdf',
             ]
         );
     }

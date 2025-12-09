@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Booking;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class BillController extends Controller
 {
@@ -46,39 +49,54 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $validatedData = $request->validate([
+            'booking_id' => 'required|integer|exists:bookings,id',
             'party_id' => 'required|integer',
             'invoice_date' => 'required|date',
             'invoice_no' => 'required|string',
-            'vehicle_details' => 'required|string',
+            'vehicle_details' => 'required|array',
             'payment_status' => 'required|string',
             'description' => 'required|array',
             'dates' => 'required|array',
             'price' => 'required|array',
             'amount' => 'required|array',
-            'sub_total' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'total' => 'required|numeric',
+            'balance_due' => 'required|numeric|gt:0',
+            'received_amount' => 'nullable|numeric',
+            'total' => 'required|numeric|gt:0',
         ]);
 
-        // Prepare data for insertion
-        $bill = new Bill();
-        $bill->customer_id = $validatedData['party_id'];
-        $bill->bill_date = $validatedData['invoice_date'];
-        $bill->bill_no = $validatedData['invoice_no'];
-        $bill->vehicle_details = $validatedData['vehicle_details'];
-        $bill->payment_status = $validatedData['payment_status'];
-        $bill->description = json_encode($validatedData['description']);
-        $bill->dates = json_encode($validatedData['dates']);
-        $bill->price = json_encode($validatedData['price']);
-        $bill->amount = json_encode($validatedData['amount']);
-        $bill->sub_total = $validatedData['sub_total'];
-        $bill->discount = $validatedData['discount'] ?? 0; // Default to 0 if not provided
-        $bill->total_amount = $validatedData['total'];
+        try {
 
-        $bill->save();
+            // get the vehicle details from bookings table
 
-        return redirect()->route('bills')->withSuccess('Bill saved successfully');
+            // $vehicle_details = Booking::where('id', $validated['booking_id'])->value('vehicle')
+
+            // Prepare data for insertion
+            $bill = new Bill();
+
+            $bill->booking_id = $validatedData['booking_id'];
+            $bill->customer_id = $validatedData['party_id'];
+            $bill->bill_date = $validatedData['invoice_date'];
+            $bill->bill_no = $validatedData['invoice_no'];
+            $bill->vehicle_details = json_encode($validatedData['vehicle_details']);
+            $bill->payment_status = $validatedData['payment_status'];
+            $bill->description = json_encode($validatedData['description']);
+            $bill->dates = json_encode($validatedData['dates']);
+            $bill->price = json_encode($validatedData['price']);
+            $bill->amount = json_encode($validatedData['amount']);
+            $bill->balance_due = (float) $validatedData['balance_due'];
+            $bill->received_amount = (float) $validatedData['received_amount'] ?? 0; // Default to 0 if not provided
+            $bill->total_amount = (float) $validatedData['total'];
+
+            $bill->save();
+
+            return redirect()->route('bills')->withSuccess('Bill saved successfully');
+        } catch (Exception $e) {
+            Log::error('Some error occured in generating bill for booking id -- ' . $request->booking_id . ' -- error -- ' . $e->getMessage());
+            return redirect()->back()->withErrors('Failed to generate bill.');
+        }
     }
 
     /**
@@ -92,48 +110,67 @@ class BillController extends Controller
 
     public function generatePDF(Bill $bill)
     {
-        $customer = Customer::find($bill->customer_id);
+        try {
+            $customer = Customer::find($bill->customer_id);
 
-        $data = [
-            'bill' => $bill,
-            'customer' => $customer,
-            'description' => json_decode($bill->description),
-            'dates' => json_decode($bill->dates),
-            'prices' => json_decode($bill->price),
-            'amounts' => json_decode($bill->amount),
-            'vehicle_details' => $bill->vehicle_details,
-            'payment_status' => $bill->payment_status,
-        ];
+            if ($bill->payment_status == "advance-paid") {
+                $payment_status = "Advance Paid";
+            } else {
+                $payment_status = "Not Paid";
+            }
 
-        // Render the Blade view to HTML
-        $html = View::make('admin.bills.bill-pdf', $data)->render();
+            $data = [
+                'bill' => $bill,
+                'customer' => $customer,
+                'description' => json_decode($bill->description),
+                'dates' => json_decode($bill->dates),
+                'prices' => json_decode($bill->price),
+                'amounts' => json_decode($bill->amount),
+                'vehicle_details' => $bill->vehicle_details,
+                'payment_status' => $payment_status,
+            ];
 
-        // Initialize mPDF with margins set to 0
-        $mpdf = new Mpdf([
-            'margin_left' => 0,
-            'margin_right' => 0,
-            'margin_top' => 0,
-            'margin_bottom' => 0,
-        ]);
+            // return view('admin.bills.pdf', [
+            //     'bill' => $bill,
+            //     'customer' => $customer,
+            //     'description' => json_decode($bill->description),
+            //     'dates' => json_decode($bill->dates),
+            //     'prices' => json_decode($bill->price),
+            //     'amounts' => json_decode($bill->amount),
+            //     'vehicle_details' => $bill->vehicle_details,
+            //     'payment_status' => $payment_status,
+            // ]);
 
-        // Write HTML to PDF
-        $mpdf->WriteHTML($html);
+            // Render the Blade view to HTML
+            $html = View::make('admin.bills.bill-pdf', $data)->render();
 
-        $filename = 'Invoice - ' . $bill->bill_no . '.pdf';
+            // Initialize mPDF with margins set to 0
+            $mpdf = new Mpdf([
+                'margin_left' => 0,
+                'margin_right' => 0,
+                'margin_top' => 0,
+                'margin_bottom' => 0,
+            ]);
 
-        // Output the PDF as a download
-        return response()->stream(
-            function () use ($mpdf, $filename) {
-                $mpdf->Output($filename, 'I');
-            },
-            200,
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename=' . $filename . '',
-            ]
-        );
+            // Write HTML to PDF
+            $mpdf->WriteHTML($html);
 
-        //  return $pdf->download('invoice-' . $bill->bill_no . '.pdf');
+            $filename = 'Invoice - ' . $bill->bill_no . '.pdf';
+
+            // Output the PDF as a download
+            return response()->stream(
+                function () use ($mpdf, $filename) {
+                    $mpdf->Output($filename, 'I');
+                },
+                200,
+                [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename=' . $filename . '',
+                ]
+            );
+        } catch (Exception $e) {
+            Log::error('Failed to generate invoice pdf -- ' . $e->getMessage() . ' -- on line -- ' . $e->getLine());
+        }
     }
 
 
