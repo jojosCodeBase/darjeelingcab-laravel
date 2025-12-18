@@ -239,18 +239,18 @@ class BlogController extends Controller
         SEOMeta::setTitle($title);
         SEOMeta::setDescription($description);
         SEOMeta::addKeyword($keywords);
-        SEOMeta::setCanonical('https://www.darjeelingcab.in/');
+        SEOMeta::setCanonical('https://darjeelingcab.in/');
 
         OpenGraph::setDescription($description);
         OpenGraph::setTitle($title);
-        OpenGraph::setUrl('https://www.darjeelingcab.in/');
+        OpenGraph::setUrl('https://darjeelingcab.in/');
         OpenGraph::addProperty('type', 'Darjeeling Cab');
         OpenGraph::addImage(asset($blog->og_image));
 
         Twitter::setTitle($title);
         Twitter::setSite('@Darjeeling_Cab');
         Twitter::setDescription($description);
-        Twitter::setUrl('https://www.darjeelingcab.in/');
+        Twitter::setUrl('https://darjeelingcab.in/');
         Twitter::setImage(asset($blog->twitter_image));
 
         JsonLd::setTitle($title);

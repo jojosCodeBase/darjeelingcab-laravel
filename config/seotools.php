@@ -14,7 +14,7 @@ return [
             'description'  => 'Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!', // set false to total remove
             'separator'    => ' - ',
             'keywords'     => [],
-            'canonical'    => 'https://www.darjeelingcab.in/', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
+            'canonical'    => 'https://darjeelingcab.in/', // Set to null or 'full' to use Url::full(), set to 'current' to use Url::current(), set false to total remove
             'robots'       => false, // Set to 'all', 'none' or any combination of index/noindex and follow/nofollow
         ],
         /*
@@ -38,7 +38,7 @@ return [
         'defaults' => [
             'title'       => false, // set false to total remove
             'description' => 'Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!', // set false to total remove
-            'url'         => 'https://www.darjeelingcab.in/', // Set null for using Url::current(), set false to total remove
+            'url'         => 'https://darjeelingcab.in/', // Set null for using Url::current(), set false to total remove
             'type'        => 'Darjeeling Cab',
             'site_name'   => false,
             'images'      => [],
@@ -60,7 +60,7 @@ return [
         'defaults' => [
             'title'       => false, // set false to total remove
             'description' => 'Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!', // set false to total remove
-            'url'         => 'https://www.darjeelingcab.in/', // Set null for using Url::current(), set false to total remove
+            'url'         => 'https://darjeelingcab.in/', // Set null for using Url::current(), set false to total remove
             'type'        => 'WebPage',
             'images'      => [],
         ],

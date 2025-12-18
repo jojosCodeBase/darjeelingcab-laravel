@@ -294,7 +294,7 @@
         <div class="company-address">
             <p>Darjeeling Cab</p>
             <p>Peshok Tea Garden, Peshok, Rangli Tangliot, Darjeeling</p>
-            <p><a href="https://www.darjeelingcab.in">www.darjeelingcab.in</a></p>
+            <p><a href="https://darjeelingcab.in">www.darjeelingcab.in</a></p>
             <p>1234567890 | 987654534210 | info@darjeelingcab.in</p>
         </div>
     </div>

@@ -14,7 +14,7 @@
     <meta property="og:title" content="Your premier choice for exploring Darjeeling">
     <meta property="og:description"
     content="Explore the scenic beauty of Darjeeling with Darjeeling Cab – your trusted partner for comfortable and reliable taxi services. Discover top-notch transportation solutions for tourists and locals alike. Book your cab today for a memorable journey!">
-    <meta property="og:url" content=https://www.darjeelingcab.in>
+    <meta property="og:url" content=https://darjeelingcab.in>
     <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:site_name" content="Darjeeling Cab">
     <meta property="og:image" content="{{ asset('assets/images/favicon.ico') }}">

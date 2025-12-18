@@ -132,7 +132,7 @@
         <!-- Header Section -->
         <div class="header">
             <div class="logo">
-                <img src="https://www.darjeelingcab.in/assets/images/white-logo.png" alt="Darjeeling Cab Logo" style="width: 150px;">
+                <img src="https://darjeelingcab.in/assets/images/white-logo.png" alt="Darjeeling Cab Logo" style="width: 150px;">
             </div>
             <div class="info">
                 <p><strong>Receipt Number:</strong> {{ $receipt_no }}</p>

@@ -1,9 +1,35 @@
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteRule ^$ public/index.php [L]
-RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indices
+    </IfModule>
+
+    RewriteEngine On
+
+    # 1. PREVENT DIRECT ACCESS TO .ENV AND OTHER SENSITIVE FILES
+    RewriteRule ^(\.env|composer\.json|package\.json|package-lock\.json)$ - [F,L]
+
+    # 2. REMOVE INDEX.HTML FROM URL
+    RewriteCond %{THE_REQUEST} /index\.html [NC]
+    RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
+    # 3. FORCE HTTPS FIRST
+    # Ensures the connection is secure before changing the domain
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 4. FORCE NON-WWW
+    # Matches what Google Search Console expects
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+    # 5. ROUTE ALL TRAFFIC TO THE PUBLIC FOLDER
+    # This allows Laravel to handle requests as if /public was the root
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
 </IfModule>
 
+# Extra security for the root directory
 <Files ".env">
     Require all denied
 </Files>
