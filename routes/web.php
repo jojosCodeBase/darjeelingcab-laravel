@@ -6,9 +6,12 @@ use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EnquiriesController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\TourEnquiriesController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -91,7 +94,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         return view('admin.forms');
     })->name('forms');
 
-    Route::resource('customer', CustomerController::class)->names([
+    Route::resource('customers', CustomerController::class)->names([
         'index' => 'customers',
         'create' => 'customer.create',
         'store' => 'customer.store',
@@ -153,6 +156,22 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'update' => 'blogs.update',
         'destroy' => 'blogs.destroy',
     ]);
+
+    Route::resource('invoices', InvoiceController::class)->names([
+        'index' => 'invoices'
+    ]);
+
+    Route::resource('enquiries', EnquiriesController::class)->names([
+        'index' => 'enquiries'
+    ]);
+    
+    Route::resource('tour-enquiries', TourEnquiriesController::class)->names([
+        'index' => 'tour-enquiries'
+    ]);
+
+    Route::get('settings', function(){
+        return view('admin.settings');
+    })->name('settings');
 
     Route::post('blogs/update-status', [BlogController::class, 'updateStatus'])->name('blogs.update-status');
 

@@ -1,53 +1,77 @@
 @extends('layouts.admin-main')
 @section('title', 'Receipts')
 @section('content')
-    <div class="container-fluid p-0">
-        <div class="row d-flex justify-content-between align-items-center">
-            <div class="col">
-                <h4 class="header-title text-uppercase">Receipts</h4>
+    <main class="p-4 sm:p-6 lg:p-8">
+        <div class="w-full">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                <div>
+                    <h4 class="text-xl font-extrabold text-gray-800 uppercase tracking-wider">Receipts</h4>
+                    <p class="text-sm text-gray-500">Manage and generate payment receipts</p>
+                </div>
+                <a href="{{ route('receipt.create') }}"
+                    class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg font-semibold transition-all shadow-md active:scale-95">
+                    <i class="fa fa-plus text-xs"></i> Create Receipt
+                </a>
             </div>
-            <div class="col-auto">
-                <a href="{{ route('receipt.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create</a>
-            </div>
-        </div>
-        <div class="card mt-3">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <th>#</th>
-                            <th>Receipt ID</th>
-                            <th>Invoice ID</th>
-                            <th>Customer Name</th>
-                            <th>Amount Paid</th>
-                            <th>Payment Method</th>
-                            <th>Payment Status</th>
-                            <th>Balance Due</th>
-                            <th>Payment Date</th>
+
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">#</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Receipt ID</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Invoice ID</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Customer Name</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Amount Paid</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Method</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Status</th>
+                                <th class="px-6 py-4 text-gray-600 font-semibold text-sm text-right">Actions</th>
+                            </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-gray-200">
                             @forelse ($receipts as $receipt)
-                                <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#receiptModal"
-                                    data-id="{{ $receipt->id }}" data-bill-id="{{ $receipt->bill_id }}"
+                                <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" data-bs-toggle="modal"
+                                    data-bs-target="#receiptModal" data-id="{{ $receipt->id }}"
+                                    data-bill-id="{{ $receipt->bill_id }}"
                                     data-customer-name="{{ $receipt->customer->full_name }}"
                                     data-amount="{{ $receipt->amount }}"
                                     data-payment-method="{{ $receipt->payment_method }}"
                                     data-payment-status="{{ $receipt->payment_status }}"
-                                    data-balance="{{ $receipt->balance }}" data-payment-date="{{ $receipt->payment_date }}"
-                                    class="cursor">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $receipt->id }}</td>
-                                    <td>{{ $receipt->bill_id }}</td>
-                                    <td>{{ $receipt->customer->full_name }}</td>
-                                    <td>{{ $receipt->amount }}</td>
-                                    <td>{{ $receipt->payment_method }}</td>
-                                    <td>{{ $receipt->payment_status }}</td>
-                                    <td>{{ $receipt->balance }}</td>
-                                    <td>{{ $receipt->payment_date }}</td>
+                                    data-balance="{{ $receipt->balance }}" data-payment-date="{{ $receipt->payment_date }}">
+
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                    <td class="px-6 py-4 text-sm font-bold text-indigo-600">#{{ $receipt->id }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-600">{{ $receipt->bill_id }}</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="text-sm font-medium text-gray-900">{{ $receipt->customer->full_name }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm font-bold text-gray-900">
+                                        ₹{{ number_format($receipt->amount, 2) }}</td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="text-xs font-medium text-gray-500 uppercase italic">{{ $receipt->payment_method }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide 
+                                {{ $receipt->payment_status == 'Paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
+                                            {{ $receipt->payment_status }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <button
+                                            class="text-indigo-600 hover:text-indigo-900 group-hover:scale-110 transition-transform">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9">No receipts found</td>
+                                    <td colspan="8" class="px-6 py-12 text-center text-gray-500 italic bg-gray-50/50">
+                                        No receipts found in the database.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -55,41 +79,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Receipt Modal -->
-        <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="receiptModalLabel">Receipt Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('generate-receipt') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="receipt_id" id="receipt_id">
-                            <p><strong>Receipt ID:</strong> <span id="modal-receipt-id"></span></p>
-                            <p><strong>Invoice ID:</strong> <span id="modal-bill-id"></span></p>
-                            <p><strong>Customer Name:</strong> <span id="modal-customer-name"></span></p>
-                            <p><strong>Amount Paid:</strong> <span id="modal-amount-paid"></span></p>
-                            <p><strong>Payment Method:</strong> <span id="modal-payment-method"></span></p>
-                            <p><strong>Payment Status:</strong> <span id="modal-payment-status"></span></p>
-                            <p><strong>Balance Due:</strong> <span id="modal-balance-due"></span></p>
-                            <p><strong>Payment Date:</strong> <span id="modal-payment-date"></span></p>
-                            <p>
-                                <button type="submit" class="btn btn-success"><i class="fa fa-file-pdf"></i> Generate
-                                    Receipt</button>
-                            </p>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    </main>
 @endsection
 
 @section('scripts')

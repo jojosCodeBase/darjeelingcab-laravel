@@ -2,286 +2,240 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    
-    <link rel="icon" href="{{ asset('assets/images/favicon.ico') }}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Darjeeling Cab Admin</title>
+    <meta name="description" content="Admin dashboard for managing Darjeeling cab business">
 
-    <title>@yield('title') | Darjeeling Cab</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <link href="{{ asset('assets/admin/css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
-<body>
-    <div class="wrapper">
-        <nav id="sidebar" class="sidebar js-sidebar">
-            <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="{{ route('dashboard') }}">
-                    <span class="align-middle">Admin Darjeeling Cab</span>
-                </a>
+<body class="bg-gray-50">
 
-                <ul class="sidebar-nav">
-                    <li class="sidebar-header">
-                        Pages
-                    </li>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
 
-                    <li class="sidebar-item {{ Route::is('dashboard') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('dashboard') }}">
-                            <i class="align-middle" data-feather="sliders"></i> <span
-                                class="align-middle">Dashboard</span>
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-lg">
+        <div class="flex flex-col h-full">
+            <!-- Logo -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-taxi text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-gray-900 font-bold text-lg">Darjeeling Cab</h1>
+                            <p class="text-gray-500 text-xs">Admin Panel</p>
+                        </div>
+                    </div>
+                    <button id="closeSidebar" class="lg:hidden text-gray-500 hover:text-gray-900">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 p-4 overflow-y-auto">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ route('dashboard') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('dashboard') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-home w-5"></i>
+                            <span class="font-medium">Dashboard</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('customers') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('customers') }}">
-                            <i class="align-middle" data-feather="users"></i> <span class="align-middle">Customers</span>
+                    <li>
+                        <a href="{{ route('customers') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('customers') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-users w-5"></i>
+                            <span class="font-medium">Customers</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('bookings') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('bookings') }}">
-                            <i class="align-middle" data-feather="file"></i> <span class="align-middle">Bookings</span>
+                    <li>
+                        <a href="{{ route('bookings') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('bookings') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-calendar-check w-5"></i>
+                            <span class="font-medium">Bookings</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('bills') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('bills') }}">
-                            <i class="align-middle" data-feather="file-text"></i> <span class="align-middle">Bills</span>
-                        </a>
-                    </li>
-                    
-                    <li class="sidebar-item {{ Route::is('receipts') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('receipts') }}">
-                            <i class="align-middle" data-feather="file-minus"></i> <span class="align-middle">Receipts</span>
+                    <li>
+                        <a href="{{ route('invoices') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('invoices') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-file-invoice-dollar w-5"></i>
+                            <span class="font-medium">Invoices</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item {{ Route::is('blogs') ? 'active' : '' }}">
-                        <a class="sidebar-link" href="{{ route('blogs') }}">
-                            <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Blogs</span>
+                    <li>
+                        <a href="{{ route('receipts') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('receipts') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-file-invoice w-5"></i>
+                            <span class="font-medium">Receipts</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('blogs') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('blogs') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-blog w-5"></i>
+                            <span class="font-medium">Blogs</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('enquiries') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('enquiries') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-message w-5"></i>
+                            <span class="font-medium">Enquiries</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('tour-enquiries') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('tour-enquiries') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-route w-5"></i>
+                            <span class="font-medium">Tour Enquiries</span>
                         </a>
                     </li>
                 </ul>
-            </div>
-        </nav>
 
-        <div class="main">
-            <nav class="navbar navbar-expand navbar-light navbar-bg">
-                <a class="sidebar-toggle js-sidebar-toggle">
-                    <i class="hamburger align-self-center"></i>
-                </a>
+                <div class="my-6 border-t border-gray-200"></div>
 
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav navbar-align">
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
-                                data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="bell"></i>
-                                    <span class="indicator">4</span>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                                aria-labelledby="alertsDropdown">
-                                <div class="dropdown-menu-header">
-                                    4 New Notifications
-                                </div>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <i class="text-danger" data-feather="alert-circle"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-dark">Update completed</div>
-                                                <div class="text-muted small mt-1">Restart server 12 to complete the
-                                                    update.</div>
-                                                <div class="text-muted small mt-1">30m ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <i class="text-warning" data-feather="bell"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-dark">Lorem ipsum</div>
-                                                <div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate
-                                                    hendrerit et.</div>
-                                                <div class="text-muted small mt-1">2h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <i class="text-primary" data-feather="home"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-dark">Login from 192.186.1.8</div>
-                                                <div class="text-muted small mt-1">5h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <i class="text-success" data-feather="user-plus"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-dark">New connection</div>
-                                                <div class="text-muted small mt-1">Christina accepted your request.
-                                                </div>
-                                                <div class="text-muted small mt-1">14h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Show all notifications</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown"
-                                data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="message-square"></i>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0"
-                                aria-labelledby="messagesDropdown">
-                                <div class="dropdown-menu-header">
-                                    <div class="position-relative">
-                                        4 New Messages
-                                    </div>
-                                </div>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="#"
-                                                    class="avatar img-fluid rounded-circle" alt="Vanessa Tucker">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Vanessa Tucker</div>
-                                                <div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis
-                                                    arcu tortor.</div>
-                                                <div class="text-muted small mt-1">15m ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="#"
-                                                    class="avatar img-fluid rounded-circle" alt="William Harris">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">William Harris</div>
-                                                <div class="text-muted small mt-1">Curabitur ligula sapien euismod
-                                                    vitae.</div>
-                                                <div class="text-muted small mt-1">2h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="#"
-                                                    class="avatar img-fluid rounded-circle" alt="Christina Mason">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Christina Mason</div>
-                                                <div class="text-muted small mt-1">Pellentesque auctor neque nec urna.
-                                                </div>
-                                                <div class="text-muted small mt-1">4h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="#"
-                                                    class="avatar img-fluid rounded-circle" alt="Sharon Lessman">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Sharon Lessman</div>
-                                                <div class="text-muted small mt-1">Aenean tellus metus, bibendum sed,
-                                                    posuere ac, mattis non.</div>
-                                                <div class="text-muted small mt-1">5h ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Show all messages</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#"
-                                data-bs-toggle="dropdown">
-                                <i class="align-middle" data-feather="settings"></i>
-                            </a>
-
-                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
-                                data-bs-toggle="dropdown">
-                                <img src="{{ asset('assets/images/favicon.ico') }}"
-                                    class="avatar img-fluid rounded me-1" alt="{{ Auth::user()->name }}" /> <span
-                                    class="text-dark">{{ Auth::user()->name }}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="align-middle me-1"
-                                        data-feather="user"></i> Profile</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="pie-chart"></i> Analytics</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="settings"></i> Settings & Privacy</a>
-                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
-                                        data-feather="help-circle"></i> Help Center</a>
-                                <div class="dropdown-divider"></div>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Log out</button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{{ route('settings') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('settings') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fas fa-cog w-5"></i>
+                            <span class="font-medium">Settings</span>
+                        </a>
+                    </li>
+                </ul>
             </nav>
 
-            <main class="content">
-                @include('include.alerts')
-                @yield('content')
-            </main>
+            <!-- User Profile -->
+            <div class="p-4 border-t border-gray-200">
+                <div
+                    class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                        <span class="text-white font-semibold">AD</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-900 font-medium text-sm">Admin User</p>
+                        <p class="text-gray-500 text-xs">admin@darjeelingcab.com</p>
+                    </div>
+                    <i class="fas fa-sign-out-alt text-gray-400 hover:text-red-500 transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </aside>
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row text-muted">
-                        <div class="col-6 text-start">
-                            <p class="mb-0">
-                                <a class="text-muted" href="https://darjeelingcab.in/"
-                                    target="_blank"><strong>Darjeeling Cab</strong></a> &copy;
-                            </p>
+    <!-- Main Content -->
+    <div class="lg:ml-64 min-h-screen">
+        <!-- Top Header -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div class="px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <button id="openSidebar" class="lg:hidden text-gray-600 hover:text-gray-900">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                        <div>
+                            <h2 class="text-gray-900 text-xl sm:text-2xl font-bold">Dashboard</h2>
+                            <p class="text-gray-500 text-sm">Welcome back, Admin!</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <div class="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2">
+                            <i class="fas fa-search text-gray-400 mr-2"></i>
+                            <input type="text" placeholder="Search..."
+                                class="bg-transparent text-gray-900 outline-none text-sm w-48">
+                        </div>
+
+                        <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+
+                        <div class="hidden sm:block w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full">
                         </div>
                     </div>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </header>
+
+        @yield('content')
     </div>
 
-    <script src="{{ asset('assets/admin/js/app.js') }}"></script>
+    <script>
+        // Mobile menu toggle
+        const sidebar = document.getElementById('sidebar');
+        const openSidebar = document.getElementById('openSidebar');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+        openSidebar.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            mobileMenuOverlay.classList.remove('hidden');
+        });
+
+        closeSidebar.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            mobileMenuOverlay.classList.add('hidden');
+        });
+
+        mobileMenuOverlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            mobileMenuOverlay.classList.add('hidden');
+        });
+    </script>
 
     <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
 
@@ -289,235 +243,7 @@
 
     <script src="{{ asset('assets/admin/tinymce/script.js') }}"></script>
 
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-            gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-            gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-            // Line chart
-            new Chart(document.getElementById("chartjs-dashboard-line"), {
-                type: "line",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "Sales ($)",
-                        fill: true,
-                        backgroundColor: gradient,
-                        borderColor: window.theme.primary,
-                        data: [
-                            1582,
-                            1562,
-                            1584,
-                            1892,
-                            1587,
-                            1923,
-                            2566,
-                            2448,
-                            2805,
-                            3438,
-                            2917,
-                            3327
-                        ]
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    tooltips: {
-                        intersect: false
-                    },
-                    hover: {
-                        intersect: true
-                    },
-                    plugins: {
-                        filler: {
-                            propagate: false
-                        }
-                    },
-                    scales: {
-                        xAxes: [{
-                            reverse: true,
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                stepSize: 1000
-                            },
-                            display: true,
-                            borderDash: [3, 3],
-                            gridLines: {
-                                color: "rgba(0,0,0,0.0)"
-                            }
-                        }]
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Pie chart
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-                type: "pie",
-                data: {
-                    labels: ["Chrome", "Firefox", "IE"],
-                    datasets: [{
-                        data: [4306, 3801, 1689],
-                        backgroundColor: [
-                            window.theme.primary,
-                            window.theme.warning,
-                            window.theme.danger
-                        ],
-                        borderWidth: 5
-                    }]
-                },
-                options: {
-                    responsive: !window.MSInputMethodContext,
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    cutoutPercentage: 75
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Bar chart
-            new Chart(document.getElementById("chartjs-dashboard-bar"), {
-                type: "bar",
-                data: {
-                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                        "Dec"
-                    ],
-                    datasets: [{
-                        label: "This year",
-                        backgroundColor: window.theme.primary,
-                        borderColor: window.theme.primary,
-                        hoverBackgroundColor: window.theme.primary,
-                        hoverBorderColor: window.theme.primary,
-                        data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-                        barPercentage: .75,
-                        categoryPercentage: .5
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: false
-                            },
-                            stacked: false,
-                            ticks: {
-                                stepSize: 20
-                            }
-                        }],
-                        xAxes: [{
-                            stacked: false,
-                            gridLines: {
-                                color: "transparent"
-                            }
-                        }]
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var markers = [{
-                    coords: [31.230391, 121.473701],
-                    name: "Shanghai"
-                },
-                {
-                    coords: [28.704060, 77.102493],
-                    name: "Delhi"
-                },
-                {
-                    coords: [6.524379, 3.379206],
-                    name: "Lagos"
-                },
-                {
-                    coords: [35.689487, 139.691711],
-                    name: "Tokyo"
-                },
-                {
-                    coords: [23.129110, 113.264381],
-                    name: "Guangzhou"
-                },
-                {
-                    coords: [40.7127837, -74.0059413],
-                    name: "New York"
-                },
-                {
-                    coords: [34.052235, -118.243683],
-                    name: "Los Angeles"
-                },
-                {
-                    coords: [41.878113, -87.629799],
-                    name: "Chicago"
-                },
-                {
-                    coords: [51.507351, -0.127758],
-                    name: "London"
-                },
-                {
-                    coords: [40.416775, -3.703790],
-                    name: "Madrid "
-                }
-            ];
-            var map = new jsVectorMap({
-                map: "world",
-                selector: "#world_map",
-                zoomButtons: true,
-                markers: markers,
-                markerStyle: {
-                    initial: {
-                        r: 9,
-                        strokeWidth: 7,
-                        stokeOpacity: .4,
-                        fill: window.theme.primary
-                    },
-                    hover: {
-                        fill: window.theme.primary,
-                        stroke: window.theme.primary
-                    }
-                },
-                zoomOnScroll: false
-            });
-            window.addEventListener("resize", () => {
-                map.updateSize();
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var date = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000);
-            var defaultDate = date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
-            document.getElementById("datetimepicker-dashboard").flatpickr({
-                inline: true,
-                prevArrow: "<span title=\"Previous month\">&laquo;</span>",
-                nextArrow: "<span title=\"Next month\">&raquo;</span>",
-                defaultDate: defaultDate
-            });
-        });
-    </script>
-
     @yield('scripts')
-
 </body>
 
 </html>

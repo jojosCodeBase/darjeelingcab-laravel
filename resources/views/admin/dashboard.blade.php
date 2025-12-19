@@ -1,235 +1,229 @@
-@extends('layouts/admin-main')
+@extends('layouts.admin-main')
 @section('title', 'Dashboard')
 @section('content')
-    <div class="container-fluid p-0">
+    <!-- Dashboard Content -->
+    <main class="p-4 sm:p-6 lg:p-8">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            <!-- Stat Card 1 -->
+            <div class="stat-card bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 text-white shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+12%</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-1">1,234</h3>
+                <p class="text-white text-opacity-90 text-sm">Total Customers</p>
+            </div>
 
-        <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+            <!-- Stat Card 2 -->
+            <div class="stat-card bg-gradient-to-br from-pink-500 to-rose-700 rounded-xl p-6 text-white shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-2xl"></i>
+                    </div>
+                    <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+8%</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-1">567</h3>
+                <p class="text-white text-opacity-90 text-sm">Active Bookings</p>
+            </div>
 
-        <div class="row">
-            <div class="col-xl-6 col-xxl-5 d-flex">
-                <div class="w-100">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Site Visits</h5>
-                                        </div>
+            <!-- Stat Card 3 -->
+            <div class="stat-card bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 text-white shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-invoice-dollar text-2xl"></i>
+                    </div>
+                    <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+15%</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-1">₹2.4L</h3>
+                <p class="text-white text-opacity-90 text-sm">Total Revenue</p>
+            </div>
 
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="globe"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3">{{ $visits }}</h1>
-                                    <div class="mb-0">
-                                        <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
+            <!-- Stat Card 4 -->
+            <div class="stat-card bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-blog text-2xl"></i>
+                    </div>
+                    <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+5%</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-1">89</h3>
+                <p class="text-white text-opacity-90 text-sm">Published Blogs</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity & Quick Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Recent Bookings -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-gray-900 text-lg font-semibold">Recent Bookings</h3>
+                        <a href="bookings.html" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View
+                            All</a>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div
+                            class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-car text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Darjeeling to Gangtok</p>
+                                    <p class="text-gray-500 text-sm">Customer: Rajesh Kumar</p>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Customers</h5>
-                                        </div>
-
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="users"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3">{{ $customers }}</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
-                                </div>
+                            <div class="text-right">
+                                <p class="text-gray-900 font-semibold">₹4,500</p>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Confirmed</span>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Earnings</h5>
-                                        </div>
 
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="dollar-sign"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3">$21.300</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
+                        <div
+                            class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-pink-500 to-red-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-car text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Siliguri to Darjeeling</p>
+                                    <p class="text-gray-500 text-sm">Customer: Priya Sharma</p>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col mt-0">
-                                            <h5 class="card-title">Bookings</h5>
-                                        </div>
+                            <div class="text-right">
+                                <p class="text-gray-900 font-semibold">₹2,800</p>
+                                <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Pending</span>
+                            </div>
+                        </div>
 
-                                        <div class="col-auto">
-                                            <div class="stat text-primary">
-                                                <i class="align-middle" data-feather="shopping-cart"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h1 class="mt-1 mb-3">{{ $bookings }}</h1>
-                                    <div class="mb-0">
-                                        <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
+                        <div
+                            class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-car text-white"></i>
                                 </div>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Kalimpong Tour</p>
+                                    <p class="text-gray-500 text-sm">Customer: Amit Patel</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-900 font-semibold">₹6,200</p>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">Confirmed</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-6 col-xxl-7">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Recent Movement</h5>
-                    </div>
-                    <div class="card-body py-3">
-                        <div class="chart chart-sm">
-                            <canvas id="chartjs-dashboard-line"></canvas>
-                        </div>
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-gray-900 text-lg font-semibold">Quick Actions</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <a href="bookings.html"
+                            class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
+                            <i class="fas fa-plus mr-2"></i>New Booking
+                        </a>
+                        <a href="customers.html"
+                            class="block w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
+                            <i class="fas fa-user-plus mr-2"></i>Add Customer
+                        </a>
+                        <a href="invoices.html"
+                            class="block w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
+                            <i class="fas fa-file-invoice mr-2"></i>Generate Invoice
+                        </a>
+                        <a href="blogs.html"
+                            class="block w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
+                            <i class="fas fa-pen mr-2"></i>Write Blog
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- <div class="row">
-            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Browser Usage</h5>
+        <!-- Charts & Analytics -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Revenue Chart -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-gray-900 text-lg font-semibold">Revenue Overview</h3>
+                </div>
+                <div class="p-6">
+                    <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                        <div class="text-center">
+                            <i class="fas fa-chart-line text-gray-300 text-5xl mb-4"></i>
+                            <p class="text-gray-500">Chart will be displayed here</p>
+                        </div>
                     </div>
-                    <div class="card-body d-flex">
-                        <div class="align-self-center w-100">
-                            <div class="py-3">
-                                <div class="chart chart-xs">
-                                    <canvas id="chartjs-dashboard-pie"></canvas>
+                </div>
+            </div>
+
+            <!-- Popular Routes -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-gray-900 text-lg font-semibold">Popular Routes</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">1</span>
                                 </div>
+                                <span class="text-gray-900">Darjeeling - Gangtok</span>
                             </div>
-
-                            <table class="table mb-0">
-                                <tbody>
-                                    <tr>
-                                        <td>Chrome</td>
-                                        <td class="text-end">4306</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Firefox</td>
-                                        <td class="text-end">3801</td>
-                                    </tr>
-                                    <tr>
-                                        <td>IE</td>
-                                        <td class="text-end">1689</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <span class="text-gray-500">234 trips</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Real-Time</h5>
-                    </div>
-                    <div class="card-body px-4">
-                        <div id="world_map" style="height:350px;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-                <div class="card flex-fill">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Calendar</h5>
-                    </div>
-                    <div class="card-body d-flex">
-                        <div class="align-self-center w-100">
-                            <div class="chart">
-                                <div id="datetimepicker-dashboard"></div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">2</span>
+                                </div>
+                                <span class="text-gray-900">Siliguri - Darjeeling</span>
                             </div>
+                            <span class="text-gray-500">189 trips</span>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="row">
-            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-                <div class="card flex-fill">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Upcoming Bookings</h5>
-                    </div>
-                    <table class="table table-hover my-0">
-                        <thead>
-                            <tr>
-                                <th>Guest Name</th>
-                                <th class="d-none d-xl-table-cell">Start Date</th>
-                                <th class="d-none d-xl-table-cell">End Date</th>
-                                <th>Status</th>
-                                <th class="d-none d-md-table-cell">Assignee</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="">Kunsang Moktan</a></td>
-                                <td class="d-none d-xl-table-cell">01/01/2021</td>
-                                <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
-                                <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Lokesh Gurung</a></td>
-                                <td class="d-none d-xl-table-cell">01/01/2021</td>
-                                <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                <td><span class="badge bg-danger">Cancelled</span></td>
-                                <td class="d-none d-md-table-cell">William Harris</td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Tshiten Tamang</a></td>
-                                <td class="d-none d-xl-table-cell">01/01/2021</td>
-                                <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                                <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Monthly Bookings</h5>
-                    </div>
-                    <div class="card-body d-flex w-100">
-                        <div class="align-self-center chart chart-lg">
-                            <canvas id="chartjs-dashboard-bar"></canvas>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">3</span>
+                                </div>
+                                <span class="text-gray-900">Kalimpong Tour</span>
+                            </div>
+                            <span class="text-gray-500">156 trips</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">4</span>
+                                </div>
+                                <span class="text-gray-900">Mirik - Darjeeling</span>
+                            </div>
+                            <span class="text-gray-500">142 trips</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">5</span>
+                                </div>
+                                <span class="text-gray-900">Pelling - Gangtok</span>
+                            </div>
+                            <span class="text-gray-500">128 trips</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 @endsection
