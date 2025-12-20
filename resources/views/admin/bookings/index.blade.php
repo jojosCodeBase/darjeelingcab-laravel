@@ -16,7 +16,7 @@
 
                 <a href="{{ route('bookings.create') }}">
                     <button
-                        class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
                         <i class="fas fa-plus"></i>
                         <span>New Booking</span>
                     </button>
@@ -88,8 +88,7 @@
                                 @endphp
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-4">
-                                        <span
-                                            class="text-blue-600 font-semibold">#BK-{{ str_pad($booking->id, 3, '0', STR_PAD_LEFT) }}</span>
+                                        <span class="text-blue-600 font-semibold">#{{ $booking->booking_id }}</span>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div>
@@ -165,8 +164,7 @@
                         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                             <div class="flex items-start justify-between mb-3">
                                 <div>
-                                    <span
-                                        class="text-blue-600 font-semibold text-lg">#BK-{{ str_pad($booking->id, 3, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="text-blue-600 font-semibold text-lg">#{{ $booking->booking_id }}</span>
                                     <p class="text-gray-900 font-medium mt-1">{{ $booking->customer->full_name }}</p>
                                 </div>
                                 <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">NA</span>
@@ -174,11 +172,12 @@
                             <div class="space-y-2 mb-4">
                                 <div class="flex items-center text-gray-600 text-sm">
                                     <i class="fas fa-users w-5 mr-2 text-gray-400"></i>
-                                    <span>{{ $booking->adults }} Adults, {{ $booking->child }} Child</span>
+                                    <span>{{ $booking->pax }} Pax</span>
                                 </div>
                                 <div class="flex items-center text-gray-600 text-sm">
                                     <i class="fas fa-calendar w-5 mr-2 text-gray-400"></i>
-                                    <span>{{ $startDate }} — {{ $endDate }}</span>
+                                    <span>{{ \Carbon\Carbon::parse($startDate)->format('M d, Y') }} —
+                                        {{ \Carbon\Carbon::parse($endDate)->format('M d, Y') }}</span>
                                 </div>
                                 <div class="flex items-center text-gray-600 text-sm">
                                     <i class="fas fa-car w-5 mr-2 text-gray-400"></i>

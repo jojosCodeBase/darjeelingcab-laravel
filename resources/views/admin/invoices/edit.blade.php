@@ -81,8 +81,9 @@
                                 $descriptions = json_decode($invoice->description, true);
                                 $dates = json_decode($invoice->dates, true);
                                 $prices = json_decode($invoice->price, true);
+                                $quanitites = json_decode($invoice->qty, true);
                                 $amounts = json_decode($invoice->amount, true);
-                                $combined = array_map(null, $descriptions, $dates, $prices, $amounts);
+                                $combined = array_map(null, $descriptions, $dates, $prices, $quanitites, $amounts);
                             @endphp
 
                             @foreach ($combined as $index => $data)
@@ -115,9 +116,17 @@
                                                     class="price-input pl-5 pr-3 py-1.5 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-800 w-28 focus:ring-2 focus:ring-indigo-100 transition-all">
                                             </div>
                                         </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] font-black text-gray-400 uppercase">Quanity</span>
+                                            <div class="relative">
+                                                <input type="number" name="qty[]" value="{{ $data[3] }}"
+                                                    step="0.01"
+                                                    class="qty-input pl-5 pr-3 py-1.5 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-800 w-28 focus:ring-2 focus:ring-indigo-100 transition-all">
+                                            </div>
+                                        </div>
                                         <div class="text-right">
                                             <p class="text-[10px] font-black text-gray-400 uppercase">Row Total</p>
-                                            <input type="number" name="amount[]" value="{{ $data[3] }}" readonly
+                                            <input type="number" name="amount[]" value="{{ $data[4] }}" readonly
                                                 class="amount-input w-24 bg-transparent border-none text-right font-black text-lg text-gray-900 p-0 focus:ring-0">
                                         </div>
                                     </div>
@@ -247,6 +256,8 @@
                 }
             });
 
+            $('.qty-input, .price-input').trigger('input');
+
             const mobileContainer = $('#mobileItemContainer');
 
             function formatCurrency(num) {
@@ -262,38 +273,45 @@
                 const desc = $('#modal_description').val();
                 const date = $('#modal_date').val();
                 const price = parseFloat($('#modal_price').val()) || 0;
+                const qty = parseFloat($('#modal_qty').val()) || 0;
 
                 if (!desc || price <= 0) return alert('Enter valid service info');
 
                 const cardHtml = `
-            <div class="item-card bg-white p-5 rounded-[2rem] border border-gray-200 shadow-sm relative overflow-hidden animate-fade-in group">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-500"></div>
-                <div class="flex justify-between items-start mb-4">
-                    <div class="flex-1">
-                        <input type="text" name="description[]" value="${desc}" required class="w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black text-gray-900">
-                        <input type="date" name="dates[]" value="${date}" required class="bg-transparent border-none p-0 focus:ring-0 text-[10px] text-indigo-500 font-black uppercase tracking-tighter mt-1">
-                    </div>
-                    <button type="button" class="remove-card-btn text-gray-300 hover:text-red-500 p-2 transition-colors">
-                        <i class="fas fa-times-circle text-xl"></i>
-                    </button>
-                </div>
-                <div class="flex items-center justify-between pt-4 border-t border-gray-50">
-                    <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-black text-gray-400 uppercase">Unit Price</span>
-                        <div class="relative">
-                            <span class="absolute left-2 top-1.5 text-xs font-bold text-gray-400">₹</span>
-                            <input type="number" name="price[]" value="${price}" step="0.01" class="price-input pl-5 pr-3 py-1.5 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-800 w-28 focus:ring-2 focus:ring-indigo-100 transition-all">
+                    <div class="item-card bg-white p-5 rounded-[2rem] border border-gray-200 shadow-sm relative overflow-hidden animate-fade-in group">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-indigo-500"></div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex-1">
+                                <input type="text" name="description[]" value="${desc}" required class="w-full bg-transparent border-none p-0 focus:ring-0 text-base font-black text-gray-900">
+                                <input type="date" name="dates[]" value="${date}" required class="bg-transparent border-none p-0 focus:ring-0 text-[10px] text-indigo-500 font-black uppercase tracking-tighter mt-1">
+                            </div>
+                            <button type="button" class="remove-card-btn text-gray-300 hover:text-red-500 p-2 transition-colors">
+                                <i class="fas fa-times-circle text-xl"></i>
+                            </button>
                         </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[10px] font-black text-gray-400 uppercase">Row Total</p>
-                        <input type="number" name="amount[]" value="${price}" readonly class="amount-input w-24 bg-transparent border-none text-right font-black text-lg text-gray-900 p-0 focus:ring-0">
-                    </div>
-                </div>
-            </div>`;
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-black text-gray-400 uppercase">Unit Price</span>
+                                <div class="relative">
+                                    <span class="absolute left-2 top-1.5 text-xs font-bold text-gray-400">₹</span>
+                                    <input type="number" name="price[]" value="${price}" step="0.01" class="price-input pl-5 pr-3 py-1.5 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-800 w-28 focus:ring-2 focus:ring-indigo-100 transition-all">
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-black text-gray-400 uppercase">Quantity</span>
+                                <div class="relative">
+                                    <input type="number" name="qty[]" value="${qty}" step="0.01" class="qty-input pl-5 pr-3 py-1.5 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-800 w-28 focus:ring-2 focus:ring-indigo-100 transition-all">
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-[10px] font-black text-gray-400 uppercase">Row Total</p>
+                                <input type="number" name="amount[]" value="${price}" readonly class="amount-input w-24 bg-transparent border-none text-right font-black text-lg text-gray-900 p-0 focus:ring-0">
+                            </div>
+                        </div>
+                    </div>`;
 
                 mobileContainer.append(cardHtml);
-                $('#modal_description, #modal_price').val('');
+                $('#modal_description, #modal_price, #modal_qty').val('');
                 updateTotals();
                 closeItemModal();
             });
@@ -307,9 +325,20 @@
             });
 
             // Calculation triggers
-            $(document).on('input', '.price-input', function() {
+            $(document).on('input', '.price-input, .qty-input', function() {
                 const val = parseFloat($(this).val()) || 0;
-                $(this).closest('.item-card').find('.amount-input').val(val.toFixed(2));
+
+                const row = $(this).closest('.item-card');
+
+                const qty = parseFloat(row.find('.qty-input, .mobile-qty-input').val()) || 0;
+
+                const price = parseFloat(row.find('.price-input, .mobile-price-input').val()) || 0;
+
+                const total = (qty * price).toFixed(2);
+
+                row.find('.amount-input').val(total);
+                row.find('.mobile-amount-display').text(total);
+
                 updateTotals();
             });
 

@@ -20,6 +20,7 @@ class Invoice extends Model
         'description',
         'dates',
         'price',
+        'qty',
         'amount',
         'vehicle_details',
         'total_amount',

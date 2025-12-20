@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->json('description'); // Array of items
             $table->json('dates');       // Array of dates
             $table->json('price');       // Array of prices
+            $table->json('qty');       // Array of prices
             $table->json('amount');      // Array of amounts
             $table->json('vehicle_details')->nullable();      // Array of vehicle details including vehicle no and driver name
 

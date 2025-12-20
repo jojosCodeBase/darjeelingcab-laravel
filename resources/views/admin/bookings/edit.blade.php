@@ -13,6 +13,8 @@
                         class="font-bold text-gray-700">{{ $booking->customer->full_name }}</span></p>
             </div>
 
+            @include('include.alerts')
+
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
                 <form action="{{ route('bookings.update', $booking->id) }}" method="POST" id="bookingForm">
                     @csrf
@@ -100,7 +102,7 @@
                                     <div class="md:col-span-8">
                                         <label
                                             class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Description</label>
-                                        <input type="text" name="destination[]"
+                                        <input type="text" name="destination[]" autocapitalize="words"
                                             value="{{ $destinations[$index] ?? '' }}"
                                             class="w-full bg-white text-gray-900 rounded-lg px-3 py-2 border border-gray-200 text-sm"
                                             placeholder="E.g. Sightseeing in Darjeeling..." required>
@@ -240,6 +242,7 @@
                                     <div class="md:col-span-8">
                                         <label class="text-[10px] font-bold text-gray-400 uppercase mb-1 block">Description</label>
                                         <input type="text" name="destination[]"
+                                        autocapitalize="words"
                                             class="w-full bg-white text-gray-900 rounded-lg px-3 py-2 border border-gray-200 text-sm"
                                             placeholder="E.g. Sightseeing in Darjeeling..." required>
                                     </div>

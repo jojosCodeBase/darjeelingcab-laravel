@@ -65,12 +65,6 @@
 
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 mx-1">
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="col-span-2">
-                                <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Invoice #</label>
-                                <input type="text" name="invoice_no" value="DC-{{ date('ymd-Hi') }}" required
-                                    class="w-full bg-gray-50 text-xs font-mono rounded-xl px-4 py-3 border border-gray-200"
-                                    readonly>
-                            </div>
                             <div>
                                 <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Date</label>
                                 <input type="date" name="invoice_date" value="{{ date('Y-m-d') }}" required
@@ -90,9 +84,9 @@
                     <div class="mx-1">
                         <div class="flex justify-between items-center mb-3 px-1">
                             <h3 class="text-sm font-black uppercase text-gray-700">Trip Items</h3>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#instantItemModal"
+                            <button type="button" id="openItemModal"
                                 class="bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg active:scale-95 transition-transform">
-                                <i class="fas fa-plus mr-1"></i> Add Service
+                                <i class="fas fa-plus mr-1"></i> Add Item
                             </button>
                         </div>
 
@@ -143,40 +137,58 @@
         </div>
     </main>
 
-    <div class="modal fade" id="instantItemModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered px-4">
-            <div class="modal-content rounded-3xl border-none shadow-2xl">
-                <div class="p-6">
-                    <h5 class="text-lg font-black text-gray-900 mb-4 flex items-center">
+    <div id="instantItemModal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+
+        <div class="relative w-full max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
+
+            <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
+                <div class="p-8">
+
+                    <h5 class="text-xl font-black text-gray-900 mb-6 flex items-center uppercase tracking-tight">
                         <i class="fas fa-plus-circle text-blue-500 mr-2"></i> Add Bill Item
                     </h5>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-[10px] font-black text-gray-400 uppercase">Service Description</label>
+
+                    <div class="space-y-5">
+                        <div
+                            class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                            <label
+                                class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Service
+                                Description</label>
                             <input type="text" id="modal_description"
-                                class="w-full bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 outline-none"
+                                class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900"
                                 placeholder="e.g. SUV Drop Bagdogra">
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase">Date</label>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div
+                                class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                                <label
+                                    class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Date</label>
                                 <input type="date" id="modal_date" value="{{ date('Y-m-d') }}"
-                                    class="w-full bg-gray-50 rounded-xl px-3 py-3 border border-gray-200 outline-none">
+                                    class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900">
                             </div>
-                            <div>
-                                <label class="text-[10px] font-black text-gray-400 uppercase">Amount (₹)</label>
+                            <div
+                                class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                                <label
+                                    class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Amount
+                                    (₹)</label>
                                 <input type="number" id="modal_price"
-                                    class="w-full bg-gray-50 rounded-xl px-3 py-3 border border-gray-200 outline-none"
+                                    class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900"
                                     placeholder="0">
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 flex gap-2">
-                        <button type="button" class="flex-1 py-3 text-gray-500 font-bold text-xs"
-                            data-bs-dismiss="modal">Cancel</button>
+
+                    <div class="mt-8 flex gap-3">
+                        <button type="button"
+                            class="closeModal flex-1 py-4 text-gray-500 font-black text-xs uppercase tracking-widest">
+                            Cancel
+                        </button>
                         <button type="button" id="addItemBtn"
-                            class="flex-2 px-8 py-3 bg-gray-900 text-white rounded-xl font-black text-xs shadow-lg">ADD
-                            ITEM</button>
+                            class="flex-2 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all">
+                            ADD ITEM
+                        </button>
                     </div>
                 </div>
             </div>
@@ -187,6 +199,26 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+
+            $('#openItemModal').on('click', function(e) {
+                e.preventDefault();
+                $('#instantItemModal').removeClass('hidden').addClass('flex');
+                $('body').addClass('overflow-hidden'); // Prevent background scrolling
+            });
+
+            function closeItemModal() {
+                $('#instantItemModal').addClass('hidden').removeClass('flex');
+                $('body').removeClass('overflow-hidden');
+            }
+
+            $('.closeModal').on('click', closeItemModal);
+
+
+            $('#instantItemModal').on('click', function(e) {
+                if (e.target === this) {
+                    closeItemModal();
+                }
+            });
 
             // 1. Add Item Card
             $('#addItemBtn').click(function() {
@@ -227,10 +259,9 @@
         `;
 
                 $('#mobileItemContainer').append(cardHtml);
-                $('#instantItemModal').modal('hide');
-
                 // Reset Modal
                 $('#modal_description, #modal_price').val('');
+                closeItemModal();
                 updateTotals();
             });
 

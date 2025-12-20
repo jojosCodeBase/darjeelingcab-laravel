@@ -14,7 +14,7 @@
 
                 <a href="{{ route('customer.create') }}">
                     <button
-                        class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
                         <i class="fas fa-user-plus"></i>
                         <span>Add Customer</span>
                     </button>
@@ -87,7 +87,7 @@
                                             </div>
                                             <div>
                                                 <p class="text-gray-900 font-medium">{{ $customer->full_name }}</p>
-                                                <p class="text-gray-500 text-sm">ID: #CUST-{{ $customer->id }}</p>
+                                                <p class="text-gray-500 text-sm">ID: #{{ $customer->cust_id }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-gray-900 font-semibold">{{ $customer->full_name }}</p>
-                                    <p class="text-gray-500 text-sm">ID: #CUST-{{ $customer->id }}</p>
+                                    <p class="text-gray-500 text-sm">ID: #{{ $customer->cust_id }}</p>
                                     <p class="text-gray-600 text-sm mt-1">{{ $customer->phone_no }}</p>
                                     <p class="text-gray-500 text-sm">{{ $customer->email ?? 'NA' }}</p>
                                 </div>

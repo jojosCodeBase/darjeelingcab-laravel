@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_id')->unique();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('created_by'); // Field to reference the user
             $table->integer('pax');

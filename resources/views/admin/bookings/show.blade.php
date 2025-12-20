@@ -14,7 +14,7 @@
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">Booking Details</h1>
                         <p class="text-gray-500">ID: <span
-                                class="font-mono font-bold text-blue-600">#BK-{{ $booking->id }}</span></p>
+                                class="font-mono font-bold text-blue-600">#{{ $booking->booking_id }}</span></p>
                     </div>
                 </div>
                 <div class="flex gap-2">

@@ -41,7 +41,7 @@
                                     class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
                                     <option value="">Select customer type</option>
                                     <option value="Agent" @if (old('customer_type') == 'Agent') selected @endif>Agent</option>
-                                    <option value="Customer" @if (old('customer_type') == 'Customer') selected @endif>Customer
+                                    <option value="Customer" @if (old('customer_type') == 'Customer') selected @endif>Direct Customer
                                     </option>
                                 </select>
                             </div>

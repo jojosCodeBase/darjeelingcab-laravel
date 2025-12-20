@@ -51,7 +51,8 @@ class BookingController extends Controller
             $dayDates = json_encode($request->input('day_date'));
             $destinations = json_encode($request->input('destination'));
             $vehicleTypes = json_encode($request->input('vehicle_type'));
-            $vehicleNos = json_encode($request->input('vehicle_no'));
+            $vehicleArray = $request->input('vehicle_no');
+            $vehicleNos = json_encode(array_map('strtoupper', $vehicleArray));
             $driverNames = json_encode($request->input('driver_name'));
 
             Booking::create([
@@ -98,9 +99,9 @@ class BookingController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'customer_id' => 'required|exists:customers,id',
-            'adults' => 'required|integer|min:0',
-            'child' => 'required|integer|min:0',
-            'infant' => 'required|integer|min:0',
+            'pax' => 'required|integer|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'day_date.*' => 'required|date',
             'destination.*' => 'required|string',
             'vehicle_type.*' => 'required|string',
@@ -117,13 +118,14 @@ class BookingController extends Controller
 
             // Update the booking record
             $booking->customer_id = $request->input('customer_id');
-            $booking->adults = $request->input('adults');
-            $booking->child = $request->input('child');
-            $booking->infant = $request->input('infant');
+            $booking->pax = $request->input('pax');
+            $booking->start_date = $request->input('start_date');
+            $booking->end_date = $request->input('end_date');
             $booking->day_date = json_encode($request->input('day_date'));
             $booking->destination = json_encode($request->input('destination'));
             $booking->vehicle_type = json_encode($request->input('vehicle_type'));
-            $booking->vehicle_no = json_encode($request->input('vehicle_no'));
+            $vehicleArray = $request->input('vehicle_no');
+            $booking->vehicle_no = json_encode(array_map('strtoupper', $vehicleArray));
             $booking->driver_name = json_encode($request->input('driver_name'));
             $booking->created_by = Auth::id();
 
