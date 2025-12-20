@@ -158,24 +158,38 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ]);
 
     Route::resource('invoices', InvoiceController::class)->names([
-        'index' => 'invoices'
+        'index' => 'invoices',
+        'create' => 'invoice.create',
+        'store' => 'invoice.store',
+        'edit' => 'invoice.edit',
+        'update' => 'invoice.update',
+        'show' => 'invoice.show',
+        'destroy' => 'invoice.destroy'
     ]);
 
     Route::resource('enquiries', EnquiriesController::class)->names([
         'index' => 'enquiries'
     ]);
-    
+
     Route::resource('tour-enquiries', TourEnquiriesController::class)->names([
         'index' => 'tour-enquiries'
     ]);
 
-    Route::get('settings', function(){
+    Route::get('settings', function () {
         return view('admin.settings');
     })->name('settings');
 
     Route::post('blogs/update-status', [BlogController::class, 'updateStatus'])->name('blogs.update-status');
 
     Route::get('/bill/{bill}/pdf', [BillController::class, 'generatePDF'])->name('bill.pdf');
+
+    Route::get('/invoice/{invoice}/pdf', [BillController::class, 'generatePDF'])->name('invoice.pdf');
+
+    Route::get('/invoice/instant', [InvoiceController::class, 'instant_invoice'])->name('invoice.instant');
+
+    Route::post('/invoice/instant', [InvoiceController::class, 'store_instant'])->name('invoice.store_instant');
+
+    Route::put('/invoice/instant/{invoice}', [InvoiceController::class, 'update_instant'])->name('invoice.update-instant');
 
     Route::post('/create-party', [BookingController::class, "createBooking"])->name('create-booking');
 });

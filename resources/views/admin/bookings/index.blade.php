@@ -13,12 +13,17 @@
                     <h3 class="text-gray-900 text-xl font-bold mb-1">All Bookings</h3>
                     <p class="text-gray-500 text-sm">Create and manage cab bookings</p>
                 </div>
-                <button id="createBookingBtn"
-                    class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-                    <i class="fas fa-plus"></i>
-                    <span>New Booking</span>
-                </button>
+
+                <a href="{{ route('bookings.create') }}">
+                    <button
+                        class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        <i class="fas fa-plus"></i>
+                        <span>New Booking</span>
+                    </button>
+                </a>
             </div>
+
+            @include('include.alerts')
 
             <!-- Filters and Search -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 mb-6">
@@ -93,12 +98,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-xs space-y-1">
-                                            <span class="block text-gray-700"><strong>Adults:</strong>
-                                                {{ $booking->adults }}</span>
-                                            <span class="block text-gray-500"><strong>Child:</strong> {{ $booking->child }}
-                                                | <strong>Infant:</strong> {{ $booking->infant }}</span>
-                                        </div>
+                                        <p>{{ $booking->pax ?? 0 }} pax</p>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div>
@@ -209,145 +209,6 @@
                         <div class="text-center p-8 text-gray-500">No bookings found</div>
                     @endforelse
                 </div>
-            </div>
-        </div>
-
-        <!-- CREATE/EDIT BOOKING FORM -->
-        <div id="bookingFormSection" class="hidden">
-            <div class="mb-6">
-                <button id="backToListBtn" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 mb-4">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Bookings</span>
-                </button>
-                <h2 class="text-gray-900 text-2xl font-bold mb-1" id="formTitle">Create New Booking</h2>
-                <p class="text-gray-500 text-sm">Fill in the booking details below</p>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
-                <form id="bookingForm">
-                    <!-- Customer Information -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-user mr-2 text-blue-600"></i>
-                            Customer Information
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Customer Name *</label>
-                                <input type="text" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter customer name">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Phone *</label>
-                                <input type="tel" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="+91 98765 43210">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="text-gray-700 text-sm mb-2 block">Email</label>
-                                <input type="email"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="customer@email.com">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trip Details -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-route mr-2 text-green-600"></i>
-                            Trip Details
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Number of Days *</label>
-                                <input type="number" id="numberOfDays" min="1" max="30" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter number of days">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Pickup Date *</label>
-                                <input type="date" id="pickupDate" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Pickup Time *</label>
-                                <input type="time" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Vehicle Type *</label>
-                                <select required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                    <option value="">Select vehicle</option>
-                                    <option value="sedan">Sedan</option>
-                                    <option value="suv">SUV</option>
-                                    <option value="tempo">Tempo Traveller</option>
-                                    <option value="bus">Mini Bus</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Day-wise Itinerary Container -->
-                        <div id="itineraryContainer" class="space-y-6">
-                            <!-- Dynamic day fields will be inserted here -->
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-4 mt-6">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Total Distance (km)</label>
-                                <input type="number" id="totalDistance"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0" readonly>
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Special Instructions</label>
-                                <textarea rows="3"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Any special requirements..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pricing & Status -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-rupee-sign mr-2 text-purple-600"></i>
-                            Pricing & Status
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Fare Amount *</label>
-                                <input type="number" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0.00" step="0.01">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Booking Status *</label>
-                                <select required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="submit"
-                            class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl">
-                            <i class="fas fa-save mr-2"></i>Save Booking
-                        </button>
-                        <button type="button" id="cancelFormBtn"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </main>

@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Darjeeling Cab Admin</title>
+    <title>@yield('title') - Darjeeling Cab Admin</title>
     <meta name="description" content="Admin dashboard for managing Darjeeling cab business">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('assets/admin/css/tailwind.css.js') }}"></script>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

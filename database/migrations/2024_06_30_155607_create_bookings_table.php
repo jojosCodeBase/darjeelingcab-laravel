@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('created_by'); // Field to reference the user
-            $table->integer('adults');
-            $table->integer('child');
-            $table->integer('infant');
+            $table->integer('pax');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->json('day_date'); // Store dates as JSON for dynamic days
             $table->json('destination'); // Store destinations as JSON
             $table->json('vehicle_type'); // Store vehicle types as JSON

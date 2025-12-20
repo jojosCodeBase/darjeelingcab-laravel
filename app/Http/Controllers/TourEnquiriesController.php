@@ -12,7 +12,8 @@ class TourEnquiriesController extends Controller
      */
     public function index()
     {
-        return view('admin.tour_enquiries.index');
+        $tour_enquiries = TourEnquiries::orderByDesc('created_at')->get();
+        return view('admin.tour_enquiries.index', compact('tour_enquiries'));
     }
 
     /**

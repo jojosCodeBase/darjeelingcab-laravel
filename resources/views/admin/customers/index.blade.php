@@ -11,12 +11,17 @@
                     <h3 class="text-gray-900 text-xl font-bold mb-1">All Customers</h3>
                     <p class="text-gray-500 text-sm">Add, edit, and manage customer information</p>
                 </div>
-                <button id="addCustomerBtn"
-                    class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Add Customer</span>
-                </button>
+
+                <a href="{{ route('customer.create') }}">
+                    <button
+                        class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Customer</span>
+                    </button>
+                </a>
             </div>
+
+            @include('include.alerts')
 
             <!-- Filters and Search -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 mb-6">
@@ -108,12 +113,12 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center space-x-2">
-                                            <button class="text-blue-600 hover:text-blue-700 p-2" title="View"
-                                                data-bs-toggle="modal" data-bs-target="#customerModal"
-                                                data-type="{{ $customer->customer_type }}"
+                                            <button class="text-blue-600 hover:text-blue-700 p-2 viewCustomerbtn"
+                                                title="View" data-type="{{ $customer->customer_type }}"
                                                 data-name="{{ $customer->full_name }}"
                                                 data-phone="{{ $customer->phone_no }}" data-email="{{ $customer->email }}"
-                                                data-address="{{ $customer->address }}">
+                                                data-address="{{ $customer->address }}" data-city="{{ $customer->city }}"
+                                                data-state="{{ $customer->state }}" data-notes="{{ $customer->notes }}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
 
@@ -180,11 +185,12 @@
                                 </div>
                             </div>
                             <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
-                                <button class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
-                                    data-bs-toggle="modal" data-bs-target="#customerModal"
-                                    data-type="{{ $customer->customer_type }}" data-name="{{ $customer->full_name }}"
-                                    data-phone="{{ $customer->phone_no }}" data-email="{{ $customer->email }}"
-                                    data-address="{{ $customer->address }}">
+                                <button
+                                    class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium viewCustomerbtn"
+                                    data-name="{{ $customer->full_name }}" data-phone="{{ $customer->phone_no }}"
+                                    data-email="{{ $customer->email }}" data-address="{{ $customer->address }}"
+                                    data-city="{{ $customer->city }}" data-state="{{ $customer->state }}"
+                                    data-notes="{{ $customer->notes }}">
                                     <i class="fas fa-eye mr-2"></i>View
                                 </button>
                                 <a href="{{ route('customer.edit', ['customer' => $customer->id]) }}"
@@ -211,108 +217,61 @@
                 </div>
             </div>
         </div>
-
-        <!-- ADD/EDIT CUSTOMER FORM -->
-        <div id="customerFormSection" class="hidden">
-            <div class="mb-6">
-                <button id="backToListBtn" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 mb-4">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Customers</span>
-                </button>
-                <h2 class="text-gray-900 text-2xl font-bold mb-1" id="formTitle">Add New Customer</h2>
-                <p class="text-gray-500 text-sm">Fill in the customer details below</p>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
-                <form id="customerForm">
-                    <!-- Personal Information -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-user mr-2 text-purple-600"></i>
-                            Personal Information
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Full Name *</label>
-                                <input type="text" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter full name">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Customer Type *</label>
-                                <select required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                    <option value="">Select customer type</option>
-                                    <option value="direct">Direct Customer</option>
-                                    <option value="agent">Agent</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Email</label>
-                                <input type="email"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="customer@email.com">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Phone *</label>
-                                <input type="tel" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="+91 98765 43210">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="text-gray-700 text-sm mb-2 block">Address</label>
-                                <textarea rows="3"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter full address"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional Details -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-info-circle mr-2 text-blue-600"></i>
-                            Additional Details
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">City</label>
-                                <input type="text"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="City name">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">State</label>
-                                <input type="text"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="State name">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="text-gray-700 text-sm mb-2 block">Notes</label>
-                                <textarea rows="3"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Any additional notes about the customer..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="submit"
-                            class="flex-1 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl">
-                            <i class="fas fa-save mr-2"></i>Save Customer
-                        </button>
-                        <button type="button" id="cancelFormBtn"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </main>
 
-    <script>
+    <div id="viewCustomerModal"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+                <h3 class="text-gray-900 text-xl font-bold">Customer Details</h3>
+                <button id="closeViewModalBtn" class="text-gray-500 hover:text-gray-900">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <div class="p-6">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-6 text-white">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2" id="modal-customer-name-header">...</h1>
+                            <p class="text-blue-100">Customer Profile</p>
+                        </div>
+                        <div class="text-right"> 
+                            <p class="text-blue-100 text-sm">Customer Type</p>
+                            <p class="text-2xl font-bold uppercase" id="modal-customer-type">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <h4 class="text-gray-600 text-sm mb-3 font-semibold">CONTACT DETAILS</h4>
+                        <p class="text-gray-900 font-semibold mb-1" id="modal-full-name">...</p>
+                        <p class="text-gray-600 text-sm" id="modal-email">...</p>
+                        <p class="text-gray-600 text-sm" id="modal-phone">...</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <h4 class="text-gray-600 text-sm mb-3 font-semibold">LOCATION DETAILS</h4>
+                        <p class="text-gray-900 mb-1"><span class="text-gray-600">Address:</span> <span
+                                id="modal-address">...</span></p>
+                        <p class="text-gray-900 mb-1"><span class="text-gray-600">City:</span> <span
+                                id="modal-city">...</span></p>
+                        <p class="text-gray-900 mb-1"><span class="text-gray-600">State:</span> <span
+                                id="modal-state">...</span></p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                    <h4 class="text-blue-800 text-sm mb-2 font-semibold">INTERNAL NOTES</h4>
+                    <p class="text-blue-700 text-sm italic" id="modal-notes">...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- <script>
         // Add Customer Button
         document.getElementById('addCustomerBtn').addEventListener('click', () => {
             document.getElementById('customersSection').classList.add('hidden');
@@ -365,7 +324,54 @@
             document.getElementById('customerFormSection').classList.add('hidden');
             document.getElementById('customersSection').classList.remove('hidden');
         });
-    </script>
+    </script> --}}
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            // 1. Listen for click on the View Button
+            $('.viewCustomerbtn').on('click', function() {
+
+                // 2. Extract data from the button's data attributes
+                const name = $(this).data('name');
+                let type = $(this).data('type');
+                const phone = $(this).data('phone');
+                const email = $(this).data('email') || 'No email provided';
+                const address = $(this).data('address');
+                const city = $(this).data('city') || 'N/A';
+                const state = $(this).data('state') || 'N/A';
+                const notes = $(this).data('notes') || 'No additional notes.';
+
+                if (type == "Customer") {
+                    type = "Direct Customer";
+                }
+
+                // 3. Inject data into the modal placeholders
+                $('#modal-customer-name-header').text(name);
+                $('#modal-customer-type').text(type);
+                $('#modal-full-name').text(name);
+                $('#modal-email').text(email);
+                $('#modal-phone').text(phone);
+                $('#modal-address').text(address);
+                $('#modal-city').text(city);
+                $('#modal-state').text(state);
+                $('#modal-notes').text('"' + notes + '"');
+
+                // 4. Show the modal
+                $('#viewCustomerModal').removeClass('hidden').addClass('flex');
+            });
+
+            // 5. Close Modal Logic
+            $('#closeViewModal, #closeViewModalBtn').on('click', function() {
+                $('#viewCustomerModal').addClass('hidden').removeClass('flex');
+            });
+
+            // Close on clicking outside the modal content
+            $('#viewCustomerModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden').removeClass('flex');
+                }
+            });
+        });
+    </script>
 @endsection

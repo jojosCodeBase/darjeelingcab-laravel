@@ -11,12 +11,14 @@
                     <h3 class="text-gray-900 text-xl font-bold mb-1">All Invoices</h3>
                     <p class="text-gray-500 text-sm">Create, edit, and manage invoices</p>
                 </div>
-                <button id="createInvoiceBtn"
-                    class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                <button type="button" id="createInvoiceBtn"
+                    class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 w-full sm:w-auto">
                     <i class="fas fa-plus"></i>
                     <span>Create Invoice</span>
                 </button>
             </div>
+
+            @include('include.alerts')
 
             <!-- Filters and Search -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 mb-6">
@@ -74,49 +76,63 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            @forelse ($bills as $bill)
+                            @forelse ($invoices as $invoice)
                                 @php
-                                    $descriptions = json_decode($bill->description, true);
-                                    $dates = json_decode($bill->dates, true);
-                                    $price = json_decode($bill->price, true);
+                                    $descriptions = json_decode($invoice->description, true);
+                                    $dates = json_decode($invoice->dates, true);
+                                    $price = json_decode($invoice->price, true);
+
+                                    if ($invoice->payment_status == 'unpaid') {
+                                        $status_color = 'red';
+                                    } elseif ($invoice->payment_status == 'paid') {
+                                        $status_color = 'green';
+                                    } elseif ($invoice->payment_status == 'advance-paid') {
+                                        $status_color = 'yellow';
+                                    } else {
+                                        $status_color = 'gray';
+                                    }
                                 @endphp
                                 <tr class="hover:bg-gray-50 transition-colors group">
                                     <td class="px-6 py-4">
-                                        <a href="{{ route('bill.show', ['bill' => $bill->id]) }}"
+                                        <a href="{{ route('invoice.show', ['invoice' => $invoice->id]) }}"
                                             class="text-blue-600 font-semibold hover:underline">
-                                            {{ $bill->bill_no }}
+                                            {{ $invoice->invoice_no }}
                                         </a>
                                     </td>
                                     <td class="px-6 py-4">
                                         <div>
-                                            <p class="text-gray-900 font-medium">{{ $bill->customer->full_name }}</p>
-                                            <p class="text-gray-500 text-xs">{{ $bill->customer->customer_type }}</p>
+                                            <p class="text-gray-900 font-medium">
+                                                {{ $invoice->customer?->full_name ?? $invoice->manual_customer_name }}</p>
+                                            <p class="text-gray-500 text-xs">
+                                                {{ $invoice->customer?->customer_type ?? 'Default Customer' }}</p>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="text-gray-600 text-sm italic">{{ $descriptions[0] ?? 'NA' }}...</span>
+                                        <span
+                                            class="text-gray-600 text-sm italic">{{ $descriptions[0] ?? 'Default Customer' }}...</span>
                                     </td>
                                     <td class="px-6 py-4 text-gray-600 text-sm">
-                                        {{ \Carbon\Carbon::parse($bill->bill_date)->format('M d, Y') }}
+                                        {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('M d, Y') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
-                                            class="text-gray-900 font-bold">₹{{ number_format($bill->total_amount, 2) }}</span>
+                                            class="text-gray-900 font-bold">₹{{ number_format($invoice->total_amount, 2) }}</span>
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
-                                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">Generated</span>
+                                            class="bg-{{ $status_color }}-100 text-{{ $status_color }}-600 px-3 py-1 rounded-full text-xs font-medium">{{ ucfirst($invoice->payment_status) }}</span>
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex justify-end items-center space-x-2">
-                                            <a href="{{ route('bill.show', ['bill' => $bill->id]) }}"
+                                            <a href="{{ route('invoice.show', ['invoice' => $invoice->id]) }}"
                                                 class="text-blue-600 hover:text-blue-700 p-2" title="View">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <button class="editInvoiceBtn text-yellow-600 hover:text-yellow-700 p-2"
+                                            <a href="{{ route('invoice.edit', ['invoice' => $invoice->id]) }}"
+                                                class="editInvoiceBtn text-yellow-600 hover:text-yellow-700 p-2"
                                                 title="Edit">
                                                 <i class="fas fa-edit"></i>
-                                            </button>
+                                            </a>
                                             <button class="deleteInvoiceBtn text-red-600 hover:text-red-700 p-2"
                                                 title="Delete">
                                                 <i class="fas fa-trash"></i>
@@ -135,20 +151,22 @@
                 </div>
 
                 <div class="lg:hidden p-4 space-y-4">
-                    @forelse ($bills as $bill)
+                    @forelse ($invoices as $invoice)
                         @php
-                            $descriptions = json_decode($bill->description, true);
+                            $descriptions = json_decode($invoice->description, true);
                         @endphp
                         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
                             <div class="flex items-start justify-between mb-3">
                                 <div>
-                                    <span class="text-blue-600 font-semibold text-lg">{{ $bill->bill_no }}</span>
-                                    <p class="text-gray-900 font-medium mt-1">{{ $bill->customer->full_name }}</p>
+                                    <span class="text-blue-600 font-semibold text-lg">{{ $invoice->invoice_no }}</span>
+                                    <p class="text-gray-900 font-medium mt-1">
+                                        {{ $invoice->customer?->full_name ?? ($invoice->manual_customer_name ?? $invoice->manual_customer_name) }}
+                                    </p>
                                     <p class="text-gray-500 text-xs tracking-wider uppercase">
-                                        {{ $bill->customer->customer_type }}</p>
+                                        {{ $invoice->customer?->customer_type ?? 'NA' }}</p>
                                 </div>
                                 <span
-                                    class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium font-bold">₹{{ number_format($bill->total_amount) }}</span>
+                                    class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium font-bold">₹{{ number_format($invoice->total_amount) }}</span>
                             </div>
 
                             <div class="space-y-2 mb-4">
@@ -158,12 +176,12 @@
                                 </p>
                                 <div class="flex items-center text-gray-500 text-xs">
                                     <i class="fas fa-calendar-alt w-5 mr-2"></i>
-                                    <span>Bill Date: {{ $bill->bill_date }}</span>
+                                    <span>Bill Date: {{ $invoice->invoice_date }}</span>
                                 </div>
                             </div>
 
                             <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
-                                <a href="{{ route('bill.show', ['bill' => $bill->id]) }}"
+                                <a href="{{ route('invoice.show', ['invoice' => $invoice->id]) }}"
                                     class="flex-1 bg-blue-600 text-center text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-blue-700">
                                     <i class="fas fa-eye mr-2"></i>View Invoice
                                 </a>
@@ -173,185 +191,6 @@
                         <div class="text-center p-8 text-gray-500">No bills found</div>
                     @endforelse
                 </div>
-            </div>
-        </div>
-
-        <!-- CREATE/EDIT INVOICE FORM -->
-        <div id="invoiceFormSection" class="hidden">
-            <div class="mb-6">
-                <button id="backToListBtn" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 mb-4">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Invoices</span>
-                </button>
-                <h2 class="text-gray-900 text-2xl font-bold mb-1" id="formTitle">Create New Invoice</h2>
-                <p class="text-gray-500 text-sm">Fill in the details below</p>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
-                <form id="invoiceForm">
-                    <!-- Customer Information -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-user mr-2 text-blue-600"></i>
-                            Customer Information
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Customer Name *</label>
-                                <input type="text" id="customerName" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter customer name">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Email</label>
-                                <input type="email" id="customerEmail"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="customer@email.com">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Phone *</label>
-                                <input type="tel" id="customerPhone" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="+91 98765 43210">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Address</label>
-                                <input type="text" id="customerAddress"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter address">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trip Details -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-route mr-2 text-green-600"></i>
-                            Trip Details
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">From *</label>
-                                <input type="text" id="tripFrom" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Starting location">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">To *</label>
-                                <input type="text" id="tripTo" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Destination">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Trip Date *</label>
-                                <input type="date" id="tripDate" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Vehicle Type *</label>
-                                <select id="vehicleType" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                    <option value="">Select vehicle</option>
-                                    <option value="sedan">Sedan</option>
-                                    <option value="suv">SUV</option>
-                                    <option value="tempo">Tempo Traveller</option>
-                                    <option value="bus">Mini Bus</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="text-gray-700 text-sm mb-2 block">Trip Description</label>
-                                <textarea id="tripDescription" rows="3"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Additional trip details..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Billing Details -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-rupee-sign mr-2 text-purple-600"></i>
-                            Billing Details
-                        </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Base Fare *</label>
-                                <input type="number" id="baseFare" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0.00" step="0.01">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Distance (km)</label>
-                                <input type="number" id="distance"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0" step="0.1">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Extra Charges</label>
-                                <input type="number" id="extraCharges"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0.00" step="0.01">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Discount</label>
-                                <input type="number" id="discount"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0.00" step="0.01">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Tax (%)</label>
-                                <input type="number" id="taxPercent"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="0" step="0.1" value="5">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Payment Status *</label>
-                                <select id="paymentStatus" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                    <option value="pending">Pending</option>
-                                    <option value="paid">Paid</option>
-                                    <option value="overdue">Overdue</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Total Calculation -->
-                        <div
-                            class="mt-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-6 border border-blue-200">
-                            <div class="space-y-3">
-                                <div class="flex justify-between text-gray-700">
-                                    <span>Subtotal:</span>
-                                    <span id="subtotalDisplay" class="font-medium">₹0.00</span>
-                                </div>
-                                <div class="flex justify-between text-gray-700">
-                                    <span>Tax:</span>
-                                    <span id="taxDisplay" class="font-medium">₹0.00</span>
-                                </div>
-                                <div class="flex justify-between text-gray-700">
-                                    <span>Discount:</span>
-                                    <span id="discountDisplay" class="font-medium text-red-600">-₹0.00</span>
-                                </div>
-                                <div
-                                    class="border-t border-blue-300 pt-3 flex justify-between text-gray-900 text-xl font-bold">
-                                    <span>Total Amount:</span>
-                                    <span id="totalDisplay">₹0.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="submit"
-                            class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl">
-                            <i class="fas fa-save mr-2"></i>Save Invoice
-                        </button>
-                        <button type="button" id="cancelFormBtn"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </main>
@@ -460,7 +299,66 @@
         </div>
     </div>
 
-    <script>
+    <!-- INVOICE TYPE SELECTION MODAL -->
+    <div id="invoiceTypeModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+        <div class="relative w-full max-w-md transform transition-all">
+            <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
+                <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-white">
+                    <h5 class="text-xl font-black text-gray-900 tracking-tight">Create Invoice</h5>
+                    <button type="button"
+                        class="closeModal text-gray-400 hover:text-gray-600 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <a href="{{ route('invoice.create') }}"
+                        class="group block p-5 bg-gray-50 hover:bg-blue-600 border border-gray-100 hover:border-blue-500 rounded-3xl transition-all duration-300 shadow-sm hover:shadow-blue-200">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-14 h-14 bg-blue-100 group-hover:bg-blue-500 rounded-2xl flex items-center justify-center text-blue-600 group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-file-invoice text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-900 group-hover:text-white transition-colors">Normal Invoice
+                                </h4>
+                                <p class="text-xs text-gray-500 group-hover:text-blue-100 transition-colors">Fetch data
+                                    from existing bookings.</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-300 group-hover:text-white transition-colors"></i>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('invoice.instant') }}"
+                        class="group block p-5 bg-gray-50 hover:bg-amber-500 border border-gray-100 hover:border-amber-400 rounded-3xl transition-all duration-300 shadow-sm hover:shadow-amber-200">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-14 h-14 bg-amber-100 group-hover:bg-amber-400 rounded-2xl flex items-center justify-center text-amber-600 group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-bolt text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-gray-900 group-hover:text-white transition-colors">Instant Manual
+                                    Bill</h4>
+                                <p class="text-xs text-gray-500 group-hover:text-amber-50 transition-colors">Quick billing
+                                    for manual entry.</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-300 group-hover:text-white transition-colors"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="p-4 bg-gray-50/50 text-center">
+                    <button type="button"
+                        class="closeModal text-gray-400 text-xs font-black uppercase tracking-widest hover:text-gray-600 transition-colors">
+                        Nevermind, Go Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- <script>
         // Mobile menu toggle
         const sidebar = document.getElementById('sidebar');
         const openSidebar = document.getElementById('openSidebar');
@@ -580,6 +478,45 @@
             alert('Invoice saved successfully!');
             document.getElementById('invoiceFormSection').classList.add('hidden');
             document.getElementById('invoicesSection').classList.remove('hidden');
+        });
+    </script> --}}
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            // 1. Show Modal
+            // Select the button that has the data-bs-target="#invoiceTypeModal"
+            $('#createInvoiceBtn').on('click', function(e) {
+                e.preventDefault();
+                $('#invoiceTypeModal').removeClass('hidden').addClass('flex');
+                $('body').addClass('overflow-hidden'); // Stop page scrolling when modal is open
+            });
+
+            // 2. Close Modal Function
+            function hideInvoiceModal() {
+                $('#invoiceTypeModal').addClass('hidden').removeClass('flex');
+                $('body').removeClass('overflow-hidden');
+            }
+
+            // 3. Close on Close Button Click
+            $('.closeModal').on('click', function() {
+                hideInvoiceModal();
+            });
+
+            // 4. Close on Clicking Outside the Modal Box
+            $('#invoiceTypeModal').on('click', function(e) {
+                if (e.target === this) {
+                    hideInvoiceModal();
+                }
+            });
+
+            // 5. Close on Escape Key
+            $(document).on('keydown', function(e) {
+                if (e.key === "Escape") {
+                    hideInvoiceModal();
+                }
+            });
         });
     </script>
 @endsection

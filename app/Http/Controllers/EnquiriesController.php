@@ -12,7 +12,8 @@ class EnquiriesController extends Controller
      */
     public function index()
     {
-        return view('admin.enquiries.index');
+        $enquiries = Enquiries::orderByDesc('created_at')->get();
+        return view('admin.enquiries.index', compact('enquiries'));
     }
 
     /**

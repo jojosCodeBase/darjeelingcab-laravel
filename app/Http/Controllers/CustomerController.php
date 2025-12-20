@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Exception;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -26,19 +27,29 @@ class CustomerController extends Controller
         $request->validate([
             'customer_type' => 'required',
             'full_name' => 'required|string|min:2|max:100',
-            'phone_no' => 'required|string|max:15|unique:customers,phone_no',
             'email' => 'nullable|email|unique:customers,email',
+            'phone_no' => 'required|string|max:15|unique:customers,phone_no',
             'address' => 'required|string',
+            'city' => 'nullable|string',
+            'state' => 'required|string',
+            'notes' => 'nullable|string',
         ]);
 
-        $param = $request->all();
+        try {
 
-        // Remove token from post data before inserting
-        unset($param['_token']);
+            $data = $request->all();
 
-        Customer::create($param);
+            // Remove token from post data before inserting
+            unset($data['_token']);
 
-        return redirect()->route('customers')->withSuccess("Customer added successfully");
+            Customer::create($data);
+
+            return redirect()->route('customers')->withSuccess("Customer created successfully");
+        } catch (Exception $e) {
+            \Log::error('Failed to create customer -- ' . $e->getMessage());
+
+            return back()->withErrors("Failed to create Customer")->withInput();
+        }
     }
 
 
@@ -62,23 +73,37 @@ class CustomerController extends Controller
             'phone_no' => 'required|string|max:15|unique:customers,phone_no,' . $id,
             'email' => 'nullable|email|unique:customers,email,' . $id,
             'address' => 'required|string',
+            'city' => 'nullable|string',
+            'state' => 'required|string',
+            'notes' => 'nullable|string',
         ]);
 
-        // Find the customer by ID
-        $customer = Customer::findOrFail($id);
+        try {
 
-        // Update customer details
-        $customer->customer_type = $request->input('customer_type');
-        $customer->full_name = $request->input('full_name');
-        $customer->phone_no = $request->input('phone_no');
-        $customer->email = $request->input('email');
-        $customer->address = $request->input('address');
+            // Find the customer by ID
+            $customer = Customer::findOrFail($id);
 
-        // Save the updated customer
-        $customer->save();
+            // Update customer details
+            $customer->customer_type = $request->input('customer_type');
+            $customer->full_name = $request->input('full_name');
+            $customer->phone_no = $request->input('phone_no');
+            $customer->email = $request->input('email');
+            $customer->address = $request->input('address');
+            $customer->city = $request->input('city');
+            $customer->state = $request->input('state');
+            $customer->notes = $request->input('notes');
 
-        // Redirect with success message
-        return redirect()->route('customers')->with('success', 'Customer updated successfully');
+            // Save the updated customer
+            $customer->save();
+
+            // Redirect with success message
+            return redirect()->route('customers')->with('success', 'Customer updated successfully');
+
+        } catch (Exception $e) {
+            \Log::error('Failed to update customer -- ' . $e->getMessage());
+
+            return back()->withErrors("Failed to update Customer")->withInput();
+        }
     }
 
 

@@ -36,9 +36,9 @@ class BookingController extends Controller
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'adults' => 'required|integer|min:0',
-            'child' => 'required|integer|min:0',
-            'infant' => 'required|integer|min:0',
+            'pax' => 'required|integer|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'day_date.*' => 'required|date',
             'destination.*' => 'required|string|max:255',
             'vehicle_type.*' => 'nullable|string|max:255',
@@ -46,26 +46,32 @@ class BookingController extends Controller
             'driver_name.*' => 'nullable|string|max:255',
         ]);
 
-        $dayDates = json_encode($request->input('day_date'));
-        $destinations = json_encode($request->input('destination'));
-        $vehicleTypes = json_encode($request->input('vehicle_type'));
-        $vehicleNos = json_encode($request->input('vehicle_no'));
-        $driverNames = json_encode($request->input('driver_name'));
+        try {
 
-        $booking = Booking::create([
-            'customer_id' => $request->input('customer_id'),
-            'created_by' => Auth::id(), // Get the ID of the authenticated user
-            'adults' => $request->input('adults'),
-            'child' => $request->input('child'),
-            'infant' => $request->input('infant'),
-            'day_date' => $dayDates,
-            'destination' => $destinations,
-            'vehicle_type' => $vehicleTypes,
-            'vehicle_no' => $vehicleNos,
-            'driver_name' => $driverNames,
-        ]);
+            $dayDates = json_encode($request->input('day_date'));
+            $destinations = json_encode($request->input('destination'));
+            $vehicleTypes = json_encode($request->input('vehicle_type'));
+            $vehicleNos = json_encode($request->input('vehicle_no'));
+            $driverNames = json_encode($request->input('driver_name'));
 
-        return redirect()->route('bookings')->with('success', 'Booking created successfully');
+            Booking::create([
+                'customer_id' => $request->input('customer_id'),
+                'created_by' => Auth::id(), // Get the ID of the authenticated user
+                'pax' => $request->input('pax'),
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+                'day_date' => $dayDates,
+                'destination' => $destinations,
+                'vehicle_type' => $vehicleTypes,
+                'vehicle_no' => $vehicleNos,
+                'driver_name' => $driverNames,
+            ]);
+
+            return redirect()->route('bookings')->with('success', 'Booking created successfully');
+        } catch (\Exception $e) {
+            \Log::error("Failed to create booking -- " . $e->getMessage());
+            return redirect()->route('bookings')->withErrors('Failed to create booking')->withInput();
+        }
     }
 
     /**
@@ -107,23 +113,30 @@ class BookingController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Update the booking record
-        $booking->customer_id = $request->input('customer_id');
-        $booking->adults = $request->input('adults');
-        $booking->child = $request->input('child');
-        $booking->infant = $request->input('infant');
-        $booking->day_date = json_encode($request->input('day_date'));
-        $booking->destination = json_encode($request->input('destination'));
-        $booking->vehicle_type = json_encode($request->input('vehicle_type'));
-        $booking->vehicle_no = json_encode($request->input('vehicle_no'));
-        $booking->driver_name = json_encode($request->input('driver_name'));
-        $booking->created_by = Auth::id();
+        try {
 
-        // Save the changes
-        $booking->save();
+            // Update the booking record
+            $booking->customer_id = $request->input('customer_id');
+            $booking->adults = $request->input('adults');
+            $booking->child = $request->input('child');
+            $booking->infant = $request->input('infant');
+            $booking->day_date = json_encode($request->input('day_date'));
+            $booking->destination = json_encode($request->input('destination'));
+            $booking->vehicle_type = json_encode($request->input('vehicle_type'));
+            $booking->vehicle_no = json_encode($request->input('vehicle_no'));
+            $booking->driver_name = json_encode($request->input('driver_name'));
+            $booking->created_by = Auth::id();
 
-        // Redirect back to the bookings with a success message
-        return redirect()->route('bookings')->with('success', 'Booking updated successfully.');
+            // Save the changes
+            $booking->save();
+
+            // Redirect back to the bookings with a success message
+            return redirect()->route('bookings')->with('success', 'Booking updated successfully.');
+
+        } catch (\Exception $e) {
+            \Log::error("Failed to update booking -- " . $e->getMessage());
+            return redirect()->route('bookings')->withErrors('Failed to update booking')->withInput();
+        }
     }
 
     /**

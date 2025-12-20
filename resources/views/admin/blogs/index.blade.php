@@ -18,6 +18,8 @@
                 </button>
             </div>
 
+            @include('include.alerts')
+
             <!-- Filters and Search -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 mb-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -94,7 +96,8 @@
                                 </button>
                             </div>
 
-                            <h3 class="text-gray-900 font-bold text-lg mb-2 line-clamp-2">{{ Str::limit($blog->title, 35) }}</h3>
+                            <h3 class="text-gray-900 font-bold text-lg mb-2 line-clamp-2">{{ Str::limit($blog->title, 35) }}
+                            </h3>
 
                             <p class="text-gray-600 text-sm mb-4 line-clamp-3">
                                 {{ strip_tags($blog->content) ?? 'No description available for this post...' }}
