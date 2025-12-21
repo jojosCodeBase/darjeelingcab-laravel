@@ -61,4 +61,24 @@ class UserController extends Controller
     {
         //
     }
+
+    public function settings()
+    {
+        $user = auth()->user();
+        $currentSignature = hash('sha256', request()->userAgent() . request()->ip());
+
+        $trustedDevices = $user->trustedDevices()
+            ->orderBy('last_active_at', 'desc')
+            ->get()
+            ->sortByDesc(function ($device) use ($currentSignature) {
+                // This returns true (1) for current device and false (0) for others,
+                // putting the current device at the top.
+                return $device->browser_fingerprint === $currentSignature;
+            });
+
+        return view('admin.settings', [
+            'trustedDevices' => $trustedDevices,
+            'loginHistory' => $user->loginActivities()->latest()->take(10)->get(),
+        ]);
+    }
 }

@@ -1,64 +1,75 @@
 @extends('layouts.admin-main')
-@section('title', 'Settings')
+@section('title', 'Security Settings')
+
 @section('content')
+    @php
+        // Generate the signature for the device the user is currently using to view this page
+        $currentSignature = hash('sha256', request()->userAgent() . request()->ip());
+    @endphp
+
     <main class="p-4 sm:p-6 lg:p-8">
         <div class="max-w-5xl mx-auto space-y-8">
 
             <div>
                 <h2 class="text-2xl font-bold text-gray-900">Security Settings</h2>
-                <p class="text-gray-500">Manage your active sessions and review recent login attempts to keep your account
-                    secure.</p>
+                <p class="text-gray-500">Manage your active sessions and review recent login attempts.</p>
             </div>
 
+            {{-- Section 1: Trusted / Active Devices --}}
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
                     <h3 class="font-bold text-gray-800">Currently Logged In</h3>
                 </div>
                 <div class="divide-y divide-gray-100">
-
-                    <div class="p-6 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <p class="font-bold text-gray-900">Windows 11 • Chrome Browser</p>
-                                    <span
-                                        class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tight">This
-                                        Device</span>
+                    @forelse($trustedDevices as $device)
+                        <div class="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 {{ $device->browser_fingerprint === $currentSignature ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600' }} rounded-xl flex items-center justify-center text-xl">
+                                    <i
+                                        class="fas {{ $device->device_type === 'mobile' ? 'fa-mobile-alt' : 'fa-desktop' }}"></i>
                                 </div>
-                                <p class="text-sm text-gray-500">IP: 103.45.12.88 • Kolkata, India</p>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <p class="font-bold text-gray-900">{{ $device->platform }} • {{ $device->browser }}
+                                        </p>
+                                        @if ($device->browser_fingerprint === $currentSignature)
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tight">This
+                                                Device</span>
+                                        @endif
+                                    </div>
+                                    <p class="text-sm text-gray-500">IP: {{ $device->ip_address }} • {{ $device->location }}
+                                    </p>
+                                    <p class="text-[11px] text-gray-400 mt-1">Last active:
+                                        {{ $device->last_active_at->diffForHumans() }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <button class="text-sm font-semibold text-gray-400 cursor-not-allowed">Active Now</button>
-                    </div>
 
-                    <div class="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-gray-100 text-gray-600 rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-mobile-alt"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900">iPhone 15 Pro • Safari</p>
-                                <p class="text-sm text-gray-500">IP: 42.106.190.21 • Siliguri, India</p>
-                                <p class="text-[11px] text-gray-400 mt-1">Last active: 2 hours ago</p>
-                            </div>
+                            @if ($device->browser_fingerprint === $currentSignature)
+                                <button class="text-sm font-semibold text-gray-400 cursor-not-allowed">Active Now</button>
+                            @else
+                                {{-- <form action="{{ route('admin.devices.destroy', $device->id) }}" method="POST"> --}}
+                                    {{-- @csrf --}}
+                                    {{-- @method('DELETE') --}}
+                                    <button type="submit"
+                                        class="text-sm font-bold text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors border border-transparent hover:border-red-100">
+                                        Log Out
+                                    </button>
+                                {{-- </form> --}}
+                            @endif
                         </div>
-                        <button
-                            class="text-sm font-bold text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors border border-transparent hover:border-red-100">
-                            Log Out
-                        </button>
-                    </div>
+                    @empty
+                        <div class="p-6 text-center text-gray-500">No active sessions found.</div>
+                    @endforelse
                 </div>
             </div>
 
+            {{-- Section 2: History Table --}}
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                     <h3 class="font-bold text-gray-800">Recent Login History</h3>
-                    <button class="text-xs font-bold text-indigo-600 hover:underline">Download CSV</button>
+                    <a href="#" class="text-xs font-bold text-indigo-600 hover:underline">Download CSV</a>
                 </div>
 
                 <div class="overflow-x-auto">
@@ -73,45 +84,32 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <span class="font-medium text-gray-900">Admin Login</span>
-                                </td>
-                                <td class="px-6 py-4 font-mono text-gray-600 text-xs">103.45.12.88</td>
-                                <td class="px-6 py-4 text-gray-500">Kolkata, WB</td>
-                                <td class="px-6 py-4 text-gray-500">20 Dec 2025, 09:12 AM</td>
-                                <td class="px-6 py-4">
-                                    <span class="flex items-center gap-1.5 text-green-600 font-bold text-xs">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Success
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50/50 transition-colors bg-red-50/20">
-                                <td class="px-6 py-4">
-                                    <span class="font-medium text-gray-900">Failed Attempt</span>
-                                </td>
-                                <td class="px-6 py-4 font-mono text-red-600 text-xs">192.168.1.1</td>
-                                <td class="px-6 py-4 text-gray-500">Unknown</td>
-                                <td class="px-6 py-4 text-gray-500">19 Dec 2025, 11:45 PM</td>
-                                <td class="px-6 py-4">
-                                    <span class="flex items-center gap-1.5 text-red-600 font-bold text-xs">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span> Denied
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50/50 transition-colors">
-                                <td class="px-6 py-4">
-                                    <span class="font-medium text-gray-900">Password Change</span>
-                                </td>
-                                <td class="px-6 py-4 font-mono text-gray-600 text-xs">103.45.12.88</td>
-                                <td class="px-6 py-4 text-gray-500">Kolkata, WB</td>
-                                <td class="px-6 py-4 text-gray-500">15 Dec 2025, 02:30 PM</td>
-                                <td class="px-6 py-4">
-                                    <span class="text-gray-400 font-bold text-xs uppercase tracking-tighter">System</span>
-                                </td>
-                            </tr>
+                            @foreach ($loginHistory as $log)
+                                <tr
+                                    class="hover:bg-gray-50/50 transition-colors {{ $log->status === 'Denied' ? 'bg-red-50/20' : '' }}">
+                                    <td class="px-6 py-4">
+                                        <span class="font-medium text-gray-900">{{ $log->event_name }}</span>
+                                    </td>
+                                    <td
+                                        class="px-6 py-4 font-mono {{ $log->status === 'Denied' ? 'text-red-600' : 'text-gray-600' }} text-xs">
+                                        {{ $log->ip_address }}
+                                    </td>
+                                    <td class="px-6 py-4 text-gray-500">{{ $log->location }}</td>
+                                    <td class="px-6 py-4 text-gray-500">{{ $log->created_at->format('d M Y, h:i A') }}</td>
+                                    <td class="px-6 py-4">
+                                        @if ($log->status === 'Success')
+                                            <span class="flex items-center gap-1.5 text-green-600 font-bold text-xs">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Success
+                                            </span>
+                                        @else
+                                            <span class="flex items-center gap-1.5 text-red-600 font-bold text-xs">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
+                                                Denied
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

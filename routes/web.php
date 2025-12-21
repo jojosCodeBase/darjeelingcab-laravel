@@ -12,6 +12,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\TourEnquiriesController;
+use App\Http\Controllers\UserController;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Route;
 use Stevebauman\Location\Facades\Location;
@@ -72,6 +73,8 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/two-factor-verify', [AuthController::class, 'verifyTwoFactor'])->name('auth.2fa-verify');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -178,9 +181,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'index' => 'tour-enquiries'
     ]);
 
-    Route::get('settings', function () {
-        return view('admin.settings');
-    })->name('settings');
+    Route::get('settings', [UserController::class, 'settings'])->name('settings');
 
     Route::post('blogs/update-status', [BlogController::class, 'updateStatus'])->name('blogs.update-status');
 
