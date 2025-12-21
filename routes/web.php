@@ -14,6 +14,8 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\TourEnquiriesController;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Route;
+use Stevebauman\Location\Facades\Location;
+use hisorange\BrowserDetect\Parser as Browser;
 
 
 
@@ -201,33 +203,40 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
 Route::get('/test-invoice-generation', function () {
-    try {
-        $invoice = Invoice::create([
-            'invoice_no' => null, // This triggers your "if (empty...)" logic
-            'invoice_date' => now(),
-            'customer_id' => 1,    // Ensure a customer with ID 1 exists, or set to null
-            'booking_id' => null,
-            'total_amount' => 0,
-            'received_amount' => 0,
-            'balance_due' => 0,
-            'payment_status' => 'unpaid',
-            'description' => json_encode([]),
-            'dates' => json_encode([]),
-            'price' => json_encode([]),
-            'qty' => json_encode([]),
-            'amount' => json_encode([])
-            // Add other fields as null if your database allows
-        ]);
+    $position = Location::get('150.129.135.101');
+    return [
+        $position,
+        Browser::isMobile(),
+        Browser::isTablet(),
+        Browser::isDesktop()
+    ];
+    // try {
+    //     $invoice = Invoice::create([
+    //         'invoice_no' => null, // This triggers your "if (empty...)" logic
+    //         'invoice_date' => now(),
+    //         'customer_id' => 1,    // Ensure a customer with ID 1 exists, or set to null
+    //         'booking_id' => null,
+    //         'total_amount' => 0,
+    //         'received_amount' => 0,
+    //         'balance_due' => 0,
+    //         'payment_status' => 'unpaid',
+    //         'description' => json_encode([]),
+    //         'dates' => json_encode([]),
+    //         'price' => json_encode([]),
+    //         'qty' => json_encode([]),
+    //         'amount' => json_encode([])
+    //         // Add other fields as null if your database allows
+    //     ]);
 
-        return response()->json([
-            'message' => 'Invoice created successfully!',
-            'generated_no' => $invoice->invoice_no,
-            'full_details' => $invoice
-        ]);
+    //     return response()->json([
+    //         'message' => 'Invoice created successfully!',
+    //         'generated_no' => $invoice->invoice_no,
+    //         'full_details' => $invoice
+    //     ]);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage()
-        ], 500);
-    }
+    // } catch (\Exception $e) {
+    //     return response()->json([
+    //         'error' => $e->getMessage()
+    //     ], 500);
+    // }
 });

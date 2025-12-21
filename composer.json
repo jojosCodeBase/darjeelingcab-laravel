@@ -11,10 +11,12 @@
         "barryvdh/laravel-snappy": "^1.0",
         "dompdf/dompdf": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
+        "hisorange/browser-detect": "^5.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "mpdf/mpdf": "^8.2",
+        "stevebauman/location": "^7.6",
         "tecnickcom/tcpdf": "^6.7"
     },
     "require-dev": {
