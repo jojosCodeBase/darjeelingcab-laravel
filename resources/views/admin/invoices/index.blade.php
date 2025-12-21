@@ -104,12 +104,12 @@
                                             <p class="text-gray-900 font-medium">
                                                 {{ $invoice->customer?->full_name ?? $invoice->manual_customer_name }}</p>
                                             <p class="text-gray-500 text-xs">
-                                                {{ $invoice->customer?->customer_type ?? 'Default Customer' }}</p>
+                                                {{ $invoice->customer?->customer_type ?? 'Manual Customer' }}</p>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
-                                            class="text-gray-600 text-sm italic">{{ $descriptions[0] ?? 'Default Customer' }}...</span>
+                                            class="text-gray-600 text-sm italic">{{ $descriptions[0] ?? 'Manual Customer' }}...</span>
                                     </td>
                                     <td class="px-6 py-4 text-gray-600 text-sm">
                                         {{ \Carbon\Carbon::parse($invoice->invoice_date)->format('M d, Y') }}
@@ -120,7 +120,9 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
-                                            class="bg-{{ $status_color }}-100 text-{{ $status_color }}-600 px-3 py-1 rounded-full text-xs font-medium">{{ ucfirst($invoice->payment_status) }}</span>
+                                            class="bg-{{ $status_color }}-100 text-{{ $status_color }}-600 px-3 py-1 rounded-full text-xs font-medium">
+                                            {{ ucwords(str_replace('-', '_', $invoice->payment_status)) }}
+                                        </span>
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex justify-end items-center space-x-2">
@@ -357,129 +359,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <script>
-        // Mobile menu toggle
-        const sidebar = document.getElementById('sidebar');
-        const openSidebar = document.getElementById('openSidebar');
-        const closeSidebar = document.getElementById('closeSidebar');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-
-        openSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('-translate-x-full');
-            mobileMenuOverlay.classList.remove('hidden');
-        });
-
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            mobileMenuOverlay.classList.add('hidden');
-        });
-
-        mobileMenuOverlay.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            mobileMenuOverlay.classList.add('hidden');
-        });
-
-        // Invoice Form Calculations
-        const baseFareInput = document.getElementById('baseFare');
-        const extraChargesInput = document.getElementById('extraCharges');
-        const discountInput = document.getElementById('discount');
-        const taxPercentInput = document.getElementById('taxPercent');
-
-        function calculateTotal() {
-            const baseFare = parseFloat(baseFareInput.value) || 0;
-            const extraCharges = parseFloat(extraChargesInput.value) || 0;
-            const discount = parseFloat(discountInput.value) || 0;
-            const taxPercent = parseFloat(taxPercentInput.value) || 0;
-
-            const subtotal = baseFare + extraCharges;
-            const tax = (subtotal * taxPercent) / 100;
-            const total = subtotal + tax - discount;
-
-            document.getElementById('subtotalDisplay').textContent = `₹${subtotal.toFixed(2)}`;
-            document.getElementById('taxDisplay').textContent = `₹${tax.toFixed(2)}`;
-            document.getElementById('discountDisplay').textContent = `-₹${discount.toFixed(2)}`;
-            document.getElementById('totalDisplay').textContent = `₹${total.toFixed(2)}`;
-        }
-
-        [baseFareInput, extraChargesInput, discountInput, taxPercentInput].forEach(input => {
-            input.addEventListener('input', calculateTotal);
-        });
-
-        // Create Invoice Button
-        document.getElementById('createInvoiceBtn').addEventListener('click', () => {
-            document.getElementById('invoicesSection').classList.add('hidden');
-            document.getElementById('invoiceFormSection').classList.remove('hidden');
-            document.getElementById('formTitle').textContent = 'Create New Invoice';
-            document.getElementById('invoiceForm').reset();
-            calculateTotal();
-        });
-
-        // Back to List Button
-        document.getElementById('backToListBtn').addEventListener('click', () => {
-            document.getElementById('invoiceFormSection').classList.add('hidden');
-            document.getElementById('invoicesSection').classList.remove('hidden');
-        });
-
-        // Cancel Form Button
-        document.getElementById('cancelFormBtn').addEventListener('click', () => {
-            document.getElementById('invoiceFormSection').classList.add('hidden');
-            document.getElementById('invoicesSection').classList.remove('hidden');
-        });
-
-        // Edit Invoice Buttons
-        document.querySelectorAll('.editInvoiceBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('invoicesSection').classList.add('hidden');
-                document.getElementById('invoiceFormSection').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'Edit Invoice';
-            });
-        });
-
-        // View Invoice Modal
-        const viewInvoiceModal = document.getElementById('viewInvoiceModal');
-        const closeViewModal = document.getElementById('closeViewModal');
-        const closeViewModalBtn = document.getElementById('closeViewModalBtn');
-
-        document.querySelectorAll('.viewInvoiceBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                viewInvoiceModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        [closeViewModal, closeViewModalBtn].forEach(btn => {
-            btn.addEventListener('click', () => {
-                viewInvoiceModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            });
-        });
-
-        // Close modal on outside click
-        viewInvoiceModal.addEventListener('click', (e) => {
-            if (e.target === viewInvoiceModal) {
-                viewInvoiceModal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // Delete Invoice
-        document.querySelectorAll('.deleteInvoiceBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to delete this invoice?')) {
-                    alert('Invoice deleted successfully!');
-                }
-            });
-        });
-
-        // Form Submission
-        document.getElementById('invoiceForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Invoice saved successfully!');
-            document.getElementById('invoiceFormSection').classList.add('hidden');
-            document.getElementById('invoicesSection').classList.remove('hidden');
-        });
-    </script> --}}
 @endsection
 
 @section('scripts')

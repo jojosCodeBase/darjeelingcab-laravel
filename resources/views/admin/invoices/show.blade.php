@@ -2,9 +2,9 @@
 @section('title', 'View Invoice')
 @section('content')
     <main class="p-4 sm:p-6 lg:p-8">
-         <a href="{{ route('invoices') }}" class="text-blue-600 flex items-center text-sm font-bold mb-2">
-                    <i class="fas fa-chevron-left mr-2"></i> Back to Invoices
-                </a>
+        <a href="{{ route('invoices') }}" class="text-blue-600 flex items-center text-sm font-bold mb-2">
+            <i class="fas fa-chevron-left mr-2"></i> Back to Invoices
+        </a>
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900 tracking-tight text-uppercase">View Invoice</h1>
@@ -15,53 +15,81 @@
                     class="flex-1 sm:flex-none inline-flex justify-center items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-all shadow-sm">
                     <i class="fas fa-edit mr-2 text-blue-600"></i> Edit
                 </a>
-                <button type="button"
-                    onclick="window.location.href='{{ route('invoice.pdf', ['invoice' => $invoice->id]) }}'"
+                <a href="{{ route('invoice.pdf', ['invoice' => $invoice->id]) }}" target="_blank"
                     class="flex-1 sm:flex-none inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-lg text-sm font-semibold text-white hover:bg-red-700 transition-all shadow-md shadow-red-100">
                     <i class="fas fa-file-pdf mr-2"></i> PDF
-                </button>
+                </a>
             </div>
         </div>
 
+        @php
+            $descriptions = json_decode($invoice->description, true);
+            $dates = json_decode($invoice->dates, true);
+            $price = json_decode($invoice->price, true);
+            $quantity = json_decode($invoice->qty, true);
+            $amount = json_decode($invoice->amount, true);
+            $combined = array_map(null, $descriptions, $dates, $price, $quantity, $amount);
+
+            if ($invoice->payment_status == 'unpaid') {
+                $status_color = 'red';
+            } elseif ($invoice->payment_status == 'paid') {
+                $status_color = 'green';
+            } elseif ($invoice->payment_status == 'advance-paid') {
+                $status_color = 'yellow';
+            } else {
+                $status_color = 'gray';
+            }
+        @endphp
+
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100 bg-gray-50/50 border-b border-gray-200">
+            <div
+                class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-100 bg-gray-50/50 border-b border-gray-200">
                 <div class="p-6 text-center md:text-left">
                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Customer</label>
                     <p class="text-lg font-bold text-gray-900">
                         {{ $invoice->customer->full_name ?? $invoice->manual_customer_name }}</p>
-                    <p class="text-xs text-gray-500">Party ID: #{{ $invoice->party_id ?? 'NA' }}</p>
+                    <p class="text-xs text-gray-500">#{{ $invoice->customer->cust_id ?? 'NA' }}</p>
                 </div>
                 <div class="p-6 text-center md:text-left">
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Invoice Date</label>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Invoice
+                        Date</label>
                     <p class="text-lg font-bold text-gray-900">
-                        <i class="far fa-calendar-alt mr-2 text-indigo-500"></i>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}
+                        <i
+                            class="far fa-calendar-alt mr-2 text-indigo-500"></i>{{ \Carbon\Carbon::parse($invoice->invoice_date)->format('d M, Y') }}
                     </p>
                 </div>
                 <div class="p-6 text-center md:text-left">
-                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Invoice Number</label>
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Invoice
+                        Number</label>
                     <p class="text-lg font-mono font-bold text-blue-600 leading-none mt-1">
                         {{ $invoice->invoice_no }}
                     </p>
                 </div>
+                <div class="p-6 text-center md:text-left">
+                    <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Payment
+                        Status</label>
+                    <span
+                        class="bg-{{ $status_color }}-100 text-{{ $status_color }}-600 px-3 py-1 rounded-full text-xs font-medium">
+                        {{ ucwords(str_replace('-', '_', $invoice->payment_status)) }}
+                    </span>
+                </div>
             </div>
-
-            @php
-                $descriptions = json_decode($invoice->description, true);
-                $dates = json_decode($invoice->dates, true);
-                $price = json_decode($invoice->price, true);
-                $amount = json_decode($invoice->amount, true);
-                $combined = array_map(null, $descriptions, $dates, $price, $amount);
-            @endphp
 
             <div class="hidden lg:block p-0 overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-white border-b border-gray-200">
                             <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-16">Sl.no</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-1/2">Description</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Date</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Price</th>
-                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Amount</th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-1/2">Description
+                            </th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Date
+                            </th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Price
+                            </th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
+                                Quantity</th>
+                            <th class="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Amount
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -70,12 +98,17 @@
                                 <td class="px-6 py-4 text-sm text-gray-500">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 text-sm font-semibold text-gray-900">{{ $data[0] }}</td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                                         {{ \Carbon\Carbon::parse($data[1])->format('D, d M Y') }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right text-sm font-medium text-gray-600">₹{{ number_format($data[2]) }}</td>
-                                <td class="px-6 py-4 text-right text-sm font-bold text-gray-900">₹{{ number_format($data[3]) }}</td>
+                                <td class="px-6 py-4 text-right text-sm font-medium text-gray-600">
+                                    ₹{{ number_format($data[2]) }}</td>
+                                <td class="px-6 py-4 text-right text-sm font-bold text-gray-900">
+                                    {{ number_format($data[3]) }} vehicle(s)</td>
+                                <td class="px-6 py-4 text-right text-sm font-medium text-gray-600">
+                                    ₹{{ number_format($data[4]) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -89,7 +122,8 @@
                 @foreach ($combined as $index => $data)
                     <div class="p-4 bg-white space-y-3">
                         <div class="flex justify-between items-start">
-                            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold">
+                            <span
+                                class="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold">
                                 {{ $index + 1 }}
                             </span>
                             <span class="text-xs font-bold text-indigo-600">
@@ -105,8 +139,12 @@
                                 <p class="text-sm text-gray-600">₹{{ number_format($data[2]) }}</p>
                             </div>
                             <div class="text-right">
+                                <p class="text-[10px] text-gray-400 uppercase font-bold">Quantity</p>
+                                <p class="text-sm text-gray-900">{{ number_format($data[3]) }} vehicle(s)</p>
+                            </div>
+                            <div class="text-right">
                                 <p class="text-[10px] text-gray-400 uppercase font-bold">Subtotal</p>
-                                <p class="text-base font-black text-gray-900">₹{{ number_format($data[3]) }}</p>
+                                <p class="text-base font-black text-gray-900">₹{{ number_format($data[4]) }}</p>
                             </div>
                         </div>
                     </div>
@@ -130,7 +168,8 @@
                                 ₹{{ number_format($invoice->balance_due, 2) }}
                             </span>
                             @if ($invoice->balance_due <= 0)
-                                <p class="text-[10px] text-green-600 font-bold uppercase tracking-tighter leading-none mt-1">
+                                <p
+                                    class="text-[10px] text-green-600 font-bold uppercase tracking-tighter leading-none mt-1">
                                     Paid in Full
                                 </p>
                             @endif

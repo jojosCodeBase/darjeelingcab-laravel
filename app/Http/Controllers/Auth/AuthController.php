@@ -75,7 +75,6 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $user = Auth::user();
         Auth::logout();
         return redirect('/');
     }

@@ -4,7 +4,7 @@
 
 @section('content')
     <main class="p-2 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
-        <div id="editInvoiceSection" class="max-w-5xl mx-auto">
+        <div id="editInvoiceSection" class="mx-auto">
 
             <div class="mb-6 px-2 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -50,7 +50,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="grid grid-cols-2 gap-3">
+                                <div class="grid md:grid-cols-2 gap-3">
                                     <div>
                                         <label
                                             class="text-[10px] font-black text-gray-400 uppercase ml-1 tracking-widest">Invoice
@@ -68,6 +68,8 @@
                                                 {{ $invoice->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
                                             <option value="paid"
                                                 {{ $invoice->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
+                                            <option value="advance-paid"
+                                                {{ $invoice->payment_status == 'advance-paid' ? 'selected' : '' }}>Advance Paid</option>
                                         </select>
                                     </div>
                                 </div>
@@ -142,9 +144,9 @@
 
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center text-gray-400 lg:text-gray-500">
-                                    <span class="text-xs font-bold uppercase tracking-widest">Sub Total</span>
-                                    <span id="sub_total_display" class="font-black text-lg lg:text-gray-900">₹0.00</span>
-                                    <input type="hidden" name="sub_total" value="{{ $invoice->sub_total }}">
+                                    <span class="text-xs font-bold uppercase tracking-widest">Total Payable</span>
+                                    <span id="total_amount_display" class="font-black text-lg lg:text-gray-900">₹0.00</span>
+                                    <input type="hidden" name="total" value="{{ $invoice->total_amount }}">
                                 </div>
 
                                 <div
@@ -159,11 +161,11 @@
                                     <div>
                                         <p
                                             class="text-[10px] font-black text-gray-400 lg:text-gray-500 uppercase tracking-widest">
-                                            Total Payable</p>
-                                        <h2 id="total_display"
+                                            Balance Due</p>
+                                        <h2 id="balance_due_display"
                                             class="text-3xl font-black text-white lg:text-gray-900 tracking-tighter">
                                             ₹0.00</h2>
-                                        <input type="hidden" name="total" value="{{ $invoice->total_amount }}">
+                                        <input type="hidden" name="balance_due" value="{{ $invoice->balance_due }}">
                                     </div>
                                     <button type="submit"
                                         class="mt-3 w-full bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-all">
@@ -345,19 +347,19 @@
             $('#received_amount').on('input', updateTotals);
 
             function updateTotals() {
-                let subtotal = 0;
+                let total = 0;
                 $('.amount-input').each(function() {
-                    subtotal += parseFloat($(this).val()) || 0;
+                    total += parseFloat($(this).val()) || 0;
                 });
 
                 const received_amount = parseFloat($('#received_amount').val()) || 0;
-                const total = subtotal - received_amount;
+                const balance_due = total - received_amount;
 
-                $('#sub_total_display').text(formatCurrency(subtotal));
-                $('#total_display').text(formatCurrency(total));
+                $('#total_amount_display').text(formatCurrency(total));
+                $('#balance_due_display').text(formatCurrency(balance_due));
 
+                $('input[name="balance_due"]').val(balance_due.toFixed(2));
                 $('input[name="total"]').val(total.toFixed(2));
-                $('input[name="sub_total"]').val(subtotal.toFixed(2));
             }
 
             // Initial update

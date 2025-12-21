@@ -46,6 +46,18 @@
             transform: translateY(-4px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 
@@ -170,7 +182,12 @@
                         <p class="text-gray-900 font-medium text-sm">Admin User</p>
                         <p class="text-gray-500 text-xs">admin@darjeelingcab.com</p>
                     </div>
-                    <i class="fas fa-sign-out-alt text-gray-400 hover:text-red-500 transition-colors"></i>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit">
+                            <i class="fas fa-sign-out-alt text-gray-400 hover:text-red-500 transition-colors"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -204,7 +221,8 @@
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
 
-                        <div class="hidden sm:block w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full">
+                        <div
+                            class="hidden sm:block w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full">
                         </div>
                     </div>
                 </div>

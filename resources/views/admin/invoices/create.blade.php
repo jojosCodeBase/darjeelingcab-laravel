@@ -69,9 +69,7 @@
                             <div id="vehicle_details_container"
                                 class="hidden mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-xl">
                                 <h4 class="text-indigo-900 text-xs font-bold uppercase mb-2">Trip Vehicle Assignment</h4>
-                                <div id="vehicle_details" class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    {{-- Rendered via JS --}}
-                                </div>
+                                <div id="vehicle_details" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div>
                             </div>
                         </div>
 
@@ -94,13 +92,13 @@
                                             <th class="px-2 py-3 text-center">Date</th>
                                             <th class="px-0 py-3 w-32">Price (₹)</th>
                                             <th class="px-4 py-3 w-32 text-right">Amount (₹)</th>
+                                            <th class="px-4 py-3 w-10"></th>
                                         </tr>
                                     </thead>
                                     <tbody id="itemTableBody" class="divide-y divide-gray-100">
-                                        {{-- Desktop rows appended here --}}
-                                        <tr>
-                                            <td colspan="5">
-                                                <p class="text-center text-sm p-5 italic">No items added</p>
+                                        <tr id="emptyStateRow">
+                                            <td colspan="6">
+                                                <p class="text-center text-sm p-5 italic text-gray-400">No items added</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -108,7 +106,6 @@
                             </div>
 
                             <div id="itemCardContainer" class="lg:hidden divide-y divide-gray-100 bg-gray-50/30">
-                                {{-- Mobile cards appended here --}}
                             </div>
                         </div>
                     </div>
@@ -116,14 +113,12 @@
                     <div class="lg:col-span-1">
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 sticky top-8">
                             <h3 class="text-gray-900 text-lg font-semibold mb-6 border-b pb-4">Payment Summary</h3>
-
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-500 font-medium">Subtotal</span>
+                                    <span class="text-gray-500 font-medium">Total Payable</span>
                                     <span id="total_raw" class="font-bold text-gray-900 text-lg">₹0.00</span>
                                     <input type="hidden" name="total" value="0">
                                 </div>
-
                                 <div>
                                     <label class="text-gray-700 text-sm mb-1 block">Received Amount</label>
                                     <div class="relative">
@@ -133,7 +128,6 @@
                                             class="w-full bg-gray-50 text-gray-900 rounded-lg pl-7 pr-4 py-2 border border-gray-200 focus:ring-2 focus:ring-green-200 outline-none">
                                     </div>
                                 </div>
-
                                 <div class="pt-4 border-t border-dashed border-gray-200">
                                     <div class="flex justify-between items-center">
                                         <span class="text-gray-900 font-bold uppercase text-sm">Balance Due</span>
@@ -145,7 +139,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <button type="submit"
                                 class="w-full mt-8 bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5">
                                 <i class="fas fa-check-circle mr-2"></i>GENERATE & SAVE
@@ -157,41 +150,32 @@
         </div>
     </main>
 
-    <div id="itemModal"
-        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
-
-        <div class="relative w-full max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
-
+    <div id="itemModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="relative w-full max-w-md transform animate-in fade-in zoom-in duration-200">
             <div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
-
                 <div class="p-6 border-b border-gray-50 flex justify-between items-center bg-white">
                     <h5 class="text-xl font-black text-gray-900 uppercase tracking-tight">Add Extra Service</h5>
                     <button type="button"
-                        class="closeModal text-gray-400 hover:text-gray-900 transition-colors w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+                        class="closeModal text-gray-400 hover:text-gray-900 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">
                         <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
-
                 <div class="p-6 space-y-4">
-                    <div
-                        class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                         <label
                             class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Description</label>
                         <input type="text" id="modal_description"
                             class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900"
-                            placeholder="e.g., Guide Charges, Extra Km">
+                            placeholder="e.g., Guide Charges">
                     </div>
-
                     <div class="grid grid-cols-2 gap-4">
-                        <div
-                            class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                             <label
                                 class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Date</label>
                             <input type="date" id="modal_dates" value="{{ date('Y-m-d') }}"
                                 class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900">
                         </div>
-                        <div
-                            class="bg-gray-50 p-4 rounded-2xl border border-gray-100 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-50 transition-all">
+                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                             <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Price
                                 (₹)</label>
                             <input type="number" id="modal_price"
@@ -200,16 +184,12 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="p-6 bg-gray-50/50 flex gap-3">
                     <button type="button"
-                        class="closeModal flex-1 py-4 text-gray-500 font-black text-xs uppercase tracking-widest hover:text-gray-700">
-                        Cancel
-                    </button>
+                        class="closeModal flex-1 py-4 text-gray-500 font-black text-xs uppercase tracking-widest">Cancel</button>
                     <button type="button" id="add-manual-item-btn"
-                        class="flex-2 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-200 active:scale-95 transition-all">
-                        Add to Bill
-                    </button>
+                        class="flex-2 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg">Add
+                        to Bill</button>
                 </div>
             </div>
         </div>
@@ -219,11 +199,10 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-
-            $('#openItemModal').on('click', function(e) {
-                e.preventDefault();
+            // --- Modal Logic ---
+            $('#openItemModal').click(function() {
                 $('#itemModal').removeClass('hidden').addClass('flex');
-                $('body').addClass('overflow-hidden'); // Prevent background scrolling
+                $('body').addClass('overflow-hidden');
             });
 
             function closeItemModal() {
@@ -231,25 +210,12 @@
                 $('body').removeClass('overflow-hidden');
             }
 
-            $('.closeModal').on('click', closeItemModal);
+            $('.closeModal').click(closeItemModal);
 
-            $('#itemModal').on('click', function(e) {
-                if (e.target === this) {
-                    closeItemModal();
-                }
-            });
-
-            // 1. Fetch Bookings - Reset table on customer change
+            // --- Data Fetching ---
             $('#customerSelect').change(function() {
                 const customerId = $(this).val();
-                $('#itemTableBody').empty(); // Clear items as they belong to a specific booking
-                $('#vehicle_details_container').hide();
-
-                $('.qty-input, .price-input').trigger('input');
-                $('.mobile-qty-input, .mobile-price-input').trigger('input');
-
-                updateTotals();
-
+                resetTable();
                 if (customerId) {
                     $.get('{{ route('billing.getBookings') }}', {
                         customer_id: customerId
@@ -257,18 +223,13 @@
                         const bookingSelect = $('#bookingSelect');
                         $('#bookingSelectContainer').fadeIn();
                         bookingSelect.empty().append('<option value="">Select a Booking</option>');
-
                         if (data.bookings && data.bookings.length > 0) {
                             data.bookings.forEach(booking => {
                                 let dayDateArray = JSON.parse(booking.day_date);
                                 bookingSelect.append(
                                     `<option value="${booking.id}">${booking.booking_id} (${dayDateArray[0]})</option>`
-                                );
+                                    );
                             });
-                        } else {
-                            bookingSelect.append(
-                                '<option value="" disabled>No active bookings for this customer</option>'
-                            );
                         }
                     });
                 } else {
@@ -276,7 +237,6 @@
                 }
             });
 
-            // 2. Load Booking Data
             $('#bookingSelect').change(function() {
                 const bookingId = $(this).val();
                 if (bookingId) {
@@ -284,173 +244,136 @@
                         populateFromBooking(booking);
                     });
                 } else {
-                    $('#itemTableBody').empty();
-                    $('#vehicle_details_container').hide();
-                    updateTotals();
+                    resetTable();
                 }
             });
 
+            function resetTable() {
+                $('#itemTableBody').empty().append(
+                    '<tr id="emptyStateRow"><td colspan="6"><p class="text-center text-sm p-5 italic text-gray-400">No items added</p></td></tr>'
+                    );
+                $('#itemCardContainer').empty();
+                $('#vehicle_details_container').hide();
+                updateTotals();
+            }
+
             function populateFromBooking(booking) {
                 $('#itemTableBody').empty();
+                $('#itemCardContainer').empty();
                 $('#vehicle_details').empty();
                 $('#vehicle_details_container').removeClass('hidden').show();
 
-                // const dayDates = JSON.parse(booking.day_date);
-                // const destinations = JSON.parse(booking.destination);
-                const vehicleNumbers = JSON.parse(booking.vehicle_no);
-                const vehicleTypes = JSON.parse(booking.vehicle_type);
-                const driverNames = JSON.parse(booking.driver_name);
+                const vehicleNumbers = JSON.parse(booking.vehicle_no || "[]");
+                const vehicleTypes = JSON.parse(booking.vehicle_type || "[]");
+                const driverNames = JSON.parse(booking.driver_name || "[]");
 
-                // Vehicles info
                 vehicleNumbers.forEach((no, i) => {
                     $('#vehicle_details').append(`
                     <div class="bg-white p-2 rounded border border-indigo-100 text-[11px] shadow-sm">
-                        <p class="font-bold text-indigo-600">${vehicleTypes[i] || 'SUV'}</p>
+                        <p class="font-bold text-indigo-600">${vehicleTypes[i] || 'Vehicle'}</p>
                         <p class="text-gray-600">${no} • ${driverNames[i] || 'N/A'}</p>
-                    </div>
-                `);
+                    </div>`);
                 });
 
-                const vehicle_count = vehicleTypes.length;
-
-                // 1. Ensure dayDates is an array
+                const vehicle_count = vehicleTypes.length || 1;
                 const dayDates = Array.isArray(booking.day_date) ? booking.day_date : JSON.parse(booking.day_date ||
                     "[]");
                 const destinations = Array.isArray(booking.destination) ? booking.destination : JSON.parse(booking
                     .destination || "[]");
 
-                    console.log(destinations);
-
-                alert('Vehicle count: ' + vehicle_count); // This one works
-
-                // 2. Use a safer loop
                 dayDates.forEach((date, index) => {
-                    // Fallback values if data is missing for a specific day
-                    const currentDest = (destinations && destinations[index]) ? destinations[index] :
-                        "No Destination Set";
-                    const currentDate = date ? date : "";
-
-                    alert(`Processing Day ${index}: ${currentDest}`);
-
-                    // Call the function
-                    addItemToTable(currentDest, currentDate, 0, vehicle_count);
+                    const currentDest = destinations[index] || "Trip Service";
+                    addItemToTable(currentDest, date, 0, vehicle_count);
                 });
-
-                alert('If you see this, the loop finished successfully!');
-
-                // alert(vehicle_count);
-
-                // // Itinerary items
-                // dayDates.forEach((date, index) => {
-                //     addItemToTable(destinations[index], date, 0, vehicle_count);
-                // });
-
-                // alert(vehicle_count);
             }
 
-            // 3. Manual Extras
+            // --- Core: Add Item to Both Views ---
             $('#add-manual-item-btn').click(function() {
                 const desc = $('#modal_description').val();
                 const date = $('#modal_dates').val();
                 const price = $('#modal_price').val();
-
                 if (desc && price) {
                     addItemToTable(desc, date, price);
-                    $('#modal_description, #modal_dates, #modal_price').val('');
+                    $('#modal_description, #modal_price').val('');
                     closeItemModal();
                 }
             });
 
-            function addItemToTable(desc, date, price, qty = 1) { // Added qty parameter with default 1
-                const uniqueId = crypto.randomUUID();
-                const totalAmount = (price * qty).toFixed(2); // Calculate initial total
+            function addItemToTable(desc, date, price, qty = 1) {
+                $('#emptyStateRow').remove();
+                const uniqueId = 'row-' + Date.now() + Math.floor(Math.random() * 1000);
+                const totalAmount = (price * qty).toFixed(2);
 
-                // 1. DESKTOP ROW
+                // Desktop Row
                 const desktopHtml = `
-                    <tr class="hover:bg-gray-50/50 transition-colors desktop-row" data-id="${uniqueId}">
-                        <td class="px-4 py-4 text-sm text-gray-400 sl-no"></td>
-                        <td class="px-4 py-4">
-                            <input type="text" name="description[]" value="${desc}" required 
-                                class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-gray-800">
-                        </td>
-                        <td class="px-2 py-4 text-center">
-                            <input type="date" name="dates[]" value="${date}" required 
-                                class="bg-transparent border-none p-0 focus:ring-0 text-xs text-indigo-600 font-medium text-center">
-                        </td>
-                        <td class="px-0 py-4">
-                            <div class="flex items-center gap-2">
-                                <input type="number" name="qty[]" value="${qty}" min="1" 
-                                    class="qty-input w-8 bg-white border border-gray-200 rounded-md px-1 py-1 text-sm focus:border-blue-500 outline-none" placeholder="Qty">
-                                
-                                <span class="text-gray-400">×</span>
-                                
-                                <input type="number" name="price[]" value="${price}" min="0" step="0.01" required 
-                                    class="price-input w-full bg-white border border-gray-200 rounded-md px-1 py-1 text-sm focus:border-blue-500 outline-none" placeholder="Price">
-                            </div>
-                        </td>
-                        <td class="px-4 py-4 text-right">
-                            <input type="number" name="amount[]" value="${totalAmount}" readonly 
-                                class="amount-input w-full bg-transparent border-none text-right font-bold text-gray-900 p-0 focus:ring-0">
-                        </td>
-                    </tr>
-                `;
+                <tr class="hover:bg-gray-50/50 transition-colors desktop-row" data-id="${uniqueId}">
+                    <td class="px-4 py-4 text-sm text-gray-400 sl-no"></td>
+                    <td class="px-4 py-4"><input type="text" name="description[]" value="${desc}" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-gray-800"></td>
+                    <td class="px-2 py-4 text-center"><input type="date" name="dates[]" value="${date}" class="bg-transparent border-none p-0 focus:ring-0 text-xs text-indigo-600 font-medium text-center"></td>
+                    <td class="px-0 py-4">
+                        <div class="flex items-center gap-2">
+                            <input type="number" name="qty[]" value="${qty}" class="qty-input w-10 border border-gray-200 rounded px-1 py-1 text-sm">
+                            <span>×</span>
+                            <input type="number" name="price[]" value="${price}" class="price-input w-20 border border-gray-200 rounded px-1 py-1 text-sm">
+                        </div>
+                    </td>
+                    <td class="px-4 py-4 text-right"><input type="number" name="amount[]" value="${totalAmount}" readonly class="amount-input w-full bg-transparent border-none text-right font-bold p-0"></td>
+                    <td class="px-4 py-4"><button type="button" class="remove-item text-red-400 hover:text-red-600"><i class="fas fa-trash-alt"></i></button></td>
+                </tr>`;
 
-                // 2. MOBILE CARD
+                // Mobile Card
                 const mobileHtml = `
-                    <div class="p-4 bg-white mobile-card space-y-3" data-id="${uniqueId}">
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-black uppercase text-gray-400">Item #<span class="sl-no-mobile"></span></span>
-                            <button type="button" class="remove-item text-red-500 text-xs"><i class="fas fa-trash"></i></button>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 gap-2">
-                            <input type="text" name="description[]" value="${desc}" placeholder="Description"
-                                class="w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-sm font-bold text-gray-800 focus:ring-2 focus:ring-blue-100">
-                            
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label class="text-[9px] uppercase font-bold text-gray-400 ml-1">Qty</label>
-                                    <input type="number" name="qty[]" value="${qty}" min="1"
-                                        class="mobile-qty-input w-full bg-gray-50 border-none rounded-lg px-3 py-2 text-xs">
-                                </div>
-                                <div class="col-span-2">
-                                    <label class="text-[9px] uppercase font-bold text-gray-400 ml-1">Price (₹)</label>
-                                    <input type="number" name="price[]" value="${price}" step="0.01"
-                                        class="mobile-price-input w-full bg-blue-50 border-none rounded-lg px-3 py-2 text-sm font-black text-blue-700">
-                                </div>
+                <div class="p-4 bg-white mobile-card" data-id="${uniqueId}">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[10px] font-black text-gray-400 uppercase">Item #<span class="sl-no-mobile"></span></span>
+                        <button type="button" class="remove-item text-red-500"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <input type="text" value="${desc}" class="w-full bg-gray-50 border border-gray-200 p-2 rounded mb-2 text-sm font-bold">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="text-[9px] uppercase text-gray-400">Qty x Price</label>
+                            <div class="flex items-center gap-1">
+                                <input type="number" value="${qty}" class="mobile-qty-input w-12 bg-gray-50 border border-gray-200 p-2 rounded text-xs px-2 py-2">
+                                <input type="number" value="${price}" class="mobile-price-input w-full bg-gray-50 border border-gray-200 p-2 rounded text-xs px-2 py-2">
                             </div>
                         </div>
-                        <div class="text-right pt-2 border-t border-dashed border-gray-100">
-                            <span class="text-[10px] text-gray-400 uppercase font-bold mr-2">Subtotal:</span>
-                            <span class="text-sm font-black text-gray-900">₹<span class="mobile-amount-display">${totalAmount}</span></span>
+                        <div class="text-right">
+                            <label class="text-[9px] uppercase text-gray-400">Subtotal</label>
+                            <div class="text-sm font-black text-blue-600">₹<span class="mobile-amount-display">${totalAmount}</span></div>
                         </div>
                     </div>
-                `;
+                </div>`;
 
                 $('#itemTableBody').append(desktopHtml);
                 $('#itemCardContainer').append(mobileHtml);
-
-                // updateTotals();
+                updateTotals();
             }
 
-            // Combine the selectors into ONE string separated by a comma
+            // --- Sync and Calculations ---
             $(document).on('input', '.qty-input, .price-input, .mobile-qty-input, .mobile-price-input', function() {
-                const row = $(this).closest('.desktop-row, .mobile-card');
-                const uniqueId = row.data('id'); // Get the unique ID for this itinerary item
-
-                const qty = parseFloat(row.find('.qty-input, .mobile-qty-input').val()) || 0;
-                const price = parseFloat(row.find('.price-input, .mobile-price-input').val()) || 0;
+                const container = $(this).closest('[data-id]');
+                const id = container.data('id');
+                const qty = parseFloat(container.find('.qty-input, .mobile-qty-input').val()) || 0;
+                const price = parseFloat(container.find('.price-input, .mobile-price-input').val()) || 0;
                 const total = (qty * price).toFixed(2);
 
-                // Find BOTH the Desktop Row and the Mobile Card with this ID
-                const syncedElements = $(`[data-id="${uniqueId}"]`);
+                const synced = $(`[data-id="${id}"]`);
+                synced.find('.qty-input, .mobile-qty-input').val(qty);
+                synced.find('.price-input, .mobile-price-input').val(price);
+                synced.find('.amount-input').val(total);
+                synced.find('.mobile-amount-display').text(total);
 
-                // Update values in both places so they stay in sync
-                syncedElements.find('.qty-input, .mobile-qty-input').val(qty);
-                syncedElements.find('.price-input, .mobile-price-input').val(price);
-                syncedElements.find('.amount-input').val(total);
-                syncedElements.find('.mobile-amount-display').text(total);
+                updateTotals();
+            });
 
+            $(document).on('click', '.remove-item', function() {
+                const id = $(this).closest('[data-id]').data('id');
+                $(`[data-id="${id}"]`).remove();
+                if ($('#itemTableBody tr').length === 0) {
+                    $('#itemTableBody').append(
+                        '<tr id="emptyStateRow"><td colspan="6"><p class="text-center text-sm p-5 italic text-gray-400">No items added</p></td></tr>'
+                        );
+                }
                 updateTotals();
             });
 
@@ -458,35 +381,24 @@
 
             function updateTotals() {
                 let total = 0;
-
-                // We use the desktop 'amount-input' as the source of truth for the calculation
                 $('.amount-input').each(function() {
-                    const val = parseFloat($(this).val()) || 0;
-                    total += val;
+                    total += parseFloat($(this).val()) || 0;
                 });
 
                 const received = parseFloat($('#received_amount').val()) || 0;
                 const balance = total - received;
 
-                const formatter = new Intl.NumberFormat('en-IN', {
-                    style: 'currency',
-                    currency: 'INR'
-                });
-
-                // Update UI Displays
-                $('#total_raw').text(formatter.format(total));
+                $('#total_raw').text('₹' + total.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2
+                }));
                 $('input[name="total"]').val(total.toFixed(2));
-
-                $('#balance_due_display').text(formatter.format(balance));
+                $('#balance_due_display').text('₹' + balance.toLocaleString('en-IN', {
+                    minimumFractionDigits: 2
+                }));
                 $('input[name="balance_due"]').val(balance.toFixed(2));
 
-                // Update Serial Numbers for both views
-                $('.sl-no').each(function(i) {
-                    $(this).text(i + 1);
-                });
-                $('.sl-no-mobile').each(function(i) {
-                    $(this).text(i + 1);
-                });
+                $('.sl-no').each((i, el) => $(el).text(i + 1));
+                $('.sl-no-mobile').each((i, el) => $(el).text(i + 1));
             }
         });
     </script>

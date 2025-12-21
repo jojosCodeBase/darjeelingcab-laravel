@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Invoice;
 use Exception;
@@ -9,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
+use Barryvdh\DomPDF\Facade\Pdf; // Ensure you import the Facade
+
 
 class InvoiceController extends Controller
 {
@@ -48,18 +51,17 @@ class InvoiceController extends Controller
     {
         return $this->processInvoice($request, 'store');
     }
-    
+
     public function store_instant(Request $request)
     {
         return $this->processInvoice($request, 'store', true);
     }
-    
+
     public function update(Request $request, $id)
     {
-        $request['balance_due'] = $request->total;
         return $this->processInvoice($request, 'update', false, $id);
     }
-
+    
     public function update_instant(Request $request, $id)
     {
         return $this->processInvoice($request, 'update', true, $id);
@@ -147,10 +149,13 @@ class InvoiceController extends Controller
     }
 
 
-    public function generatePDF(Invoice $invoice)
+    public function generatePDFOld(Invoice $invoice)
     {
         try {
-            $customer = Customer::find($invoice->customer_id);
+            $customer = Customer::findOrFail($invoice->customer_id);
+            $booking = Booking::findOrFail($invoice->booking_id);
+
+            $vehicle_type = $booking->vehicle_type ?? [];
 
             if ($invoice->payment_status == "advance-paid") {
                 $payment_status = "Advance Paid";
@@ -159,24 +164,26 @@ class InvoiceController extends Controller
             }
 
             $data = [
-                'bill' => $invoice,
+                'invoice' => $invoice,
                 'customer' => $customer,
                 'description' => json_decode($invoice->description),
                 'dates' => json_decode($invoice->dates),
                 'prices' => json_decode($invoice->price),
+                'quantities' => json_decode($invoice->qty),
                 'amounts' => json_decode($invoice->amount),
-                'vehicle_details' => $invoice->vehicle_details,
+                'vehicle_type' => json_decode($vehicle_type),
                 'payment_status' => $payment_status,
             ];
 
-            // return view('admin.invoices.pdf', [
-            //     'bill' => $invoice,
+            // return view('admin.invoices.invoice-pdf', [
+            //     'invoice' => $invoice,
             //     'customer' => $customer,
             //     'description' => json_decode($invoice->description),
             //     'dates' => json_decode($invoice->dates),
             //     'prices' => json_decode($invoice->price),
+            //     'quantities' => json_decode($invoice->qty),
             //     'amounts' => json_decode($invoice->amount),
-            //     'vehicle_details' => $invoice->vehicle_details,
+            //     'vehicle_type' => json_decode($vehicle_type),
             //     'payment_status' => $payment_status,
             // ]);
 
@@ -194,7 +201,7 @@ class InvoiceController extends Controller
             // Write HTML to PDF
             $mpdf->WriteHTML($html);
 
-            $filename = 'Invoice - ' . $invoice->bill_no . '.pdf';
+            $filename = $invoice->invoice_no . '.pdf';
 
             // Output the PDF as a download
             return response()->stream(
@@ -207,6 +214,67 @@ class InvoiceController extends Controller
                     'Content-Disposition' => 'inline; filename=' . $filename . '',
                 ]
             );
+        } catch (Exception $e) {
+            Log::error('Failed to generate invoice pdf -- ' . $e->getMessage() . ' -- on line -- ' . $e->getLine());
+        }
+    }
+
+    public function generatePDF(Invoice $invoice)
+    {
+        try {
+            $customer = Customer::find($invoice->customer_id);
+
+            $booking = Booking::find($invoice->booking_id);
+
+            if (is_null($customer)) {
+                $customer = (object) [
+                    'full_name' => $invoice->manual_customer_name,
+                    'phone_no' => $invoice->manual_customer_phone, // Match the attribute name used in your Blade
+                    'address' => $invoice->manual_customer_address,
+                    'city' => 'NA',
+                    'state' => 'NA',
+                ];
+            }
+
+            $vehicle_type = !is_null($booking) ? json_decode($booking->vehicle_type) : [];
+            $payment_status = ($invoice->payment_status == "advance-paid") ? "Advance Paid" : "Not Paid";
+
+            $data = [
+                'invoice' => $invoice,
+                'customer' => $customer,
+                'description' => json_decode($invoice->description),
+                'dates' => json_decode($invoice->dates),
+                'prices' => json_decode($invoice->price),
+                'quantities' => json_decode($invoice->qty),
+                'amounts' => json_decode($invoice->amount),
+                'vehicle_type' => $vehicle_type,
+                'payment_status' => $payment_status,
+            ];
+
+            // return view('admin.invoices.dompdf-invoice-pdf', [
+            //     'invoice' => $invoice,
+            //     'customer' => $customer,
+            //     'description' => json_decode($invoice->description),
+            //     'dates' => json_decode($invoice->dates),
+            //     'prices' => json_decode($invoice->price),
+            //     'quantities' => json_decode($invoice->qty),
+            //     'amounts' => json_decode($invoice->amount),
+            //     'vehicle_type' => json_decode($vehicle_type),
+            //     'payment_status' => $payment_status,
+            // ]);
+
+            // 1. Load the view and pass data
+            $pdf = Pdf::loadView('admin.invoices.dompdf-invoice-pdf', $data);
+
+            // 2. Set options (optional: paper size and orientation)
+            $pdf->setPaper('a4', 'portrait');
+
+            $filename = $invoice->invoice_no . '.pdf';
+
+            // 3. Return as a stream (view in browser) or download
+            // use ->download($filename) if you want to force a download immediately
+            return $pdf->stream($filename);
+
         } catch (Exception $e) {
             Log::error('Failed to generate invoice pdf -- ' . $e->getMessage() . ' -- on line -- ' . $e->getLine());
         }

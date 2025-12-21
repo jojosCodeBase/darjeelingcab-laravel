@@ -37,7 +37,7 @@
                             <h3 class="text-sm font-black uppercase text-gray-700">Customer Details</h3>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-[280px]">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Full Name *</label>
                                 <input type="text" name="manual_name"
@@ -101,31 +101,57 @@
 
                         <div id="mobileItemContainer" class="space-y-3">
                             @php
-                                $descriptions = json_decode($invoice->description, true); // Assuming array casting in Model
-                                $dates = json_decode($invoice->dates, true);
-                                $prices = json_decode($invoice->price, true);
-                                $amounts = json_decode($invoice->amount, true);
+                                $descriptions = json_decode($invoice->description, true) ?? [];
+                                $dates = json_decode($invoice->dates, true) ?? [];
+                                $prices = json_decode($invoice->price, true) ?? [];
+                                $quantities = json_decode($invoice->qty, true) ?? [];
+                                $amounts = json_decode($invoice->amount, true) ?? [];
                             @endphp
 
                             @foreach ($descriptions as $index => $desc)
-                                <div class="item-card bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-center relative overflow-hidden"
+                                <div class="item-card bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-center relative overflow-hidden mb-3"
                                     id="card-{{ $index }}">
                                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
-                                    <div class="flex-1">
-                                        <input type="text" name="description[]" value="{{ $desc }}"
-                                            class="w-full bg-transparent border border-gray-200 p-2 focus:ring-0 text-sm font-bold text-gray-900 mb-1"
-                                            placeholder="Description">
-                                        <input type="date" name="dates[]" value="{{ $dates[$index] }}"
-                                            class="bg-transparent border border-gray-200 p-2 focus:ring-0 text-[10px] text-gray-500 font-bold uppercase tracking-tighter">
 
-                                        <div class="flex items-center mt-2">
-                                            <span class="text-xs text-gray-400 mr-1">₹</span>
-                                            <input type="number" name="amount[]"
-                                                value="{{ number_format($amounts[$index], 2, '.', '') }}" step="0.01"
-                                                class="price-input bg-indigo-50 text-indigo-700 font-black rounded-lg px-2 py-1 text-sm w-24 outline-none border-none focus:ring-1 focus:ring-indigo-300">
-                                            <input type="hidden" name="price[]" value="{{ $prices[$index] }}">
+                                    <div class="flex-1">
+                                        <input type="text" name="description[]" value="{{ $desc }}" required
+                                            class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-900 mb-0.5"
+                                            placeholder="Description">
+                                        <input type="date" name="dates[]" value="{{ $dates[$index] }}" required
+                                            class="bg-transparent border-none p-0 focus:ring-0 text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-3">
+
+                                        <div class="flex items-center gap-4">
+                                            <div class="flex flex-col">
+                                                <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Price</span>
+                                                <div class="flex items-center bg-indigo-50 rounded-lg px-2 py-1">
+                                                    <span class="text-xs text-indigo-400 mr-1">₹</span>
+                                                    <input type="number" name="price[]" value="{{ $prices[$index] }}"
+                                                        step="0.01"
+                                                        class="price-input bg-transparent text-indigo-700 font-black text-sm w-20 outline-none border-none focus:ring-0">
+                                                </div>
+                                            </div>
+
+                                            <div class="flex flex-col">
+                                                <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Qty</span>
+                                                <div class="flex items-center bg-indigo-50 rounded-lg px-2 py-1">
+                                                    <input type="number" name="qty[]"
+                                                        value="{{ $quantities[$index] ?? 1 }}" step="1"
+                                                        class="qty-input bg-transparent text-indigo-700 font-black text-sm w-10 text-center outline-none border-none focus:ring-0">
+                                                </div>
+                                            </div>
+
+                                            <div class="flex flex-col ml-auto pr-4 text-right">
+                                                <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Total</span>
+                                                <p class="text-sm font-black text-gray-900">
+                                                    ₹<span
+                                                        class="row-total-display">{{ number_format($amounts[$index], 2, '.', '') }}</span>
+                                                </p>
+                                                <input type="hidden" name="amount[]" class="row-amount-hidden"
+                                                    value="{{ $amounts[$index] }}">
+                                            </div>
                                         </div>
                                     </div>
+
                                     <button type="button"
                                         class="remove-card-btn p-3 text-gray-300 hover:text-red-500 transition-colors">
                                         <i class="fas fa-trash-alt text-sm"></i>
@@ -236,7 +262,7 @@
             $('#openItemModal').on('click', function(e) {
                 e.preventDefault();
                 $('#itemModal').removeClass('hidden').addClass('flex');
-                $('body').addClass('overflow-hidden'); // Prevent background scrolling
+                $('body').addClass('overflow-hidden');
             });
 
             function closeItemModal() {
@@ -245,7 +271,6 @@
             }
 
             $('.closeModal').on('click', closeItemModal);
-
 
             $('#itemModal').on('click', function(e) {
                 if (e.target === this) {
@@ -259,27 +284,51 @@
                 minimumFractionDigits: 2
             });
 
-            // 1. Add Item to Card List
+            // 1. Add Item with Qty and Price
             $('#addItemBtn').click(function() {
                 const desc = $('#modal_description').val();
                 const date = $('#modal_date').val();
-                const price = parseFloat($('#modal_price').val()) || 0;
+                const unit_price = parseFloat($('#modal_price').val()) || 0;
 
-                if (!desc || price <= 0) return alert('Enter valid info');
+                if (!desc || unit_price <= 0) return alert('Enter valid info');
 
+                const qty = 1; // Default starting quantity
+                const row_total = unit_price * qty;
                 const uniqueId = Date.now();
+
                 const cardHtml = `
-            <div class="item-card bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-center relative overflow-hidden" id="card-${uniqueId}">
+            <div class="item-card bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex justify-between items-center relative overflow-hidden mb-3" id="card-${uniqueId}">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500"></div>
                 <div class="flex-1">
-                    <input type="text" name="description[]" value="${desc}" required class="w-full bg-transparent border border-gray-200 p-2 focus:ring-0 text-sm font-bold text-gray-800 mb-1">
-                    <input type="date" name="dates[]" value="${date}" required class="bg-transparent border border-gray-200 p-2 focus:ring-0 text-[10px] text-gray-500 font-bold uppercase tracking-tighter">
-                    <div class="flex items-center mt-2">
-                        <span class="text-xs text-gray-400 mr-1">₹</span>
-                        <input type="number" name="amount[]" value="${price.toFixed(2)}" step="0.01" 
-                               class="price-input bg-indigo-50 text-indigo-700 font-black rounded-lg px-2 py-1 text-sm w-24 outline-none border-none focus:ring-1 focus:ring-indigo-300">
+                    <input type="text" name="description[]" value="${desc}" required class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold text-gray-800 mb-0.5">
+                    <input type="date" name="dates[]" value="${date}" required class="bg-transparent border-none p-0 focus:ring-0 text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-3">
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="flex flex-col">
+                            <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Price</span>
+                            <div class="flex items-center bg-indigo-50 rounded-lg px-2 py-1">
+                                <span class="text-xs text-indigo-400 mr-1">₹</span>
+                                <input type="number" name="price[]" value="${unit_price}" step="0.01" 
+                                       class="price-input bg-transparent text-indigo-700 font-black text-sm w-20 outline-none border-none focus:ring-0">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Qty</span>
+                            <div class="flex items-center bg-indigo-50 rounded-lg px-2 py-1">
+                                <input type="number" name="qty[]" value="${qty}" step="1" 
+                                       class="qty-input bg-transparent text-indigo-700 font-black text-sm w-10 text-center outline-none border-none focus:ring-0">
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col ml-auto pr-4 text-right">
+                            <span class="text-[9px] text-gray-400 uppercase font-bold mb-1">Total</span>
+                            <p class="text-sm font-black text-gray-900">
+                                ₹<span class="row-total-display">${row_total.toFixed(2)}</span>
+                            </p>
+                            <input type="hidden" name="amount[]" class="row-amount-hidden" value="${row_total.toFixed(2)}">
+                        </div>
                     </div>
-                    <input type="hidden" name="price[]" value="${price.toFixed(2)}">
                 </div>
                 <button type="button" class="remove-card-btn p-3 text-gray-300 hover:text-red-500 transition-colors">
                     <i class="fas fa-trash-alt text-sm"></i>
@@ -299,31 +348,41 @@
                 updateTotals();
             });
 
-            // 3. Live Price Edit
-            $(document).on('input', '.price-input', function() {
-                const newVal = $(this).val();
-                $(this).closest('.item-card').find('input[name="price[]"]').val(newVal);
+            // 3. Live Price & Qty Calculation
+            $(document).on('input', '.price-input, .qty-input', function() {
+                let card = $(this).closest('.item-card');
+                let price = parseFloat(card.find('.price-input').val()) || 0;
+                let qty = parseInt(card.find('.qty-input').val()) || 0;
+
+                let row_total = price * qty;
+
+                // Update visual display and the hidden input for the backend
+                card.find('.row-total-display').text(row_total.toFixed(2));
+                card.find('.row-amount-hidden').val(row_total.toFixed(2));
+
                 updateTotals();
             });
 
             $('#received_amount').on('input', updateTotals);
 
             function updateTotals() {
-                let total = 0;
-                $('.price-input').each(function() {
-                    total += parseFloat($(this).val()) || 0;
+                let grandTotal = 0;
+
+                // Sum all row totals
+                $('.row-amount-hidden').each(function() {
+                    grandTotal += parseFloat($(this).val()) || 0;
                 });
 
                 const received = parseFloat($('#received_amount').val()) || 0;
-                const balance = total - received;
+                const balance = grandTotal - received;
 
-                $('#total_display').text(formatter.format(total));
-                $('input[name="total"]').val(total.toFixed(2));
+                $('#total_display').text(formatter.format(grandTotal));
+                $('input[name="total"]').val(grandTotal.toFixed(2));
 
                 $('#balance_display').text(formatter.format(balance));
                 $('input[name="balance_due"]').val(balance.toFixed(2));
 
-                if (balance <= 0 && total > 0) {
+                if (balance <= 0 && grandTotal > 0) {
                     $('#balance_display').removeClass('text-red-400').addClass('text-green-400');
                 } else {
                     $('#balance_display').removeClass('text-green-400').addClass('text-red-400');

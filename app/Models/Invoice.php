@@ -10,7 +10,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'invoice_no',
+        // 'invoice_no', -- removing this as this is system generated
         'invoice_date',
         'customer_id',
         'booking_id',
@@ -36,7 +36,6 @@ class Invoice extends Model
     protected static function booted()
     {
         static::creating(function ($invoice) {
-            // Only generate if invoice_no is empty
             if (empty($invoice->invoice_no)) {
                 $year = date('Y');
                 $prefix = "DC-INV-$year-";
@@ -47,16 +46,20 @@ class Invoice extends Model
                     ->first();
 
                 if ($lastInvoice) {
-                    // Extract the number after the last dash
-                    // e.g., from DC-INV-2025-101, it takes 101
-                    $lastNumber = intval(substr($invoice->invoice_no, strrpos($invoice->invoice_no, '-') + 1));
+                    // FIX: Use $lastInvoice->invoice_no instead of $invoice->invoice_no
+                    $lastNumber = intval(substr($lastInvoice->invoice_no, strrpos($lastInvoice->invoice_no, '-') + 1));
                     $newNumber = $lastNumber + 1;
                 } else {
-                    // Start from 101 for the first invoice of the year
                     $newNumber = 101;
                 }
 
                 $invoice->invoice_no = $prefix . $newNumber;
+
+                // LOGGING the final generated number
+                \Log::info("Generated New Invoice Number: " . $invoice->invoice_no, [
+                    'context' => 'Model Observer',
+                    'user_id' => auth()->id() ?? 'system'
+                ]);
             }
         });
     }
