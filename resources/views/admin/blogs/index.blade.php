@@ -11,11 +11,21 @@
                     <h3 class="text-gray-900 text-xl font-bold mb-1">All Blog Posts</h3>
                     <p class="text-gray-500 text-sm">Write and publish blog articles</p>
                 </div>
-                <button id="createBlogBtn"
-                    class="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
-                    <i class="fas fa-pen"></i>
-                    <span>Write New Post</span>
-                </button>
+                <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+                    <button type="button" onclick="toggleCategoryModal()"
+                        class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        <i class="fa-regular fa-square-plus mr-2"></i> Manage Categories
+                    </button>
+
+                    <a href="{{ route('blogs.create') }}">
+                        <button
+                            class="bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                            <i class="fas fa-pen"></i>
+                            <span>Write New Post</span>
+                        </button>
+                    </a>
+                </div>
             </div>
 
             @include('include.alerts')
@@ -50,9 +60,9 @@
                         <select id="categoryFilter"
                             class="w-full bg-gray-100 text-gray-900 rounded-lg px-4 py-2 outline-none border border-gray-200 focus:border-blue-500">
                             <option value="all">All Categories</option>
-                            <option value="travel">Travel Tips</option>
-                            <option value="destinations">Destinations</option>
-                            <option value="guides">Guides</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -73,7 +83,7 @@
                             @endif
 
                             <div class="absolute top-3 right-3">
-                                @if ($blog->status == 1)
+                                @if ($blog->status == 'published')
                                     <span
                                         class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Published</span>
                                 @else
@@ -86,11 +96,11 @@
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
-                                    <i class="fas fa-user mr-1"></i> {{ $blog->author ?? 'NA' }}
+                                    {{ $blog->categoryDetails->name ?? 'NA' }}
                                 </span>
 
                                 <button
-                                    class="changeStatusBtn flex items-center {{ $blog->status == 1 ? 'text-green-600' : 'text-gray-400' }}"
+                                    class="changeStatusBtn flex items-center {{ $blog->status == 'published' ? 'text-green-600' : 'text-gray-400' }}"
                                     data-blog-id="{{ $blog->id }}" title="Toggle Status">
                                     <i class="fas {{ $blog->status == 1 ? 'fa-toggle-on' : 'fa-toggle-off' }} text-xl"></i>
                                 </button>
@@ -116,14 +126,15 @@
                                         <i class="fas fa-eye mr-2"></i>View
                                     </button>
 
-                                    <button
-                                        class="editBlogBtn flex-1 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                        <a href="{{ route('blogs.edit', $blog->id) }}">
+                                    <a href="{{ route('blogs.edit', $blog->id) }}" class="flex-1">
+                                        <button type="button"
+                                            class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                                             <i class="fas fa-edit mr-2"></i>Edit
-                                        </a>
-                                    </button>
+                                        </button>
+                                    </a>
 
-                                    <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
+                                        class="inline flex-none">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -139,205 +150,63 @@
                 @endforeach
             </div>
         </div>
-
-        <!-- CREATE/EDIT BLOG FORM -->
-        <div id="blogFormSection" class="hidden">
-            <div class="mb-6">
-                <button id="backToListBtn" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 mb-4">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Blogs</span>
-                </button>
-                <h2 class="text-gray-900 text-2xl font-bold mb-1" id="formTitle">Write New Blog Post</h2>
-                <p class="text-gray-500 text-sm">Create engaging content for your readers</p>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
-                <form id="blogForm">
-                    <!-- Blog Details -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-pen mr-2 text-pink-600"></i>
-                            Blog Details
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Blog Title *</label>
-                                <input type="text" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Enter blog title">
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-gray-700 text-sm mb-2 block">Category *</label>
-                                    <select required
-                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                        <option value="">Select category</option>
-                                        <option value="travel">Travel Tips</option>
-                                        <option value="destinations">Destinations</option>
-                                        <option value="guides">Guides</option>
-                                        <option value="news">News</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="text-gray-700 text-sm mb-2 block">Status *</label>
-                                    <select required
-                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-                                        <option value="draft">Draft</option>
-                                        <option value="published">Published</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Featured Image URL</label>
-                                <input type="url"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="https://example.com/image.jpg">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Excerpt</label>
-                                <textarea rows="3"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Brief description of the blog post..."></textarea>
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Content *</label>
-                                <textarea rows="12" required
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="Write your blog content here..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEO Settings -->
-                    <div class="mb-8">
-                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
-                            <i class="fas fa-search mr-2 text-blue-600"></i>
-                            SEO Settings
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Meta Title</label>
-                                <input type="text"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="SEO optimized title">
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Meta Description</label>
-                                <textarea rows="2"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="SEO meta description..."></textarea>
-                            </div>
-                            <div>
-                                <label class="text-gray-700 text-sm mb-2 block">Keywords (comma separated)</label>
-                                <input type="text"
-                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                                    placeholder="darjeeling, travel, tourism">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Form Actions -->
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="submit"
-                            class="flex-1 bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl">
-                            <i class="fas fa-save mr-2"></i>Publish Blog
-                        </button>
-                        <button type="button" id="saveDraftBtn"
-                            class="flex-1 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl">
-                            <i class="fas fa-file mr-2"></i>Save as Draft
-                        </button>
-                        <button type="button" id="cancelFormBtn"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all">
-                            <i class="fas fa-times mr-2"></i>Cancel
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </main>
 
-    <script>
-        // Mobile menu toggle
-        const sidebar = document.getElementById('sidebar');
-        const openSidebar = document.getElementById('openSidebar');
-        const closeSidebar = document.getElementById('closeSidebar');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    <div id="categoryModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+        aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-        openSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('-translate-x-full');
-            mobileMenuOverlay.classList.remove('hidden');
-        });
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
 
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            mobileMenuOverlay.classList.add('hidden');
-        });
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border-b">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-gray-900" id="modal-title">Manage Categories</h3>
+                        <button type="button" onclick="toggleCategoryModal()" class="text-gray-400 hover:text-gray-500">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
 
-        mobileMenuOverlay.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            mobileMenuOverlay.classList.add('hidden');
-        });
+                <div class="bg-white px-4 py-6 sm:p-6">
+                    <div class="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Add New Category</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="newCategoryName" placeholder="Category Name"
+                                class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none">
+                            <button type="button" onclick="addCategory()"
+                                class="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-all">
+                                Add
+                            </button>
+                        </div>
+                    </div>
 
-        // Create Blog Button
-        document.getElementById('createBlogBtn').addEventListener('click', () => {
-            document.getElementById('blogsSection').classList.add('hidden');
-            document.getElementById('blogFormSection').classList.remove('hidden');
-            document.getElementById('formTitle').textContent = 'Write New Blog Post';
-            document.getElementById('blogForm').reset();
-        });
+                    <div class="max-h-60 overflow-y-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-xs font-bold text-gray-500 uppercase tracking-wider border-b">
+                                    <th class="pb-2">Name</th>
+                                    <th class="pb-2 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryList" class="divide-y divide-gray-100">
+                                @foreach ($categories as $category)
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-        // Back to List Button
-        document.getElementById('backToListBtn').addEventListener('click', () => {
-            document.getElementById('blogFormSection').classList.add('hidden');
-            document.getElementById('blogsSection').classList.remove('hidden');
-        });
-
-        // Cancel Form Button
-        document.getElementById('cancelFormBtn').addEventListener('click', () => {
-            document.getElementById('blogFormSection').classList.add('hidden');
-            document.getElementById('blogsSection').classList.remove('hidden');
-        });
-
-        // Save Draft Button
-        document.getElementById('saveDraftBtn').addEventListener('click', () => {
-            alert('Blog saved as draft!');
-            document.getElementById('blogFormSection').classList.add('hidden');
-            document.getElementById('blogsSection').classList.remove('hidden');
-        });
-
-        // Edit Blog Buttons
-        document.querySelectorAll('.editBlogBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('blogsSection').classList.add('hidden');
-                document.getElementById('blogFormSection').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'Edit Blog Post';
-            });
-        });
-
-        // View Blog Buttons
-        document.querySelectorAll('.viewBlogBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                alert('View blog post (to be implemented)');
-            });
-        });
-
-        // Delete Blog
-        document.querySelectorAll('.deleteBlogBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to delete this blog post?')) {
-                    alert('Blog post deleted successfully!');
-                }
-            });
-        });
-
-        // Form Submission
-        document.getElementById('blogForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Blog post published successfully!');
-            document.getElementById('blogFormSection').classList.add('hidden');
-            document.getElementById('blogsSection').classList.remove('hidden');
-        });
-    </script>
+                <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <button type="button" onclick="toggleCategoryModal()"
+                        class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -372,5 +241,140 @@
                 });
             });
         });
+
+        const modal = document.getElementById('categoryModal');
+
+        // --- Helper: CSRF Token for Laravel ---
+        const getCsrf = () => document.querySelector('input[name="_token"]').value;
+
+        console.log(getCsrf());
+
+        // --- API: Load/Render Categories ---
+        async function renderCategories() {
+            const list = document.getElementById('categoryList');
+
+            try {
+                const response = await fetch("{{ route('categories') }}");
+                const categories = await response.json();
+
+                list.innerHTML = ''; // Clear current list
+                categories.forEach(cat => {
+                    list.innerHTML += `
+                <tr class="group" id="cat-row-${cat.id}">
+                    <td class="py-3 text-sm text-gray-700 font-medium category-name">${cat.name}</td>
+                    <td class="py-3 text-right space-x-2">
+                        <button type="button" onclick="editCategory(${cat.id}, '${cat.name}')" class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" onclick="deleteCategory(${cat.id})" class="text-red-500 hover:text-red-700">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+                });
+                updateDropdown(categories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+
+        // --- API: Add Category ---
+        async function addCategory() {
+            const input = document.getElementById('newCategoryName');
+            const name = input.value.trim();
+            if (!name) return;
+
+            try {
+                const response = await fetch("{{ route('categories.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrf()
+                    },
+                    body: JSON.stringify({
+                        name: name
+                    })
+                });
+
+                if (response.ok) {
+                    input.value = '';
+                    renderCategories(); // Refresh list
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData);
+                }
+            } catch (error) {
+                console.error('Error adding category:', error);
+            }
+        }
+
+        // --- API: Edit (Update) Category ---
+        async function editCategory(id, oldName) {
+            const newName = prompt("Edit Category Name:", oldName);
+            if (!newName || newName === oldName) return;
+
+            try {
+                const response = await fetch(`/admin/categories/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrf()
+                    },
+                    body: JSON.stringify({
+                        name: newName
+                    })
+                });
+
+                if (response.ok) {
+                    renderCategories();
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData);
+                }
+            } catch (error) {
+                console.error('Error updating category:', error);
+            }
+        }
+
+        // --- API: Delete Category ---
+        async function deleteCategory(id) {
+            if (!confirm('Are you sure? This may affect blogs using this category.')) return;
+
+            try {
+                const response = await fetch(`/admin/categories/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': getCsrf()
+                    }
+                });
+
+                if (response.ok) {
+                    renderCategories();
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData);
+                };
+            } catch (error) {
+                console.error('Error deleting category:', error);
+            }
+        }
+
+        function updateDropdown(categories) {
+            const select = document.querySelector('select[name="category"]');
+            if (!select) return;
+
+            const currentValue = select.value;
+            select.innerHTML = '<option value="">Select category</option>';
+            categories.forEach(cat => {
+                const opt = new Option(cat.name, cat.id);
+                if (cat.id == currentValue) opt.selected = true;
+                select.add(opt);
+            });
+        }
+
+        function toggleCategoryModal() {
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) renderCategories();
+        }
     </script>
 @endsection

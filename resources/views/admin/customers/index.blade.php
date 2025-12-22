@@ -271,60 +271,6 @@
         </div>
     </div>
 
-    {{-- <script>
-        // Add Customer Button
-        document.getElementById('addCustomerBtn').addEventListener('click', () => {
-            document.getElementById('customersSection').classList.add('hidden');
-            document.getElementById('customerFormSection').classList.remove('hidden');
-            document.getElementById('formTitle').textContent = 'Add New Customer';
-            document.getElementById('customerForm').reset();
-        });
-
-        // Back to List Button
-        document.getElementById('backToListBtn').addEventListener('click', () => {
-            document.getElementById('customerFormSection').classList.add('hidden');
-            document.getElementById('customersSection').classList.remove('hidden');
-        });
-
-        // Cancel Form Button
-        document.getElementById('cancelFormBtn').addEventListener('click', () => {
-            document.getElementById('customerFormSection').classList.add('hidden');
-            document.getElementById('customersSection').classList.remove('hidden');
-        });
-
-        // Edit Customer Buttons
-        document.querySelectorAll('.editCustomerBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('customersSection').classList.add('hidden');
-                document.getElementById('customerFormSection').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'Edit Customer';
-            });
-        });
-
-        // View Customer Buttons
-        document.querySelectorAll('.viewCustomerBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                alert('View customer details (to be implemented)');
-            });
-        });
-
-        // Delete Customer
-        document.querySelectorAll('.deleteCustomerBtn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to delete this customer?')) {
-                    alert('Customer deleted successfully!');
-                }
-            });
-        });
-
-        // Form Submission
-        document.getElementById('customerForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Customer saved successfully!');
-            document.getElementById('customerFormSection').classList.add('hidden');
-            document.getElementById('customersSection').classList.remove('hidden');
-        });
-    </script> --}}
 @endsection
 @section('scripts')
     <script>

@@ -17,10 +17,9 @@ return new class extends Migration
             $table->text('slugged_title');
             $table->text('content');
             $table->string('author')->nullable();
-            $table->integer('status')->default(1);
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->integer('views')->default(0);
             $table->string('thumbnail');
-            $table->string('image')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->string('og_image')->nullable();

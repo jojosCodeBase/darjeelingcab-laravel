@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use SEOMeta;
 use Twitter;
 use OpenGraph;
@@ -18,18 +19,20 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::orderByDesc('created_at')->paginate(10); // Fetch blogs with pagination
-        return view('admin.blogs.index', compact('blogs'));
+        $blogs = Blog::with('categoryDetails')->orderByDesc('created_at')->paginate(10); // Fetch blogs with pagination
+        $categories = Category::orderBy('name')->get();
+        return view('admin.blogs.index', compact('blogs', 'categories'));
     }
 
     public function create()
     {
-        return view('admin.blogs.create-blog');
+        $categories = Category::orderBy('name')->get();
+        return view('admin.blogs.create-blog', compact('categories'));
     }
 
     public function show()
     {
-        $blogs = Blog::where('status', 1)->orderByDesc('created_at')->get();
+        $blogs = Blog::where('status', 'published')->orderByDesc('created_at')->get();
         return view('blogs', compact('blogs'));
     }
 
@@ -38,9 +41,11 @@ class BlogController extends Controller
         $request->validate([
             'title' => 'required|unique:blogs,title',
             'content' => 'required',
+            'excerpt' => 'required',
             'author' => 'required',
+            'category' => 'required',
+            'status' => 'required|in:draft,published',
             'thumbnail' => 'required|image|max:1024',
-            // 'image' => 'nullable|image|max:1024',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
             'og_image' => 'nullable|image|max:1024',
@@ -60,27 +65,15 @@ class BlogController extends Controller
             $data['twitter_image'] = $data['thumbnail'];
         }
 
-        if ($request->hasFile('og_image')) {
-            $ogImage = $request->file('og_image');
-            $ogImageName = 'og_' . time() . '.' . $ogImage->getClientOriginalExtension();
-            $ogImage->move(public_path('assets/blogs'), $ogImageName);
-            $data['og_image'] = 'assets/blogs/' . $ogImageName;
-        }
-
-        if ($request->hasFile('twitter_image')) {
-            $twitterImage = $request->file('twitter_image');
-            $twitterImageName = 'twitter_' . time() . '.' . $twitterImage->getClientOriginalExtension();
-            $twitterImage->move(public_path('assets/blogs'), $twitterImageName);
-            $data['twitter_image'] = 'assets/blogs/' . $twitterImageName;
-        }
-
         Blog::create($data);
+
         return redirect()->route('blogs')->with('success', 'Blog created successfully.');
     }
 
     public function edit(Blog $blog)
     {
-        return view('admin.blogs.edit-blog', compact('blog'));
+        $categories = Category::orderBy('name')->get();
+        return view('admin.blogs.edit-blog', compact('blog', 'categories'));
     }
 
     public function checkAndDeleteUnusedImages($originalImages, $updatedImages)
@@ -95,11 +88,13 @@ class BlogController extends Controller
     public function update(Request $request, Blog $blog)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => 'required|unique:blogs,title,' . $blog->id,
             'content' => 'required',
+            'excerpt' => 'required',
             'author' => 'required',
+            'category' => 'required',
+            'status' => 'required|in:draft,published',
             'thumbnail' => 'nullable|image|max:1024',
-            // 'image' => 'nullable|image|max:1024',
             'meta_description' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
             'og_image' => 'nullable|image|max:1024',
@@ -108,10 +103,9 @@ class BlogController extends Controller
 
         // Store original image paths
         $originalImages = [
-            'thumbnail' => $blog->thumbnail,
-            'og_image' => $blog->og_image,
-            'twitter_image' => $blog->twitter_image,
-            'image' => $blog->image
+            'thumbnail' => $blog->thumbnail
+            // 'og_image' => $blog->og_image,
+            // 'twitter_image' => $blog->twitter_image
         ];
 
         // Initialize updated images array with original paths
@@ -127,22 +121,6 @@ class BlogController extends Controller
             $thumbnail->move(public_path('assets/blogs'), $imageName);
             $data['thumbnail'] = 'assets/blogs/' . $imageName;
             $updatedImages['thumbnail'] = 'assets/blogs/' . $imageName;
-        }
-
-        if ($request->hasFile('og_image')) {
-            $ogImage = $request->file('og_image');
-            $ogImageName = 'og_' . time() . '.' . $ogImage->getClientOriginalExtension();
-            $ogImage->move(public_path('assets/blogs'), $ogImageName);
-            $data['og_image'] = 'assets/blogs/' . $ogImageName;
-            $updatedImages['og_image'] = 'assets/blogs/' . $ogImageName;
-        }
-
-        if ($request->hasFile('twitter_image')) {
-            $twitterImage = $request->file('twitter_image');
-            $twitterImageName = 'twitter_' . time() . '.' . $twitterImage->getClientOriginalExtension();
-            $twitterImage->move(public_path('assets/blogs'), $twitterImageName);
-            $data['twitter_image'] = 'assets/blogs/' . $twitterImageName;
-            $updatedImages['twitter_image'] = 'assets/blogs/' . $twitterImageName;
         }
 
         $blog->update($data);
@@ -171,11 +149,11 @@ class BlogController extends Controller
     {
         $blog = Blog::findOrFail($request->blog_id);
 
-        $blog->status = $blog->status == 1 ? 2 : 1;
+        $blog->status = $blog->status == 'draft' ? 'published' : 'draft';
         $blog->save();
 
         if ($blog) {
-            if ($blog->status == 1)
+            if ($blog->status == 'published')
                 return response(['success' => 'published']);
             else
                 return response(['success' => 'draft']);

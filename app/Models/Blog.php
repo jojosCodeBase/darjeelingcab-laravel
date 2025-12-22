@@ -12,17 +12,22 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'slugged_title',
+        'category',
+        'excerpt',
         'content',
         'author',
         'status',
         'views',
         'thumbnail',
-        'image',
         'meta_description',
         'meta_keywords',
         'og_image',
         'twitter_image',
     ];
+
+    public function categoryDetails(){
+        return $this->belongsTo(Category::class, 'category');
+    }
 
     // public function monthlyVisits()
     // {

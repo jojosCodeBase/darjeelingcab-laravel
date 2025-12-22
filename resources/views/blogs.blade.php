@@ -23,7 +23,7 @@
                 <div class="col-md-4 mb-3">
                     <a href="{{ route('view-blog', ['slug' => Str::slug($blog->title)]) }}">
                         <div class="card shadow">
-                            <img src="{{ asset($blog['thumbnail']) }}" height="200" width="350" class="card-img-top"
+                            <img src="{{ asset($blog['thumbnail']) }}" height="auto" width="auto" style="max-height: 200px; object-fit: cover;"  class="card-img-top"
                                 alt="Tea Gardens of Darjeeling">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $blog->title }}</h5>

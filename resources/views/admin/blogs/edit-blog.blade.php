@@ -1,137 +1,175 @@
 @extends('layouts/admin-main')
 @section('title', 'Edit Blog')
 @section('content')
-    <div class="container-fluid p-0">
+    <main class="p-4 sm:p-6 lg:p-8">
+        <div id="blogFormSection">
+            <div class="mb-6">
+                <a href="{{ route('blogs') }}" class="text-gray-600 hover:text-gray-900 flex items-center space-x-2 mb-4">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Blogs</span>
+                </a>
+                <h2 class="text-gray-900 text-2xl font-bold mb-1">Edit Blog Post</h2>
+                <p class="text-gray-500 text-sm">Update your content for your readers</p>
+            </div>
 
-        <div class="mb-3">
-            <h1 class="h3 d-inline align-middle">Edit Blog</h1>
-        </div>
+            @include('include.alerts')
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Edit Blog Post</h5>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data"
-                            id="form">
-                            @csrf
-                            @method('PUT')
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label class="form-label">Title <span class="text-danger">*</span></label>
-                                    <input type="text" name="title" class="form-control" value="{{ $blog->title }}"
-                                        placeholder="Blog Title" required>
-                                </div>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-4 sm:p-6 lg:p-8">
+                <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data"
+                    id="blogForm">
+                    @csrf
+                    @method('PATCH') <div class="mb-8">
+                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-pen mr-2 text-pink-600"></i>
+                            Blog Details
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-gray-700 text-sm mb-2 block font-semibold">Blog Title *</label>
+                                <input type="text" name="title" required value="{{ old('title', $blog->title) }}"
+                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                                    placeholder="Enter blog title">
+                            </div>
 
-                                <div class="col-6 mb-3">
-                                    <label class="form-label">Author <span class="text-danger">*</span></label>
-                                    <input type="text" name="author" class="form-control" value="{{ $blog->author }}"
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Author (Optional)</label>
+                                    <input type="text" name="author" value="{{ old('author', $blog->author) }}"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                                         placeholder="Author Name">
                                 </div>
-
-                                <div class="mb-3 col-6">
-                                    <label class="form-label" for="meta_keywords">Meta Keywords</label>
-                                    <input type="text" class="form-control" id="meta_keywords" name="meta_keywords"
-                                        placeholder="Enter keywords"
-                                        value="{{ old('meta_keywords', $blog->meta_keywords ?? '') }}">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Category *</label>
+                                    <select name="category" required
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                        <option value="" disabled>Select category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" @selected(old('category', $blog->category) == $category->id)>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
-
-                                <div class="mb-3 col-6">
-                                    <label class="form-label" for="meta_description">Meta Description</label>
-                                    <input type="text" class="form-control" id="meta_description" name="meta_description"
-                                        placeholder="Enter description"
-                                        value="{{ old('meta_description', $blog->meta_description ?? '') }}">
-                                </div>
-
-                                <span class="text-danger fw-bold mb-2">Note: If an Meta Image and Social Sharing Image is not
-                                    uploaded, the blog's main image will be used instead</span>
-
-                                <div class="mb-3 col-6">
-                                    <label class="form-label" for="og_image">Meta Image</label>
-                                    <input type="file" class="form-control" id="og_image" name="og_image"
-                                        accept="image/*" onchange="previewImage('og_image', 'og_image_preview')">
-                                    <img src="{{ asset($blog->og_image ?? '') }}" id="og_image_preview"
-                                        alt="Preview Open Graph Image" width="auto" height="200" class="mt-3">
-                                </div>
-
-                                <div class="mb-3 col-6">
-                                    <label class="form-label" for="twitter_image">Social Sharing Image</label>
-                                    <input type="file" class="form-control" id="twitter_image" name="twitter_image"
-                                        accept="image/*" onchange="previewImage('twitter_image', 'twitter_image_preview')">
-                                    <img src="{{ asset($blog->twitter_image ?? '') }}" id="twitter_image_preview"
-                                        alt="Preview Twitter Image" width="auto" height="200" class="mt-3">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Status *</label>
+                                    <select name="status" required
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                        <option value="published" @selected(old('status', $blog->status) == 'published')>Published</option>
+                                        <option value="draft" @selected(old('status', $blog->status) == 'draft')>Draft</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <label class="form-label">Blog Thumbnail <span class="text-danger">*</span></label>
-                                    <input type="file" name="thumbnail" class="form-control" id="thumbnailInput"
-                                        accept="image/*">
-                                    <img id="previewThumbnail" src="{{ asset($blog->thumbnail) }}" alt="Preview Image"
-                                        width="auto" height="200" class="mt-3">
-                                </div>
-                                <div class="col">
-                                    <label class="form-label">Blog Image <span class="text-danger">*</span></label>
-                                    <input type="file" name="image" class="form-control" id="imageInput"
-                                        accept="image/*">
-                                    <img id="previewImage" src="{{ asset($blog->image) }}" alt="Preview Image"
-                                        width="auto" height="200" class="mt-3">
+                            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Featured Thumbnail (Leave
+                                        blank to keep current)</label>
+                                    <input type="file" name="thumbnail" id="thumbnailInput" accept="image/*"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+
+                                    <img id="previewThumbnail" src="{{ $blog->thumbnail ? asset($blog->thumbnail) : '' }}"
+                                        alt="Preview"
+                                        class="mt-3 rounded-lg max-h-64 border {{ $blog->thumbnail ? '' : 'hidden' }}">
                                 </div>
                             </div>
 
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <label class="form-label">Content <span class="text-danger">*</span></label>
-                                    <textarea name="content" id="content-editor" class="form-control" required>{{ $blog->content }}</textarea>
-                                </div>
+                            <div>
+                                <label class="text-gray-700 text-sm mb-2 block"><span class="font-semibold">Excerpt*</span>
+                                    <i>(Brief detail of the blog to show in card)</i></label>
+                                <textarea rows="3" name="excerpt"
+                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                                    placeholder="Brief description...">{{ old('excerpt', $blog->excerpt) }}</textarea>
                             </div>
 
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-lg btn-primary" id="submitBtn">Update</button>
+                            <div>
+                                <label class="text-gray-700 text-sm mb-2 block font-semibold">Content *</label>
+                                <textarea name="content" id="content-editor" rows="12"
+                                    class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">{{ old('content', $blog->content) }}</textarea>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-gray-900 text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-search mr-2 text-blue-600"></i>
+                            SEO Settings
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Meta Keywords</label>
+                                    <input type="text" name="meta_keywords"
+                                        value="{{ old('meta_keywords', $blog->meta_keywords) }}"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                </div>
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Meta Description</label>
+                                    <input type="text" name="meta_description"
+                                        value="{{ old('meta_description', $blog->meta_description) }}"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Meta Image (OG)</label>
+                                    <input type="file" name="og_image" id="og_image" accept="image/*"
+                                        onchange="previewImage('og_image', 'og_image_preview')"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+
+                                    <img id="og_image_preview" src="{{ $blog->og_image ? asset($blog->og_image) : '' }}"
+                                        class="mt-2 rounded-md max-h-32 {{ $blog->og_image ? '' : 'hidden' }}">
+                                </div>
+                                <div>
+                                    <label class="text-gray-700 text-sm mb-2 block font-semibold">Twitter Image</label>
+                                    <input type="file" name="twitter_image" id="twitter_image" accept="image/*"
+                                        onchange="previewImage('twitter_image', 'twitter_image_preview')"
+                                        class="w-full bg-gray-50 text-gray-900 rounded-lg px-4 py-3 outline-none border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100">
+
+                                    <img id="twitter_image_preview"
+                                        src="{{ $blog->twitter_image ? asset($blog->twitter_image) : '' }}"
+                                        class="mt-2 rounded-md max-h-32 {{ $blog->twitter_image ? '' : 'hidden' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button type="submit" id="submitBtn"
+                            class="flex-1 bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl">
+                            <i class="fas fa-save mr-2"></i>Update Blog
+                        </button>
+                        <button type="button" onclick="window.history.back()"
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 px-6 py-3 rounded-lg font-medium transition-all">
+                            <i class="fas fa-times mr-2"></i>Cancel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </main>
 @endsection
+
 @section('scripts')
     <script>
-        // Define the function outside of the document ready function
+        // Unified Preview Logic
         function previewImage(inputId, previewId) {
             const input = document.getElementById(inputId);
             const preview = document.getElementById(previewId);
 
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-
                 reader.onload = function(e) {
                     preview.src = e.target.result;
-                    preview.hidden = false;
+                    preview.classList.remove('hidden');
                 }
-
                 reader.readAsDataURL(input.files[0]);
-            } else {
-                preview.src = '';
-                preview.hidden = true;
             }
         }
 
-        // Use jQuery to wait for the document to be ready
-        $(document).ready(function() {
-            // For Open Graph Image
-            $('#og_image').change(function() {
-                previewImage('og_image', 'og_image_preview');
-            });
-
-            // For Twitter Image
-            $('#twitter_image').change(function() {
-                previewImage('twitter_image', 'twitter_image_preview');
-            });
+        // Event listener for main thumbnail
+        document.getElementById('thumbnailInput').addEventListener('change', function() {
+            previewImage('thumbnailInput', 'previewThumbnail');
         });
     </script>
 @endsection

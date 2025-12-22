@@ -169,27 +169,6 @@
                     </li>
                 </ul>
             </nav>
-
-            <!-- User Profile -->
-            <div class="p-4 border-t border-gray-200">
-                <div
-                    class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-all">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
-                        <span class="text-white font-semibold">AD</span>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-900 font-medium text-sm">Admin User</p>
-                        <p class="text-gray-500 text-xs">admin@darjeelingcab.com</p>
-                    </div>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit">
-                            <i class="fas fa-sign-out-alt text-gray-400 hover:text-red-500 transition-colors"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
         </div>
     </aside>
 
@@ -210,10 +189,9 @@
                     </div>
 
                     <div class="flex items-center space-x-3 sm:space-x-4">
+
                         <div class="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2">
-                            <i class="fas fa-search text-gray-400 mr-2"></i>
-                            <input type="text" placeholder="Search..."
-                                class="bg-transparent text-gray-900 outline-none text-sm w-48">
+                            <span class="text-gray-600 font-semibold">v2</span>
                         </div>
 
                         <button class="relative p-2 text-gray-600 hover:text-gray-900 transition-colors">
@@ -221,8 +199,42 @@
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
 
-                        <div
-                            class="hidden sm:block w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full">
+                        <!-- User Profile -->
+                        <div class="relative inline-block text-left">
+                            <div id="profileDropdownBtn"
+                                class="flex items-center space-x-3 px-4 py-2 rounded-lg cursor-pointer transition-all">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-sm">
+                                    <span
+                                        class="text-white font-semibold">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</span>
+                                </div>
+                                <div class="hidden sm:block">
+                                    <p class="text-gray-900 font-medium text-sm leading-none">{{ Auth::user()->name }}
+                                    </p>
+                                    <p class="text-gray-500 text-xs mt-1">{{ Auth::user()->email }}</p>
+                                </div>
+                                <i id="chevronIcon"
+                                    class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-200"></i>
+                            </div>
+
+                            <div id="profileMenu"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 transform opacity-0 transition-all duration-200 scale-95">
+
+                                <a href="{{ route('profile.edit') }}"
+                                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <i class="fas fa-user-circle mr-3 text-gray-400"></i> My Profile
+                                </a>
+
+                                <hr class="my-1 border-gray-100">
+
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-3 text-red-400"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,6 +264,46 @@
         mobileMenuOverlay.addEventListener('click', () => {
             sidebar.classList.add('-translate-x-full');
             mobileMenuOverlay.classList.add('hidden');
+        });
+
+        const profileBtn = document.getElementById('profileDropdownBtn');
+        const profileMenu = document.getElementById('profileMenu');
+        const chevronIcon = document.getElementById('chevronIcon');
+
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent immediate closing from the window listener
+            toggleMenu();
+        });
+
+        function toggleMenu() {
+            const isOpen = !profileMenu.classList.contains('hidden');
+
+            if (isOpen) {
+                // Close logic
+                profileMenu.classList.add('opacity-0', 'scale-95');
+                chevronIcon.classList.remove('rotate-180');
+                setTimeout(() => {
+                    profileMenu.classList.add('hidden');
+                }, 100); // Matches transition duration
+            } else {
+                // Open logic
+                profileMenu.classList.remove('hidden');
+                chevronIcon.classList.add('rotate-180');
+                // Timeout ensures the browser registers the removal of 'hidden' before animating
+                setTimeout(() => {
+                    profileMenu.classList.remove('opacity-0', 'scale-95');
+                    profileMenu.classList.add('opacity-100', 'scale-100');
+                }, 10);
+            }
+        }
+
+        // Close menu when clicking anywhere else on the page
+        window.addEventListener('click', function(e) {
+            if (!profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+                if (!profileMenu.classList.contains('hidden')) {
+                    toggleMenu();
+                }
+            }
         });
     </script>
 

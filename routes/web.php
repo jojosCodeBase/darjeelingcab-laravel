@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EnquiriesController;
 use App\Http\Controllers\FormController;
@@ -196,6 +197,16 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/invoice/instant/{invoice}', [InvoiceController::class, 'update_instant'])->name('invoice.update-instant');
 
     Route::post('/create-party', [BookingController::class, "createBooking"])->name('create-booking');
+
+     Route::resource('categories', CategoryController::class)->names([
+        'index' => 'categories',
+        'create' => 'categories.create',
+        'store' => 'categories.store',
+        'edit' => 'categories.edit',
+        'update' => 'categories.update',
+        'show' => 'categories.show',
+        'destroy' => 'categories.destroy'
+    ]);
 });
 
 /***********************************************
