@@ -198,7 +198,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::post('/create-party', [BookingController::class, "createBooking"])->name('create-booking');
 
-     Route::resource('categories', CategoryController::class)->names([
+    Route::resource('categories', CategoryController::class)->names([
         'index' => 'categories',
         'create' => 'categories.create',
         'store' => 'categories.store',
@@ -207,6 +207,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         'show' => 'categories.show',
         'destroy' => 'categories.destroy'
     ]);
+
+    Route::post('update-company-details', [UserController::class, 'updateCompanyDetails'])->name('update-company-details');
 });
 
 /***********************************************
