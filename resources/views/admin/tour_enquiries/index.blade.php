@@ -2,14 +2,23 @@
 @section('title', 'Tour Enquiries')
 @section('content')
     <main class="p-4 sm:p-6 lg:p-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center text-xl">
+                    <i class="fas fa-envelopes-bulk"></i>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">Total Enquiries</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ count($tour_enquiries) }}</p>
+                </div>
+            </div>
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
                 <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-xl">
                     <i class="fas fa-inbox"></i>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500 font-medium">New Enquiries</p>
-                    <p class="text-2xl font-bold text-gray-900">24</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $counts['new_enquiries'] }}</p>
                 </div>
             </div>
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
@@ -17,8 +26,8 @@
                     <i class="fas fa-clock"></i>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500 font-medium">Pending Review</p>
-                    <p class="text-2xl font-bold text-gray-900">12</p>
+                    <p class="text-sm text-gray-500 font-medium">Quote Sent</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $counts['quote_sent'] }}</p>
                 </div>
             </div>
             <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex items-center gap-4">
@@ -26,8 +35,8 @@
                     <i class="fas fa-check-double"></i>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500 font-medium">Converted</p>
-                    <p class="text-2xl font-bold text-gray-900">158</p>
+                    <p class="text-sm text-gray-500 font-medium">Confirmed</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $counts['confirmed'] }}</p>
                 </div>
             </div>
         </div>
@@ -61,7 +70,7 @@
                             <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Pax / Vehicle</th>
                             <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Trip Dates</th>
                             <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Status</th>
-                            <th class="px-6 py-4 text-gray-600 font-semibold text-sm text-right">Actions</th>
+                            <th class="px-6 py-4 text-gray-600 font-semibold text-sm">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -122,24 +131,40 @@
                                         {{ str_replace('_', ' ', $enquiry->status) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex justify-end gap-2">
-                                        <a href=""
-                                            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-                                            <i class="fas fa-eye text-xs"></i>
-                                        </a>
-                                        <button
-                                            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-green-600 hover:text-white transition-all shadow-sm">
-                                            <i class="fas fa-check text-xs"></i>
+                                <td class="px-6 py-4">
+                                    <div class="relative inline-block dropdown-container">
+                                        <button type="button"
+                                            class="dropdown-toggle w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors focus:outline-none">
+                                            <i class="fas fa-ellipsis-h text-gray-400 text-xs pointer-events-none"></i>
                                         </button>
-                                        <form action="" method="POST"
-                                            onsubmit="return confirm('Delete this enquiry?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit"
-                                                class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-red-600 hover:text-white transition-all shadow-sm">
-                                                <i class="fas fa-trash text-xs"></i>
-                                            </button>
-                                        </form>
+
+                                        <div
+                                            class="dropdown-menu hidden origin-top-right absolute right-0 mt-2 w-48 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-50 divide-y divide-gray-100 outline-none">
+                                            <div class="py-1">
+                                                <button type="button" data-enquiry="{{ json_encode($enquiry) }}"
+                                                    class="viewEnquiryBtn flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                                    <i class="fas fa-eye w-5 mr-2"></i> View Details
+                                                </button>
+                                            </div>
+                                            <div class="py-1">
+                                                <button type="button"
+                                                    onclick="updateStatus('{{ $enquiry->id }}', 'quote_sent')"
+                                                    class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-yellow-50 hover:text-yellow-600">
+                                                    <i class="fas fa-paper-plane w-5 mr-2"></i> Quote Sent
+                                                </button>
+                                                <button type="button"
+                                                    onclick="updateStatus('{{ $enquiry->id }}', 'confirmed')"
+                                                    class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600">
+                                                    <i class="fas fa-check-circle w-5 mr-2"></i> Confirm Trip
+                                                </button>
+                                            </div>
+                                            <div class="py-1">
+                                                <button type="button" onclick="deleteEnquiry('{{ $enquiry->id }}')"
+                                                    class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                                    <i class="fas fa-trash-alt w-5 mr-2"></i> Delete Enquiry
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -208,6 +233,145 @@
             </div>
         </div>
     </main>
+
+    <div id="enquiryModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div class="fixed inset-0 bg-gray-500/75 transition-opacity" onclick="closeModal()"></div>
+            <div
+                class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Enquiry #<span id="m_id"></span></h3>
+                        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600"><i
+                                class="fas fa-times"></i></button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 bg-blue-50 rounded-xl">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg"
+                                id="m_initials"></div>
+                            <div>
+                                <p class="font-bold text-gray-900" id="m_name"></p>
+                                <p class="text-sm text-gray-500" id="m_phone"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 border-y py-4 border-gray-100">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-gray-400">Route</p>
+                                <p class="text-sm font-semibold" id="m_route"></p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-gray-400">Pax & Vehicle</p>
+                                <p class="text-sm font-semibold" id="m_pax"></p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-gray-400">Trip Dates</p>
+                                <p class="text-sm font-semibold" id="m_dates"></p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-gray-400">Duration</p>
+                                <p class="text-sm font-semibold" id="m_duration"></p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-gray-400 mb-1">Customer Note</p>
+                            <div class="p-3 bg-gray-50 rounded-lg text-sm text-gray-600 italic border border-gray-100"
+                                id="m_message"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex gap-3">
+                        <button onclick="closeModal()"
+                            class="flex-1 px-4 py-2 border border-gray-200 rounded-lg font-semibold text-gray-600 hover:bg-gray-50">Close</button>
+                        <a id="m_whatsapp" target="_blank"
+                            class="flex-1 px-4 py-2 bg-green-600 text-white text-center rounded-lg font-semibold hover:bg-green-700">
+                            <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
+    <script>
+        $(document).ready(function() {
+            // 1. Toggle Dropdown on Click
+            $(document).on('click', '.dropdown-toggle', function(e) {
+                e.stopPropagation();
+
+                // Find the specific menu for this button
+                let currentMenu = $(this).siblings('.dropdown-menu');
+
+                // Close all other open dropdowns first
+                $('.dropdown-menu').not(currentMenu).addClass('hidden');
+
+                // Toggle current menu
+                currentMenu.toggleClass('hidden');
+            });
+
+            // 2. Close Dropdowns when clicking anywhere else on the document
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.dropdown-container').length) {
+                    $('.dropdown-menu').addClass('hidden');
+                }
+            });
+
+            // 3. Close Dropdown when an option is clicked
+            $(document).on('click', '.dropdown-menu button', function() {
+                $(this).closest('.dropdown-menu').addClass('hidden');
+            });
+
+            // 4. Modal Population (View Details)
+            $(document).on('click', '.viewEnquiryBtn', function() {
+                const data = $(this).data('enquiry');
+
+                // Fill Modal Data (Matches the IDs from your modal HTML)
+                $('#m_id').text(data.enq_id);
+                $('#m_name').text(data.name || 'Guest User');
+                $('#m_initials').text((data.name || 'GU').substring(0, 2).toUpperCase());
+                $('#m_phone').text(data.phone);
+                $('#m_route').text(`${data.from_location} ➔ ${data.to_location}`);
+                $('#m_pax').text(`${data.no_of_pax} Pax (${data.vehicle_type})`);
+                $('#m_dates').text(`${data.start_date} to ${data.end_date}`);
+                $('#m_message').text(data.message || 'No specific message provided.');
+                $('#m_whatsapp').attr('href', `https://wa.me/${data.phone.replace(/\D/g,'')}`);
+
+                // Show Modal
+                $('#enquiryModal').removeClass('hidden');
+            });
+        });
+
+        // Close Modal Function
+        function closeModal() {
+            $('#enquiryModal').addClass('hidden');
+        }
+
+        function updateStatus(enquiry_id, status) {
+            // Generate the URL with a placeholder string 'ID_PLACEHOLDER'
+            let url = "{{ route('tour-enquiry.update', ':id') }}";
+            url = url.replace(':id', enquiry_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'PATCH',
+                    status: status
+                },
+                success: function(response) {
+                    // Reloading is usually best to refresh all the status badges/colors
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        }
+
+        function deleteEnquiry(enquiry_id) {}
+    </script>
 @endsection

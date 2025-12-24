@@ -13,7 +13,14 @@ class TourEnquiriesController extends Controller
     public function index()
     {
         $tour_enquiries = TourEnquiries::orderByDesc('created_at')->get();
-        return view('admin.tour_enquiries.index', compact('tour_enquiries'));
+        
+        $counts = [
+            'new_enquiries' => $tour_enquiries->where('status', 'new')->count(),
+            'quote_sent' => $tour_enquiries->where('status', 'quote_sent')->count(),
+            'confirmed' => $tour_enquiries->where('status', 'confirmed')->count(),
+        ];
+
+        return view('admin.tour_enquiries.index', compact('tour_enquiries', 'counts'));
     }
 
     /**
@@ -51,9 +58,19 @@ class TourEnquiriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TourEnquiries $tourEnquiries)
+    public function update(Request $request, TourEnquiries $tourEnquiry)
     {
-        //
+        try {
+            $request->validate(['status' => 'required:in,quote_sent,confirmed']);
+
+            $tourEnquiry->status = $request->input('status');
+            $tourEnquiry->save();
+
+            return response()->json("Tour Enquiry Updated Successfully");
+        } catch (\Exception $e) {
+            return response()->json("Some error occured", 500);
+        }
+
     }
 
     /**

@@ -14,6 +14,7 @@ class Enquiries extends Model
         'email',
         'phone',
         'subject',
-        'message'
+        'message',
+        'read_at'
     ];
 }

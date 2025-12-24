@@ -155,6 +155,14 @@
                             <span class="font-medium">Tour Enquiries</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('platform-analytics') }}"
+                            class="nav-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700 {{ Route::is('platform-analytics') ? 'active' : 'hover:bg-gray-100' }}">
+                            <i class="fa-solid fa-chart-line w-5"></i>
+                            <span class="font-medium">Analytics</span>
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="my-6 border-t border-gray-200"></div>

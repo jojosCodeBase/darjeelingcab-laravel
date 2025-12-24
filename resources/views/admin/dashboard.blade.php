@@ -13,7 +13,7 @@
                     </div>
                     <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+12%</span>
                 </div>
-                <h3 class="text-3xl font-bold mb-1">1,234</h3>
+                <h3 class="text-3xl font-bold mb-1">{{ number_format($total_customers) }}</h3>
                 <p class="text-white text-opacity-90 text-sm">Total Customers</p>
             </div>
 
@@ -25,8 +25,8 @@
                     </div>
                     <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+8%</span>
                 </div>
-                <h3 class="text-3xl font-bold mb-1">567</h3>
-                <p class="text-white text-opacity-90 text-sm">Active Bookings</p>
+                <h3 class="text-3xl font-bold mb-1">{{ number_format($total_bookings) }}</h3>
+                <p class="text-white text-opacity-90 text-sm">Total Bookings</p>
             </div>
 
             <!-- Stat Card 3 -->
@@ -37,7 +37,7 @@
                     </div>
                     <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+15%</span>
                 </div>
-                <h3 class="text-3xl font-bold mb-1">₹2.4L</h3>
+                <h3 class="text-3xl font-bold mb-1">₹{{ number_format($total_revenue) }}</h3>
                 <p class="text-white text-opacity-90 text-sm">Total Revenue</p>
             </div>
 
@@ -49,7 +49,7 @@
                     </div>
                     <span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">+5%</span>
                 </div>
-                <h3 class="text-3xl font-bold mb-1">89</h3>
+                <h3 class="text-3xl font-bold mb-1">{{ number_format($published_blogs) }}</h3>
                 <p class="text-white text-opacity-90 text-sm">Published Blogs</p>
             </div>
         </div>

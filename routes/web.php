@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BlogController;
@@ -175,11 +176,16 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ]);
 
     Route::resource('enquiries', EnquiriesController::class)->names([
-        'index' => 'enquiries'
+        'index' => 'enquiries',
+        'update' => 'enquiry.update',
+        'destroy' => 'enquiry.destroy',
     ]);
 
+    Route::post('read-all-enquiries', [EnquiriesController::class, 'readAll'])->name('enquiries.read-all');
+
     Route::resource('tour-enquiries', TourEnquiriesController::class)->names([
-        'index' => 'tour-enquiries'
+        'index' => 'tour-enquiries',
+        'update' => 'tour-enquiry.update'
     ]);
 
     Route::get('settings', [UserController::class, 'settings'])->name('settings');
@@ -209,6 +215,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ]);
 
     Route::post('update-company-details', [UserController::class, 'updateCompanyDetails'])->name('update-company-details');
+    
+    Route::get('platform-analytics', [AnalyticsController::class, 'index'])->name('platform-analytics');
+
 });
 
 /***********************************************

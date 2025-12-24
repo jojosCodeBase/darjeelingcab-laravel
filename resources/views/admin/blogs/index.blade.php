@@ -72,7 +72,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($blogs as $blog)
                     <div
-                        class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
+                        class="blog-card bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
                         <div class="h-48 bg-gray-100 overflow-hidden relative">
                             @if (is_null($blog->thumbnail))
                                 <img src="https://via.placeholder.com/400x250?text=No+Thumbnail" alt="placeholder"
@@ -83,13 +83,10 @@
                             @endif
 
                             <div class="absolute top-3 right-3">
-                                @if ($blog->status == 'published')
-                                    <span
-                                        class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Published</span>
-                                @else
-                                    <span
-                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm">Draft</span>
-                                @endif
+                                <span
+                                    class="card-status-badge px-3 py-1 rounded-full text-xs font-bold shadow-sm {{ $blog->status == 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
+                                    {{ ucfirst($blog->status) }}
+                                </span>
                             </div>
                         </div>
 
@@ -99,14 +96,24 @@
                                     {{ $blog->categoryDetails->name ?? 'NA' }}
                                 </span>
 
-                                <button
-                                    class="changeStatusBtn flex items-center {{ $blog->status == 'published' ? 'text-green-600' : 'text-gray-400' }}"
-                                    data-blog-id="{{ $blog->id }}" title="Toggle Status">
-                                    <i class="fas {{ $blog->status == 1 ? 'fa-toggle-on' : 'fa-toggle-off' }} text-xl"></i>
-                                </button>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer changeStatusBtn"
+                                        data-blog-id="{{ $blog->id }}"
+                                        {{ $blog->status == 'published' ? 'checked' : '' }}>
+
+                                    <div
+                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer 
+                                        peer-checked:after:translate-x-full peer-checked:after:border-white 
+                                        after:content-[''] after:absolute after:top-[2px] after:left-[2px] 
+                                        after:bg-white after:border-gray-300 after:border after:rounded-full 
+                                        after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600">
+                                    </div>
+                                </label>
+
                             </div>
 
-                            <h3 class="text-gray-900 font-bold text-lg mb-2 line-clamp-2">{{ Str::limit($blog->title, 35) }}
+                            <h3 class="text-gray-900 font-bold text-lg mb-2 line-clamp-2">
+                                {{ Str::limit($blog->title, 35) }}
                             </h3>
 
                             <p class="text-gray-600 text-sm mb-4 line-clamp-3">
@@ -121,10 +128,13 @@
                                 </div>
 
                                 <div class="flex items-center space-x-2">
-                                    <button
-                                        class="viewBlogBtn flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                                        <i class="fas fa-eye mr-2"></i>View
-                                    </button>
+                                    <a href="{{ route('view-blog', ['slug' => $blog->slugged_title]) }}" target="_blank"
+                                        class="flex-1">
+                                        <button
+                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                                            <i class="fas fa-eye mr-2"></i>View
+                                        </button>
+                                    </a>
 
                                     <a href="{{ route('blogs.edit', $blog->id) }}" class="flex-1">
                                         <button type="button"
@@ -211,34 +221,40 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            $('.changeStatusBtn').on('click', function() {
+        $(document).on('change', '.changeStatusBtn', function() {
+            let checkbox = $(this);
+            let blogId = checkbox.data('blog-id');
+            let label = checkbox.closest('label').find('.status-label');
 
-                var button = $(this);
-                let newStatus = 1;
+            // Find the badge related to THIS specific card
+            let card = checkbox.closest('.blog-card');
+            let badge = card.find('.card-status-badge');
 
-                let blogId = $(this).data('blog-id');
-
-                $.ajax({
-                    url: "{{ route('blogs.update-status') }}",
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        blog_id: blogId,
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.success == 'published') {
-                            button.addClass('active');
-                        } else {
-                            button.removeClass('active');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error updating status:', error);
-                        // Handle error appropriately
+            $.ajax({
+                url: "{{ route('blogs.update-status') }}",
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    blog_id: blogId,
+                },
+                success: function(response) {
+                    if (response.new_status === 'published') {
+                        // Update to Green Badge
+                        badge.text('Published')
+                            .removeClass('bg-yellow-100 text-yellow-700')
+                            .addClass('bg-green-100 text-green-700');
+                    } else {
+                        // Update to Yellow Badge
+                        badge.text('Draft')
+                            .removeClass('bg-green-100 text-green-700')
+                            .addClass('bg-yellow-100 text-yellow-700');
                     }
-                });
+                },
+                error: function(xhr) {
+                    // If error, revert the checkbox state so the UI stays accurate
+                    checkbox.prop('checked', !checkbox.prop('checked'));
+                    alert('Something went wrong. Please try again.');
+                }
             });
         });
 
@@ -246,8 +262,6 @@
 
         // --- Helper: CSRF Token for Laravel ---
         const getCsrf = () => document.querySelector('input[name="_token"]').value;
-
-        console.log(getCsrf());
 
         // --- API: Load/Render Categories ---
         async function renderCategories() {

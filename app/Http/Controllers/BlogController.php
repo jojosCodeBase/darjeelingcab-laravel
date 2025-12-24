@@ -147,18 +147,16 @@ class BlogController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $blog = Blog::findOrFail($request->blog_id);
+        try {
+            $blog = Blog::findOrFail($request->blog_id);
 
-        $blog->status = $blog->status == 'draft' ? 'published' : 'draft';
-        $blog->save();
+            $blog->status = $blog->status == 'draft' ? 'published' : 'draft';
+            $blog->save();
 
-        if ($blog) {
-            if ($blog->status == 'published')
-                return response(['success' => 'published']);
-            else
-                return response(['success' => 'draft']);
-        } else
-            return response(['error' => 'Some error occured']);
+            return response(['success' => true, 'new_status' => $blog->status]);
+        } catch (\Exception $e) {
+            return response(['success' => false, 'error' => 'Some error occured']);
+        }
     }
 
     public function viewBlog($slug)
