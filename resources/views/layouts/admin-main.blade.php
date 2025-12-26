@@ -58,6 +58,16 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .transition-transform {
+            transition-property: transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
+        }
     </style>
 </head>
 
@@ -163,6 +173,35 @@
                             <span class="font-medium">Analytics</span>
                         </a>
                     </li>
+
+                    <li class="nav-item-dropdown">
+                        <a href="javascript:void(0)" id="fare-estimator-btn"
+                            class="flex items-center justify-between px-4 py-3 rounded-lg text-gray-700 transition-colors {{ Request::is('admin/transport*', 'admin/sightseeing*') ? 'bg-gray-100' : 'hover:bg-gray-100' }}">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-calculator w-5 text-gray-500"></i>
+                                <span class="font-medium">Fare Estimator</span>
+                            </div>
+                            <i
+                                class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200 arrow-icon {{ Request::is('admin/transport*', 'admin/sightseeing*') ? 'rotate-180' : '' }}"></i>
+                        </a>
+
+                        <ul id="fare-estimator-menu"
+                            class="mt-1 ml-9 space-y-1 {{ Request::is('admin/fare-estimator*', 'admin/sightseeing*') ? '' : 'hidden' }}">
+                            <li>
+                                <a href="{{ route('fare-estimator') }}"
+                                    class="block py-2 text-sm {{ Route::is('fare-estimator') ? 'text-blue-600 font-bold' : 'text-gray-600 hover:text-blue-500' }}">
+                                    Transport & Location
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('fare-estimator.sightseeing') }}"
+                                    class="block py-2 text-sm {{ Route::is('fare-estimator.sightseeing') ? 'text-indigo-600 font-bold' : 'text-gray-600 hover:text-indigo-500' }}">
+                                    Sightseeing
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <div class="my-6 border-t border-gray-200"></div>
@@ -252,6 +291,12 @@
         @yield('content')
     </div>
 
+    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/tinymce/tinymce.min.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/tinymce/script.js') }}"></script>
+
     <script>
         // Mobile menu toggle
         const sidebar = document.getElementById('sidebar');
@@ -313,13 +358,19 @@
                 }
             }
         });
+
+        $(document).ready(function() {
+            $('#fare-estimator-btn').on('click', function(e) {
+                e.preventDefault();
+
+                // Toggle the submenu with a slide animation
+                $('#fare-estimator-menu').slideToggle(200);
+
+                // Rotate the arrow icon
+                $(this).find('.arrow-icon').toggleClass('rotate-180');
+            });
+        });
     </script>
-
-    <script src="{{ asset('assets/admin/js/jquery-3.1.1.min.js') }}"></script>
-
-    <script src="{{ asset('assets/admin/tinymce/tinymce.min.js') }}"></script>
-
-    <script src="{{ asset('assets/admin/tinymce/script.js') }}"></script>
 
     @yield('scripts')
 </body>

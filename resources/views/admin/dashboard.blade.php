@@ -131,19 +131,19 @@
                 </div>
                 <div class="p-6">
                     <div class="space-y-3">
-                        <a href="bookings.html"
+                        <a href="{{ route('bookings.create') }}"
                             class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
                             <i class="fas fa-plus mr-2"></i>New Booking
                         </a>
-                        <a href="customers.html"
+                        <a href="{{ route('customer.create') }}"
                             class="block w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
                             <i class="fas fa-user-plus mr-2"></i>Add Customer
                         </a>
-                        <a href="invoices.html"
+                        <a href="{{ route('invoice.create') }}"
                             class="block w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
                             <i class="fas fa-file-invoice mr-2"></i>Generate Invoice
                         </a>
-                        <a href="blogs.html"
+                        <a href="{{ route('blogs.create') }}"
                             class="block w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white px-4 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl text-center">
                             <i class="fas fa-pen mr-2"></i>Write Blog
                         </a>

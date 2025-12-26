@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EnquiriesController;
+use App\Http\Controllers\FareEstimatorController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
@@ -215,9 +216,22 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ]);
 
     Route::post('update-company-details', [UserController::class, 'updateCompanyDetails'])->name('update-company-details');
-    
+
     Route::get('platform-analytics', [AnalyticsController::class, 'index'])->name('platform-analytics');
 
+    Route::get('fare-estimator', [FareEstimatorController::class, 'index'])->name('fare-estimator');
+
+    Route::get('fare-estimator/sightseeing', [FareEstimatorController::class, 'sightseeing'])->name('fare-estimator.sightseeing');
+
+    Route::post('fare-estimator/locations', [FareEstimatorController::class, 'storeLocation'])->name('locations.store');
+
+    Route::post('fare-estimator/routes', [FareEstimatorController::class, 'storeRoute'])->name('routes.store');
+
+    Route::delete('fare-estimator/routes/{id}', [FareEstimatorController::class, 'destroyRoute'])->name('routes.destroy');
+
+    Route::post('fare-estimator/sightseeing', [FareEstimatorController::class, 'storeSightseeing'])->name('sightseeing.store');
+
+    Route::delete('fare-estimator/sightseeing/{id}', [FareEstimatorController::class, 'destroySightseeing'])->name('sightseeing.destroy');
 });
 
 /***********************************************
